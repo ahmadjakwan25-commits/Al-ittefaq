@@ -10,7 +10,7 @@
 <link rel="icon" href="icon.jpg">
 <link rel="apple-touch-icon" href="icon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--g:#0b4a3f;--g2:#06352d;--m:#6b0000;--cream:#fbf7e6;--bg:#f2f5f1;--card:#fff;--tx:#1b2a26;--mut:#5f6f6a;--ln:#dfe6e1;--in:#13805f;--ex:#b3261e}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -70,8 +70,18 @@ nav button.on{color:var(--g);font-weight:700}
 .empty{text-align:center;color:var(--mut);padding:22px 0}
 
 /* ---- সদস্য কার্ড ---- */
-.mgrid{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:620px){.mgrid{grid-template-columns:1fr 1fr}}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:760px){.mgrid{grid-template-columns:repeat(3,1fr);gap:14px}}
+.mc{min-width:0}
+.mc-top{height:64px!important;padding:8px 8px!important}
+.mc-top .sl{padding:1px 8px!important;font-size:11.5px!important}
+.mc-top .bl{padding:1px 8px!important;font-size:12.5px!important}
+.mc-ph{width:76px!important;height:76px!important;margin-top:-38px!important;font-size:30px!important;border-width:3px!important}
+.mc h3{font-size:16px!important;margin:6px 6px 0!important;line-height:1.3}
+.mc .prof{display:block;text-align:center;margin:2px 8px 4px;font-size:12.5px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--a),var(--b));border-radius:20px;padding:1px 10px;width:fit-content;max-width:calc(100% - 16px);margin-left:auto;margin-right:auto}
+.mc-b{padding:2px 10px 10px!important}
+.mc-b div{font-size:12.5px!important;padding:4px 0!important;gap:6px!important}
+.mc-b span{width:58px!important}
 .mc{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.10);border:1px solid var(--ln)}
 .mc-top{background:linear-gradient(135deg,var(--a),var(--b));height:78px;padding:10px 12px;display:flex;justify-content:space-between;align-items:flex-start}
 .mc-top .sl{background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:600}
@@ -95,6 +105,35 @@ nav button.on{color:var(--g);font-weight:700}
 .nav2{display:flex;align-items:center;justify-content:space-between;margin:6px 0 10px}
 .nav2 button{font:inherit;border:1px solid var(--ln);background:#fff;border-radius:10px;width:42px;height:36px;cursor:pointer}
 .nav2 b{color:var(--g);font-size:17px}
+:root{--gold:#c9a227;--gold2:#ecd98a}
+header{border-bottom:3px solid var(--gold)}
+.ar{font-family:'Amiri','Traditional Arabic',serif;direction:rtl}
+.hero2{position:relative;text-align:center;color:#fff;border-radius:22px;padding:18px 14px 22px;margin-bottom:12px;overflow:hidden;border:2px solid var(--gold);
+background:radial-gradient(circle at 50% 0%,#13806a 0,#0b4a3f 45%,#06352d 100%);box-shadow:0 8px 22px rgba(6,53,45,.35)}
+.hero2:before{content:"";position:absolute;inset:0;opacity:.55;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23ecd98a' stroke-opacity='.22'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E")}
+.hero2>*{position:relative}
+.bism{font-size:25px;color:var(--gold2);line-height:1.8}
+.arch{width:164px;height:176px;margin:6px auto 4px;border-radius:90px 90px 18px 18px;border:3px solid var(--gold);background:var(--cream);padding:6px;box-shadow:0 0 0 5px rgba(201,162,39,.25),0 6px 16px rgba(0,0,0,.3);display:grid;place-items:center;overflow:hidden}
+.arch img{width:100%;height:100%;object-fit:cover;border-radius:84px 84px 12px 12px}
+.hero2 h1{margin:10px 0 0;font-size:25px;line-height:1.35;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.orn{color:var(--gold);letter-spacing:10px;font-size:15px;margin:4px 0}
+.hero2 p{margin:2px 0 6px;color:var(--gold2);font-weight:500}
+.hero2 .pill{background:rgba(201,162,39,.18);border:1px solid rgba(236,217,138,.5);color:#fff}
+.ayah{text-align:center;background:linear-gradient(180deg,#fffdf2,#f7efcf);border:1px solid var(--gold);position:relative}
+.ayah .ar{font-size:26px;line-height:2;color:var(--g2)}
+.ayah small{color:var(--mut)}
+.ayah p{margin:2px 0;color:#5a4a10}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.tiles button{font:inherit;cursor:pointer;border:1px solid var(--gold);border-radius:18px;padding:14px 4px 10px;background:linear-gradient(180deg,#fff,#f6f1db);color:var(--g);font-weight:600;font-size:14px;box-shadow:0 3px 8px rgba(0,0,0,.07)}
+.tiles button span{display:grid;place-items:center;width:46px;height:46px;margin:0 auto 4px;border-radius:50%;font-size:22px;background:linear-gradient(135deg,var(--g),#13a07a);box-shadow:0 0 0 3px #fff,0 0 0 4px var(--gold)}
+.sec{border-top:4px solid var(--gold);border-radius:6px 6px 16px 16px}
+.sec h2:before{content:"❖ ";color:var(--gold)}
+.latest{background:#fffdf2;border:1px dashed var(--gold)}
+.pcard{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--ln)}
+.pcard:last-child{border:0}
+.pcard .grow{flex:1;min-width:0}
+.pcard a.cb{flex:none;text-decoration:none;color:#fff;background:var(--g);border-radius:12px;padding:7px 12px;font-weight:600;font-size:13px}
+.pcard a.wa{background:#1fa855}
 .sn{display:inline-block;min-width:28px;text-align:center;background:var(--g);color:#fff;border-radius:8px;font-size:12px;padding:1px 6px;margin-right:4px}
 </style>
 </head>
@@ -172,7 +211,7 @@ async function encStr(key,text){
 }
 async function decStr(key,b){const u=b64d(b);return TD.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},key,u.slice(12)))}
 
-const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],adminHash:''};
+const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],adminHash:''};
 let DB=clone(DEFAULT),draft=null,tab='about',isAdmin=false,adminTab='members',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
@@ -199,13 +238,21 @@ async function askPerm(){
 }
 
 /* ---------- Public views ---------- */
-function vAbout(){const o=DB.org;return `
-<div class="card hero"><img src="icon.jpg" alt="" onerror="this.style.display='none'">
-<h1>${esc(o.name)}</h1><p>অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p>
-<span class="pill">স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div>
-<div class="card"><h2>আমাদের পরিচিতি</h2><p>${esc(o.about)}</p></div>
-${o.mission?`<div class="card"><h2>আমাদের লক্ষ্য</h2><p>${esc(o.mission)}</p></div>`:''}
-<div class="card"><h3>এক নজরে</h3><div class="grid3">
+function vAbout(){const o=DB.org;
+const ln=[...(DB.notices||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0];
+return `
+<div class="hero2"><div class="bism ar">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+<div class="arch"><img src="icon.jpg" alt="" onerror="this.style.display='none'"></div>
+<h1>${esc(o.name)}</h1><div class="orn">✦ ❖ ✦</div><p>অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p>
+<span class="pill">🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div>
+<div class="card ayah"><div class="ar">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</div><p>"তোমরা পুণ্য ও তাকওয়ার কাজে একে অপরকে সহযোগিতা করো।"</p><small>সূরা আল-মায়িদা ৫:২</small></div>
+<div class="tiles">
+<button data-go="members"><span>👥</span>সদস্য</button><button data-go="chanda"><span>🗓️</span>মাসিক চাঁদা</button><button data-go="money"><span>💰</span>আয়-ব্যয়</button>
+<button data-go="notices"><span>📢</span>ঘোষণা</button><button data-go="contact"><span>📞</span>যোগাযোগ</button><button data-go="about" onclick="window.scrollTo(0,document.body.scrollHeight)"><span>🕌</span>পরিচিতি</button></div>
+${ln?`<div class="card latest"><small class="muted">📢 সর্বশেষ ঘোষণা · ${fdate(ln.date)}</small><br><b>${esc(ln.title)}</b><p style="margin:4px 0 0">${esc(ln.body)}</p></div>`:''}
+<div class="card sec"><h2>আমাদের পরিচিতি</h2><p>${esc(o.about)}</p></div>
+${o.mission?`<div class="card sec"><h2>আমাদের লক্ষ্য</h2><p>${esc(o.mission)}</p></div>`:''}
+<div class="card sec"><h3>এক নজরে</h3><div class="grid3">
 <div class="stat"><small>সদস্য</small><b>${bn((DB.members||[]).length)}</b></div>
 <div class="stat"><small>ঘোষণা</small><b>${bn((DB.notices||[]).length)}</b></div>
 <div class="stat"><small>স্থাপিত</small><b>${esc(o.established)}</b></div></div></div>`}
@@ -222,13 +269,13 @@ function memberCard(m,i){
   return `<div class="mc" style="--a:${p[0]};--b:${p[1]}">
 <div class="mc-top"><span class="sl">ক্রমিক নং ${bn(m.serial||i+1)}</span>${m.blood?`<span class="bl">🩸 ${esc(m.blood)}</span>`:''}</div>
 <div class="mc-ph">${src?`<img src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">`:esc((m.name||'?').trim().charAt(0))}</div>
-<h3>${esc(m.name)}</h3>
+<h3>${esc(m.name)}</h3>${m.role?`<span class="prof">${esc(m.role)}</span>`:''}
 <div class="mc-b">${rows}${mob}</div></div>`;
 }
 function vMembers(){
   const q=(window._mq||'').trim().toLowerCase();
   const all=sortMembers(DB.members||[]);
-  const list=all.filter(m=>!q||[m.name,m.father,m.profession,m.village,m.post,m.thana,m.district,m.blood,m.serial].join(' ').toLowerCase().includes(q));
+  const list=all.filter(m=>!q||[m.name,m.role,m.father,m.profession,m.village,m.post,m.thana,m.district,m.blood,m.serial].join(' ').toLowerCase().includes(q));
   return `<div class="card"><h2>সদস্য তালিকা (${bn(all.length)} জন)</h2>
 <input id="mq" placeholder="🔍 নাম, গ্রাম, রক্তের গ্রুপ বা ক্রমিক নং দিয়ে খুঁজুন" value="${esc(window._mq||'')}" style="margin-bottom:0"></div>
 ${list.length?`<div class="mgrid">${list.map(memberCard).join('')}</div>`:'<div class="card"><div class="empty">কোনো সদস্য পাওয়া যায়নি</div></div>'}`}
@@ -268,7 +315,7 @@ function vMoney(){
 <div class="stat"><small>মোট আয়</small><b class="in">৳${bn(inc)}</b></div>
 <div class="stat"><small>মোট ব্যয়</small><b class="ex">৳${bn(exp)}</b></div>
 <div class="stat"><small>জমা</small><b>৳${bn(inc-exp)}</b></div></div></div>
-<div class="card">${sorted.length?sorted.map(x=>`<div class="row"><div class="grow"><b>${esc(x.title)}</b><br><small class="muted">${fdate(x.date)}${x.note?' · '+esc(x.note):''}</small></div><div class="amt ${x.type==='income'?'in':'ex'}">${x.type==='income'?'+':'−'}৳${bn(x.amount)}</div></div>`).join(''):'<div class="empty">এখনো কোনো লেনদেন যোগ হয়নি</div>'}</div>`}
+<div class="card">${sorted.length?sorted.map(x=>`<div class="row"><div class="grow"><b>${esc(x.title)}</b><br>${x.name?`<small>👤 ${esc(x.name)}</small><br>`:''}<small class="muted">${fdate(x.date)}${x.note?' · '+esc(x.note):''}</small></div><div class="amt ${x.type==='income'?'in':'ex'}">${x.type==='income'?'+':'−'}৳${bn(x.amount)}</div></div>`).join(''):'<div class="empty">এখনো কোনো লেনদেন যোগ হয়নি</div>'}</div>`}
 
 function vNotices(){
   const s=new Set(lsGet('ai_seen_prev',[]));
@@ -286,12 +333,15 @@ function vContact(){
   if(c.whatsapp)items.push(`<div class="row"><div class="av">💬</div><div class="grow"><b>হোয়াটসঅ্যাপ</b><br><a href="https://wa.me/${esc(c.whatsapp.replace(/\D/g,''))}" target="_blank" rel="noopener">${esc(c.whatsapp)}</a></div></div>`);
   if(c.email)items.push(`<div class="row"><div class="av">✉️</div><div class="grow"><b>ইমেইল</b><br><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div></div>`);
   if(c.facebook)items.push(`<div class="row"><div class="av">🌐</div><div class="grow"><b>ফেসবুক</b><br><a href="${esc(c.facebook)}" target="_blank" rel="noopener">${esc(c.facebook)}</a></div></div>`);
-  return `<div class="card ci"><h2>যোগাযোগ</h2>${items.join('')}</div>`}
+  const ppl=(DB.contacts||[]).map(p=>{const num=String(p.phone||'').replace(/[^\d+]/g,''),wa=String(p.whatsapp||'').replace(/\D/g,'');
+    return `<div class="pcard"><div class="av">${esc((p.name||'?').trim().charAt(0))}</div><div class="grow"><b>${esc(p.name)}</b>${p.role?`<br><small class="muted">${esc(p.role)}</small>`:''}<br><small>${esc(p.phone||'')}</small></div>${num?`<a class="cb" href="tel:${esc(num)}">📞 কল</a>`:''}${wa?`<a class="cb wa" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">💬</a>`:''}</div>`}).join('');
+  return `<div class="card ci sec"><h2>যোগাযোগ</h2>${items.join('')}</div>${ppl?`<div class="card sec"><h2>যোগাযোগের ব্যক্তি</h2>${ppl}</div>`:''}`}
 
 function render(){
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
   const v={about:vAbout,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact}[tab]();
   $('#view').innerHTML=v;
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.go!=='about')go(b.dataset.go)}));
   document.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{window._cs=b.dataset.cs;render()});
   document.querySelectorAll('[data-cm]').forEach(b=>b.onclick=()=>{window._cm=shiftYM(window._cm||nowYM(),+b.dataset.cm);render()});
   document.querySelectorAll('[data-cy]').forEach(b=>b.onclick=()=>{window._cy=String(+(window._cy||nowYM().slice(0,4))+ +b.dataset.cy);render()});
@@ -353,11 +403,12 @@ function closeAdmin(){
 }
 
 const FIELDS={
-  transactions:[['date','তারিখ','date'],['type','ধরন','select'],['title','বিষয়','text'],['amount','টাকার পরিমাণ','number'],['note','মন্তব্য (ঐচ্ছিক)','text']],
-  notices:[['title','শিরোনাম','text'],['body','বিস্তারিত','textarea']]
+  transactions:[['date','তারিখ','date'],['type','ধরন','select'],['name','নাম (আয়ে দাতার নাম, ব্যয়ে প্রাপকের নাম)','text'],['title','বিষয়','text'],['amount','টাকার পরিমাণ','number'],['note','মন্তব্য (ঐচ্ছিক)','text']],
+  notices:[['title','শিরোনাম','text'],['body','বিস্তারিত','textarea']],
+  contacts:[['name','নাম','text'],['role','পদবী / দায়িত্ব','text'],['phone','মোবাইল নম্বর','tel'],['whatsapp','হোয়াটসঅ্যাপ নম্বর (ঐচ্ছিক)','tel']]
 };
 let adminMonth=null;
-const TNAME={members:'সদস্য',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',info:'সংগঠনের তথ্য',settings:'সেটিং'};
+const TNAME={members:'সদস্য',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',settings:'সেটিং'};
 const BLOODS=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
 
@@ -373,11 +424,22 @@ function renderAdmin(){
   else if(adminTab==='settings')body.innerHTML=settingsForm();
   else if(adminTab==='members')body.innerHTML=memberHTML();
   else if(adminTab==='chanda')body.innerHTML=chandaHTML();
+  else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
   else body.innerHTML=crudHTML(adminTab);
   bindAdmin();
   A.scrollTop=st;
 }
 
+function contactAdminHTML(){
+  const o=draft.org,c=o.contacts||{};
+  return `<div class="card"><h3>📍 সংগঠনের যোগাযোগ</h3>
+<label>ঠিকানা</label><input data-o="address" value="${esc(o.address)}">
+<label>অফিসের ফোন</label><input data-c="phone" type="tel" value="${esc(c.phone)}">
+<label>হোয়াটসঅ্যাপ</label><input data-c="whatsapp" type="tel" value="${esc(c.whatsapp)}">
+<label>ইমেইল</label><input data-c="email" type="email" value="${esc(c.email)}">
+<label>ফেসবুক পেজের লিংক</label><input data-c="facebook" value="${esc(c.facebook)}">
+<div class="btns"><button class="btn" id="ccsave">সংরক্ষণ (খসড়ায়)</button></div></div>`+crudHTML('contacts').replace('<h3>তালিকা','<h3>যোগাযোগের ব্যক্তি — তালিকা').replace('>নতুন যোগ করুন<','>👤 যোগাযোগের ব্যক্তি যোগ করুন<');
+}
 function chandaHTML(){
   const c=CH(draft),ym=adminMonth||nowYM();
   const rows=calc(draft,ymIdx(ym),ymIdx(ym)),t=sumRows(rows);
@@ -427,10 +489,11 @@ function memberHTML(){
 <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px"><div class="pv" id="pvbox">${prev?`<img src="${esc(prev)}" alt="">`:'📷'}</div>
 <div><input type="file" id="pfile" accept="image/*" style="margin:0 0 6px"><button class="btn alt sm" id="prm" type="button">ছবি সরান</button></div></div>
 <label>ক্রমিক নং</label><input data-f="serial" type="number" min="1" value="${e?esc(e.serial):next}">
-${inp('name','নাম *')}${inp('father','পিতার নাম')}${inp('profession','পেশা')}
+${inp('name','নাম *')}${inp('role','পদবী (যেমন: সভাপতি, সম্পাদক, সদস্য)')}
+${inp('camt','💰 এই সদস্যের মাসিক চাঁদা (টাকা) — ফাঁকা রাখলে সংগঠনের সাধারণ হার, ০ দিলে চাঁদা দেয় না','number','min="0"')}
+${inp('father','পিতার নাম')}${inp('profession','পেশা')}
 <label>রক্তের গ্রুপ</label><select data-f="blood"><option value="">— বাছুন —</option>${BLOODS.map(b=>`<option ${e&&e.blood===b?'selected':''}>${b}</option>`).join('')}</select>
 ${inp('village','গ্রাম')}${inp('post','পোস্ট')}${inp('thana','থানা')}${inp('district','জেলা')}
-${inp('camt','মাসিক চাঁদার পরিমাণ (ফাঁকা = সাধারণ হার, ০ = চাঁদা দেয় না)','number','min="0"')}
 ${inp('cstart','চাঁদা শুরুর মাস (ফাঁকা = সংগঠনের সাধারণ শুরুর মাস)','month')}
 <div class="warn" style="margin-top:6px">🔒 নিচের তথ্যগুলো এনক্রিপ্টেড থাকে, শুধু অ্যাডমিন পাসওয়ার্ড দিয়ে দেখা যায়।</div>
 ${inp('mobile','মোবাইল','tel')}
@@ -439,7 +502,7 @@ ${inp('guardian','অভিভাবকের নম্বর','tel')}${inp('nid
 <div class="btns"><button class="btn" id="asave">${e?'আপডেট':'যোগ করুন'}</button>${e?'<button class="btn alt" id="acancel">বাতিল</button>':''}</div>`;
   const list=sortMembers(draft.members);
   return `<div class="card">${form}</div>
-<div class="card"><h3>তালিকা (${bn(list.length)}) — ক্রমিক নং অনুযায়ী</h3>${list.length?list.map(m=>{const s=photoSrc(m);return `<div class="row"><div class="av">${s?`<img src="${esc(s)}" alt="">`:esc((m.name||'?').charAt(0))}</div><div class="grow"><span class="sn">${bn(m.serial)}</span><b>${esc(m.name)}</b><br><small class="muted">${esc(m.father||'')} ${esc(m.mobile||'')}</small></div><button class="btn alt sm" data-edit="${m.id}">সম্পাদনা</button><button class="btn red sm" data-del="${m.id}">মুছুন</button></div>`}).join(''):'<div class="empty">খালি</div>'}</div>`;
+<div class="card"><h3>তালিকা (${bn(list.length)}) — ক্রমিক নং অনুযায়ী</h3>${list.length?list.map(m=>{const s=photoSrc(m);return `<div class="row"><div class="av">${s?`<img src="${esc(s)}" alt="">`:esc((m.name||'?').charAt(0))}</div><div class="grow"><span class="sn">${bn(m.serial)}</span><b>${esc(m.name)}</b>${m.role?` <span class="muted">· ${esc(m.role)}</span>`:''}<br><small class="muted">${isEx(m)?'চাঁদা নেই':'চাঁদা ৳'+bn(mAmt(m,draft))+'/মাস'} ${esc(m.mobile||'')}</small></div><button class="btn alt sm" data-edit="${m.id}">সম্পাদনা</button><button class="btn red sm" data-del="${m.id}">মুছুন</button></div>`}).join(''):'<div class="empty">খালি</div>'}</div>`;
 }
 
 function crudHTML(k){
@@ -449,14 +512,14 @@ function crudHTML(k){
     if(t==='select')return `<label>${l}</label><select data-f="${f}"><option value="income" ${e&&e.type==='income'?'selected':''}>আয়</option><option value="expense" ${e&&e.type==='expense'?'selected':''}>ব্যয়</option></select>`;
     if(t==='textarea')return `<label>${l}</label><textarea data-f="${f}">${esc(v)}</textarea>`;
     return `<label>${l}</label><input data-f="${f}" type="${t}" value="${esc(v)}">`}).join('');
-  const sum=it=>k==='transactions'?`<b>${esc(it.title)}</b> <span class="${it.type==='income'?'in':'ex'}">${it.type==='income'?'+':'−'}৳${bn(it.amount)}</span><br><small class="muted">${fdate(it.date)}</small>`:`<b>${esc(it.title)}</b><br><small class="muted">${fdate(it.date)}</small>`;
+  const sum=it=>k==='contacts'?`<b>${esc(it.name)}</b> <span class="muted">${esc(it.role||'')}</span><br><small class="muted">${esc(it.phone||'')}</small>`:k==='transactions'?`<b>${esc(it.title)}</b> <span class="${it.type==='income'?'in':'ex'}">${it.type==='income'?'+':'−'}৳${bn(it.amount)}</span><br><small>${it.name?'👤 '+esc(it.name)+' · ':''}</small><small class="muted">${fdate(it.date)}</small>`:`<b>${esc(it.title)}</b><br><small class="muted">${fdate(it.date)}</small>`;
   return `<div class="card"><h3>${e?'সম্পাদনা':'নতুন যোগ করুন'}</h3>${form}<div class="btns"><button class="btn" id="asave">${e?'আপডেট':'যোগ করুন'}</button>${e?'<button class="btn alt" id="acancel">বাতিল</button>':''}</div></div>
 <div class="card"><h3>তালিকা (${bn(draft[k].length)})</h3>${draft[k].length?[...draft[k]].reverse().map(it=>`<div class="row"><div class="grow">${sum(it)}</div><button class="btn alt sm" data-edit="${it.id}">সম্পাদনা</button><button class="btn red sm" data-del="${it.id}">মুছুন</button></div>`).join(''):'<div class="empty">খালি</div>'}</div>`;
 }
 function infoForm(){const o=draft.org,c=o.contacts||{};return `<div class="card"><h3>সংগঠনের তথ্য</h3>
-<label>নাম</label><input data-o="name" value="${esc(o.name)}"><label>ঠিকানা</label><input data-o="address" value="${esc(o.address)}"><label>স্থাপিত সাল</label><input data-o="established" value="${esc(o.established)}">
+<label>নাম</label><input data-o="name" value="${esc(o.name)}"><label>স্থাপিত সাল</label><input data-o="established" value="${esc(o.established)}">
 <label>পরিচিতি</label><textarea data-o="about">${esc(o.about)}</textarea><label>লক্ষ্য</label><textarea data-o="mission">${esc(o.mission)}</textarea>
-<h3>যোগাযোগ</h3><label>ফোন</label><input data-c="phone" value="${esc(c.phone)}"><label>হোয়াটসঅ্যাপ</label><input data-c="whatsapp" value="${esc(c.whatsapp)}"><label>ইমেইল</label><input data-c="email" value="${esc(c.email)}"><label>ফেসবুক লিংক</label><input data-c="facebook" value="${esc(c.facebook)}">
+<p class="muted" style="font-size:13px">ঠিকানা ও ফোন-ইমেইল সম্পাদনা করতে "যোগাযোগ" ট্যাবে যান।</p>
 <div class="btns"><button class="btn" id="ainfo">সংরক্ষণ (খসড়ায়)</button></div></div>`}
 function settingsForm(){const g=gh();return `<div class="card"><h3>📤 প্রকাশ করুন (GitHub-এ সেভ)</h3>
 <p class="muted">খসড়ার পরিবর্তন ও নতুন ছবিগুলো GitHub রিপোতে সেভ হবে; তারপর সবাই নতুন তথ্য দেখবে (১-২ মিনিট লাগতে পারে)।</p>
@@ -498,11 +561,11 @@ function bindAdmin(){
       }else{obj.id=uid();if(formPhoto)obj.photoData=formPhoto;draft.members.push(obj)}
       editing=null;formPhoto=null;removePhoto=false;dirty=true;renderAdmin();toast('খসড়ায় যোগ হয়েছে');
     };
-  }else if(k==='transactions'||k==='notices'){
+  }else if(k==='transactions'||k==='notices'||k==='contacts'){
     const sv=$('#asave');
     if(sv)sv.onclick=()=>{
       const obj={};body.querySelectorAll('[data-f]').forEach(i=>obj[i.dataset.f]=i.value.trim());
-      if(!obj.title)return toast('প্রয়োজনীয় ঘর পূরণ করুন');
+      if(!obj[k==='contacts'?'name':'title'])return toast('প্রয়োজনীয় ঘর পূরণ করুন');
       if(k==='transactions'){obj.amount=Number(obj.amount);if(!(obj.amount>0))return toast('সঠিক টাকার পরিমাণ দিন')}
       if(k==='notices'&&!(editing&&editing.k===k))obj.date=today();
       if(editing&&editing.k===k){const i=draft[k].findIndex(x=>x.id===editing.item.id);draft[k][i]=Object.assign({},editing.item,obj)}
@@ -511,6 +574,11 @@ function bindAdmin(){
     };
   }
   if(k==='chanda')bindChanda();
+  const cc=$('#ccsave');if(cc)cc.onclick=()=>{
+    body.querySelectorAll('[data-o]').forEach(i=>draft.org[i.dataset.o]=i.value.trim());
+    draft.org.contacts=draft.org.contacts||{};body.querySelectorAll('[data-c]').forEach(i=>draft.org.contacts[i.dataset.c]=i.value.trim());
+    dirty=true;renderAdmin();toast('খসড়ায় সংরক্ষিত');
+  };
   const ai=$('#ainfo');if(ai)ai.onclick=()=>{
     body.querySelectorAll('[data-o]').forEach(i=>draft.org[i.dataset.o]=i.value.trim());
     draft.org.contacts=draft.org.contacts||{};body.querySelectorAll('[data-c]').forEach(i=>draft.org.contacts[i.dataset.c]=i.value.trim());
@@ -537,7 +605,7 @@ async function putFile(base,H,path,content64,msg){
 async function buildPublic(){
   const out=clone(draft);out.members=[];
   for(const m of draft.members){
-    const pub={id:m.id,serial:m.serial,name:m.name,father:m.father||'',profession:m.profession||'',blood:m.blood||'',village:m.village||'',post:m.post||'',thana:m.thana||'',district:m.district||'',showPhone:!!m.showPhone,camt:m.camt==null?'':m.camt,cstart:m.cstart||''};
+    const pub={id:m.id,serial:m.serial,name:m.name,role:m.role||'',father:m.father||'',profession:m.profession||'',blood:m.blood||'',village:m.village||'',post:m.post||'',thana:m.thana||'',district:m.district||'',showPhone:!!m.showPhone,camt:m.camt==null?'':m.camt,cstart:m.cstart||''};
     if(m.photo){pub.photo=m.photo;pub.pv=m.pv}
     if(m.showPhone&&m.mobile)pub.mobile=m.mobile;
     const sec={mobile:m.mobile||'',guardian:m.guardian||'',nid:m.nid||''};
