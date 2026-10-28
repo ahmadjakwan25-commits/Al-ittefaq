@@ -30,7 +30,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "KLDmfQfP1bVPGD37ds3ZylxLZjHcPfVxpZUQq6ZHFtQ8dWubjQws7CZZ5Kj4uaUPsTZnNlAkVbwGdP1ybMDjiQ98qQ7c1P9KsdWG4mK9KULxYbTwYFTYymv0Wd5XZeAx"
+      "enc": "+GZnx1mnkblqbPdtsXJPw3xyJYvsh1sRUPkxJe4PWVwkFgs7ASrSTlQ9+F74bO2fIwu9GKacf4ETtO7LCpxUArYWY7vJZA6FhjJjM5F2yZPDcnvoLUqsLkPk7TVyxBYW"
     },
     {
       "id": "mvrrcx1n96lb",
@@ -64,11 +64,26 @@
     }
   ],
   "chanda": {
-    "amount": 0,
+    "amount": 100,
     "start": "2026-10",
     "public": true
   },
-  "payments": [],
+  "payments": [
+    {
+      "id": "mvrrg9oo7zyw",
+      "mid": "mvrpevx81f2h",
+      "ym": "2026-10",
+      "amount": 100,
+      "date": "2026-10-28"
+    },
+    {
+      "id": "mvrrga1xbfmn",
+      "mid": "mvrrcx1n96lb",
+      "ym": "2026-10",
+      "amount": 100,
+      "date": "2026-10-28"
+    }
+  ],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "oFkkESMGq34aw9yQlgpVS/3kvq3MweREvJfzXjV/"
+  "check": "o8W8jp4tlSqeBmI25mi9tKoUdBGWDY0Mztcq0Usa"
 }
