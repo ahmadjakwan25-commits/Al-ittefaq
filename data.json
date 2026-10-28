@@ -28,7 +28,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "YTCG7IRYOFF5gOgdGkgy+6hur/KR5KtHKxNd9P5jIV9pPRmKmWf7OYWuVxupzmPH5ZW5M0fDDK9ZShBIPl3dqM/q3hKw0T52pmUkDzCxZyAPoa/ZM9ZOr6RnNRtL7af3"
+      "enc": "n6AglfBmtgin6fbbMZ1wA7NN+1RMd65WMyL1WyCp9hfiX+sms26UpfWVJbCKcWr2r8DhmAQYipwLwd7aFY+ldWiEx57xmKnPRpK8Q1v7i8e+9iVk89fxIAJb1TfvtlJv"
     }
   ],
   "transactions": [],
@@ -38,8 +38,14 @@
       "date": "2026-10-28",
       "title": "আল-ইত্তেফাক অ্যাপে স্বাগতম",
       "body": "আসসালামু আলাইকুম। সংগঠনের সদস্য, আয়-ব্যয় ও ঘোষণা এখন এই অ্যাপে দেখা যাবে, ইনশাআল্লাহ।"
+    },
+    {
+      "title": "খুশির সংবাদ",
+      "body": "আলহামদুলিল্লাহ আমাদের প্রিয় সংগঠন ইত্তেফাকুত ত্বলাবা ওয়াল উলামা এর একটি ওয়েব এপ্লিকেশন চালু করা হয়েছে",
+      "date": "2026-10-28",
+      "id": "mvrqp1p5tckh"
     }
   ],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "7/KQJedUSzCu1AD8oBGZHWc1ahdoY7nejcigoiBu"
+  "check": "3U4Hu3YvuSjeJAPaC/XHiOiXB9ig9ctJgOeKqNxK"
 }
