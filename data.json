@@ -14,12 +14,21 @@
   },
   "members": [
     {
+      "id": "mvrpevx81f2h",
+      "serial": 1,
       "name": "যাকওয়ান আহমদ",
-      "role": "সহ সভাপতি",
-      "phone": "01938712111",
-      "address": "৪নংচর নতুন পাড়া , ইসলামপুর, জামালপুর।",
-      "joined": "2026-10-28",
-      "id": "mvrpevx81f2h"
+      "father": "জহুরুল ইসলাম",
+      "profession": "শিক্ষকতা",
+      "blood": "A+",
+      "village": "৪নংচর নতুন পাড়া",
+      "post": "ডিগ্রীরচর",
+      "thana": "ইসলামপুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "photo": "photos/mvrpevx81f2h.jpg",
+      "pv": 1793169030958,
+      "mobile": "01938712111",
+      "enc": "YTCG7IRYOFF5gOgdGkgy+6hur/KR5KtHKxNd9P5jIV9pPRmKmWf7OYWuVxupzmPH5ZW5M0fDDK9ZShBIPl3dqM/q3hKw0T52pmUkDzCxZyAPoa/ZM9ZOr6RnNRtL7af3"
     }
   ],
   "transactions": [],
@@ -31,5 +40,6 @@
       "body": "আসসালামু আলাইকুম। সংগঠনের সদস্য, আয়-ব্যয় ও ঘোষণা এখন এই অ্যাপে দেখা যাবে, ইনশাআল্লাহ।"
     }
   ],
-  "adminHash": "1680ae7986d1f44d8af888a34844ef263fbf5e13e0df313820f0afc54ae0e1d3"
+  "encSalt": "LYP/AGlKheKku424RW9NVg==",
+  "check": "7/KQJedUSzCu1AD8oBGZHWc1ahdoY7nejcigoiBu"
 }
