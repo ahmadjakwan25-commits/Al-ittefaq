@@ -53,7 +53,7 @@ label{font-size:13px;color:var(--mut)}
 .btn.sm{padding:5px 10px;font-size:13px;border-radius:9px}
 .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#fff;border-top:1px solid var(--ln);display:flex;padding-bottom:env(safe-area-inset-bottom)}
-nav button{flex:1;background:none;border:0;font:inherit;font-size:11.5px;color:var(--mut);padding:8px 2px 7px;cursor:pointer}
+nav button{flex:1;background:none;border:0;font:inherit;font-size:11px;color:var(--mut);padding:8px 2px 7px;cursor:pointer}
 nav button span{display:block;font-size:20px;line-height:1.2}
 nav button.on{color:var(--g);font-weight:700}
 .ci a{color:var(--g);font-weight:600;text-decoration:none}
@@ -89,6 +89,12 @@ nav button.on{color:var(--g);font-weight:700}
 .pv{width:84px;height:84px;border-radius:50%;background:var(--bg);border:2px dashed var(--ln);display:grid;place-items:center;font-size:28px;overflow:hidden}
 .pv img{width:100%;height:100%;object-fit:cover}
 .chk{display:flex;align-items:center;margin:6px 0 10px;font-size:14px;color:var(--tx)}
+.seg{display:flex;background:var(--bg);border-radius:12px;padding:3px;margin-bottom:10px;border:1px solid var(--ln)}
+.seg button{flex:1;font:inherit;border:0;background:none;padding:7px 4px;border-radius:10px;cursor:pointer;color:var(--mut)}
+.seg button.on{background:var(--g);color:#fff;font-weight:600}
+.nav2{display:flex;align-items:center;justify-content:space-between;margin:6px 0 10px}
+.nav2 button{font:inherit;border:1px solid var(--ln);background:#fff;border-radius:10px;width:42px;height:36px;cursor:pointer}
+.nav2 b{color:var(--g);font-size:17px}
 .sn{display:inline-block;min-width:28px;text-align:center;background:var(--g);color:#fff;border-radius:8px;font-size:12px;padding:1px 6px;margin-right:4px}
 </style>
 </head>
@@ -102,6 +108,7 @@ nav button.on{color:var(--g);font-weight:700}
 <nav id="nav">
   <button data-t="about"><span>🕌</span>পরিচিতি</button>
   <button data-t="members"><span>👥</span>সদস্য</button>
+  <button data-t="chanda"><span>🗓️</span>চাঁদা</button>
   <button data-t="money"><span>💰</span>আয়-ব্যয়</button>
   <button data-t="notices"><span>📢</span>ঘোষণা</button>
   <button data-t="contact"><span>📞</span>যোগাযোগ</button>
@@ -122,6 +129,34 @@ const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}
 
+/* ---------- মাস ও চাঁদার হিসাব ---------- */
+const MN=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const bny=n=>Number(n).toLocaleString('bn-BD',{useGrouping:false});
+const ymLabel=ym=>{const p=ym.split('-');return MN[+p[1]-1]+' '+bny(p[0])};
+const ymIdx=ym=>{const p=ym.split('-').map(Number);return p[0]*12+p[1]-1};
+const idxYm=i=>{const y=Math.floor(i/12),m=i%12+1;return y+'-'+String(m).padStart(2,'0')};
+const nowYM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+const shiftYM=(ym,n)=>idxYm(ymIdx(ym)+n);
+const CH=src=>Object.assign({amount:0,start:'2026-10',public:true},(src&&src.chanda)||{});
+const isEx=m=>m.camt!=null&&m.camt!==''&&Number(m.camt)===0;
+const mAmt=(m,src)=>(m.camt===''||m.camt==null)?(Number(CH(src).amount)||0):(Number(m.camt)||0);
+const mStart=(m,src)=>m.cstart||CH(src).start;
+const sortM=a=>[...a].sort((x,y)=>((+x.serial||1e9)-(+y.serial||1e9))||String(x.name||'').localeCompare(String(y.name||''),'bn'));
+function calc(src,from,to){
+  const now=ymIdx(nowYM()),byM={};
+  (src.payments||[]).forEach(p=>{(byM[p.mid]=byM[p.mid]||{})[p.ym]=p});
+  return sortM(src.members||[]).filter(m=>!isEx(m)).map(m=>{
+    const pm=byM[m.id]||{},a=mAmt(m,src);
+    const s=Math.max(ymIdx(mStart(m,src)),from),e=Math.min(now,to);
+    let expected=0,dueN=0;
+    for(let i=s;i<=e;i++){expected++;if(!pm[idxYm(i)])dueN++}
+    let paidN=0,paidAmt=0;
+    for(const k in pm){const i=ymIdx(k);if(i>=from&&i<=to){paidN++;paidAmt+=Number(pm[k].amount)||0}}
+    return{m,a,expected,dueN,dueAmt:dueN*a,paidN,paidAmt,paidThis:from===to?!!pm[idxYm(from)]:null,inRange:s<=e};
+  });
+}
+const sumRows=r=>({paid:r.reduce((a,x)=>a+x.paidAmt,0),due:r.reduce((a,x)=>a+x.dueAmt,0),dueN:r.reduce((a,x)=>a+x.dueN,0),paidN:r.reduce((a,x)=>a+x.paidN,0)});
+
 /* ---------- এনক্রিপশন (গোপন তথ্যের জন্য) ---------- */
 const TE=new TextEncoder(),TD=new TextDecoder();
 const b64e=u8=>{let s='';u8.forEach(x=>s+=String.fromCharCode(x));return btoa(s)};
@@ -137,7 +172,7 @@ async function encStr(key,text){
 }
 async function decStr(key,b){const u=b64d(b);return TD.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},key,u.slice(12)))}
 
-const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],adminHash:''};
+const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],adminHash:''};
 let DB=clone(DEFAULT),draft=null,tab='about',isAdmin=false,adminTab='members',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
@@ -198,6 +233,32 @@ function vMembers(){
 <input id="mq" placeholder="🔍 নাম, গ্রাম, রক্তের গ্রুপ বা ক্রমিক নং দিয়ে খুঁজুন" value="${esc(window._mq||'')}" style="margin-bottom:0"></div>
 ${list.length?`<div class="mgrid">${list.map(memberCard).join('')}</div>`:'<div class="card"><div class="empty">কোনো সদস্য পাওয়া যায়নি</div></div>'}`}
 
+function vChanda(){
+  const sc=window._cs||'month',cm=window._cm||nowYM(),cy=window._cy||nowYM().slice(0,4);
+  const from=sc==='month'?ymIdx(cm):sc==='year'?ymIdx(cy+'-01'):0;
+  const to=sc==='month'?ymIdx(cm):sc==='year'?ymIdx(cy+'-12'):1e9;
+  const rows=calc(DB,from,to),t=sumRows(rows);
+  const seg=`<div class="seg"><button data-cs="month" class="${sc==='month'?'on':''}">মাসিক</button><button data-cs="year" class="${sc==='year'?'on':''}">বাৎসরিক</button><button data-cs="all" class="${sc==='all'?'on':''}">আজীবন</button></div>`;
+  const sel=sc==='month'?`<div class="nav2"><button data-cm="-1">◀</button><b>${ymLabel(cm)}</b><button data-cm="1">▶</button></div>`
+    :sc==='year'?`<div class="nav2"><button data-cy="-1">◀</button><b>${bny(cy)} সাল</b><button data-cy="1">▶</button></div>`:'';
+  const third=sc==='month'?`<div class="stat"><small>পরিশোধ করেছে</small><b>${bn(rows.filter(r=>r.paidThis).length)}/${bn(rows.length)} জন</b></div>`
+    :`<div class="stat"><small>বাকি মাস</small><b>${bn(t.dueN)}</b></div>`;
+  let list='';
+  if(!rows.length)list='<div class="empty">কোনো সদস্য নেই</div>';
+  else if(CH(DB).public===false)list='<div class="empty">সদস্যভিত্তিক তালিকা শুধু অ্যাডমিন দেখতে পারেন</div>';
+  else list=rows.map(r=>{
+    let right;
+    if(sc==='month')right=r.paidThis?`<div class="amt in">✅ ৳${bn(r.paidAmt||r.a)}</div>`:(r.inRange?`<div class="amt ex">❌ বাকি ৳${bn(r.a)}</div>`:`<div class="amt muted">—</div>`);
+    else right=r.dueN>0?`<div class="amt ex">বাকি ${bn(r.dueN)} মাস<br><small>৳${bn(r.dueAmt)}</small></div>`:`<div class="amt in">✅ পরিষ্কার</div>`;
+    const sub=sc==='month'?'':`<br><small class="muted">দিয়েছে ${bn(r.paidN)} মাস · ৳${bn(r.paidAmt)}</small>`;
+    return `<div class="row"><div class="grow"><span class="sn">${bn(r.m.serial)}</span><b>${esc(r.m.name)}</b>${sub}</div>${right}</div>`;
+  }).join('');
+  return `<div class="card"><h2>মাসিক চাঁদা</h2>${seg}${sel}
+${+CH(DB).amount===0?'<div class="warn">মাসিক চাঁদার পরিমাণ এখনো ঠিক করা হয়নি।</div>':''}
+<div class="grid3"><div class="stat"><small>আদায়</small><b class="in">৳${bn(t.paid)}</b></div><div class="stat"><small>বাকি</small><b class="ex">৳${bn(t.due)}</b></div>${third}</div></div>
+<div class="card">${list}</div>`;
+}
+
 function vMoney(){
   const t=DB.transactions||[];
   const inc=t.filter(x=>x.type==='income').reduce((a,x)=>a+ +x.amount,0);
@@ -229,8 +290,11 @@ function vContact(){
 
 function render(){
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
-  const v={about:vAbout,members:vMembers,money:vMoney,notices:vNotices,contact:vContact}[tab]();
+  const v={about:vAbout,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact}[tab]();
   $('#view').innerHTML=v;
+  document.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{window._cs=b.dataset.cs;render()});
+  document.querySelectorAll('[data-cm]').forEach(b=>b.onclick=()=>{window._cm=shiftYM(window._cm||nowYM(),+b.dataset.cm);render()});
+  document.querySelectorAll('[data-cy]').forEach(b=>b.onclick=()=>{window._cy=String(+(window._cy||nowYM().slice(0,4))+ +b.dataset.cy);render()});
   const mq=$('#mq');if(mq)mq.oninput=e=>{window._mq=e.target.value;const p=e.target.selectionStart;render();const n=$('#mq');n.focus();n.setSelectionRange(p,p)};
   const pm=$('#perm');if(pm)pm.onclick=askPerm;
   if(tab==='notices'){lsSet('ai_seen_prev',lsGet('ai_seen',[]));markSeen()}
@@ -292,12 +356,13 @@ const FIELDS={
   transactions:[['date','তারিখ','date'],['type','ধরন','select'],['title','বিষয়','text'],['amount','টাকার পরিমাণ','number'],['note','মন্তব্য (ঐচ্ছিক)','text']],
   notices:[['title','শিরোনাম','text'],['body','বিস্তারিত','textarea']]
 };
-const TNAME={members:'সদস্য',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',info:'সংগঠনের তথ্য',settings:'সেটিং'};
+let adminMonth=null;
+const TNAME={members:'সদস্য',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',info:'সংগঠনের তথ্য',settings:'সেটিং'};
 const BLOODS=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
 
 function renderAdmin(){
-  const A=$('#admin');
+  const A=$('#admin'),st=A.scrollTop;
   A.innerHTML=`<div class="abar"><b>⚙️ অ্যাডমিন প্যানেল</b><button class="btn alt sm" id="aclose">বন্ধ</button></div>
 <div class="tabs">${Object.keys(TNAME).map(k=>`<button data-k="${k}" class="${k===adminTab?'on':''}">${TNAME[k]}</button>`).join('')}</div>
 <main>${dirty?'<div class="warn">⚠️ অপ্রকাশিত পরিবর্তন আছে। সেটিং ট্যাবে গিয়ে "প্রকাশ করুন" চাপুন।</div>':''}<div id="abody"></div></main>`;
@@ -307,8 +372,49 @@ function renderAdmin(){
   if(adminTab==='info')body.innerHTML=infoForm();
   else if(adminTab==='settings')body.innerHTML=settingsForm();
   else if(adminTab==='members')body.innerHTML=memberHTML();
+  else if(adminTab==='chanda')body.innerHTML=chandaHTML();
   else body.innerHTML=crudHTML(adminTab);
   bindAdmin();
+  A.scrollTop=st;
+}
+
+function chandaHTML(){
+  const c=CH(draft),ym=adminMonth||nowYM();
+  const rows=calc(draft,ymIdx(ym),ymIdx(ym)),t=sumRows(rows);
+  const allDue=sumRows(calc(draft,0,1e9));
+  return `<div class="card"><h3>⚙️ চাঁদার সাধারণ নিয়ম</h3>
+<label>মাসিক চাঁদার পরিমাণ (টাকা)</label><input id="chamt" type="number" min="0" value="${esc(c.amount)}">
+<label>চাঁদা গণনা শুরুর মাস (এর আগের মাসের বাকি ধরা হবে না)</label><input id="chstart" type="month" value="${esc(c.start)}">
+<label class="chk"><input type="checkbox" id="chpub" ${c.public!==false?'checked':''}> সদস্যভিত্তিক চাঁদার তালিকা সবাইকে দেখাবে</label>
+<div class="btns"><button class="btn" id="chsave">সংরক্ষণ (খসড়ায়)</button></div>
+<p class="muted" style="font-size:13px">কোনো সদস্যের জন্য আলাদা পরিমাণ বা শুরুর মাস দিতে চাইলে "সদস্য" ট্যাবে তার ফর্মে দিন। পরিমাণ ০ দিলে সে চাঁদার তালিকায় আসবে না।</p></div>
+<div class="card"><h3>🗓️ মাস অনুযায়ী আদায়</h3>
+<input type="month" id="cmon" value="${ym}">
+<div class="grid3"><div class="stat"><small>আদায়</small><b class="in">৳${bn(t.paid)}</b></div><div class="stat"><small>বাকি</small><b class="ex">৳${bn(t.due)}</b></div><div class="stat"><small>মোট বাকি (সব মাস)</small><b class="ex">৳${bn(allDue.due)}</b></div></div>
+${rows.length?rows.map(r=>`<div class="row"><div class="grow"><span class="sn">${bn(r.m.serial)}</span><b>${esc(r.m.name)}</b><br><small class="muted">৳${bn(r.a)} · মোট বাকি ${bn(calc({members:[r.m],payments:draft.payments,chanda:draft.chanda},0,1e9)[0].dueN)} মাস</small></div>
+<button class="btn ${r.paidThis?'':'red'} sm" data-tg="${r.m.id}">${r.paidThis?'✅ পরিশোধ':'বাকি'}</button><button class="btn alt sm" data-multi="${r.m.id}">একাধিক মাস</button></div>`).join(''):'<div class="empty">আগে "সদস্য" ট্যাবে সদস্য যোগ করুন</div>'}</div>`;
+}
+function bindChanda(){
+  const body=$('#abody');
+  $('#chsave').onclick=()=>{draft.chanda={amount:Number($('#chamt').value)||0,start:$('#chstart').value||'2026-10',public:$('#chpub').checked};dirty=true;renderAdmin();toast('খসড়ায় সংরক্ষিত')};
+  $('#cmon').onchange=e=>{if(e.target.value){adminMonth=e.target.value;renderAdmin()}};
+  draft.payments=draft.payments||[];
+  const ym=adminMonth||nowYM();
+  body.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{
+    const m=draft.members.find(x=>x.id===b.dataset.tg);if(!m)return;
+    const i=draft.payments.findIndex(p=>p.mid===m.id&&p.ym===ym);
+    if(i>=0)draft.payments.splice(i,1);else draft.payments.push({id:uid(),mid:m.id,ym,amount:mAmt(m,draft),date:today()});
+    dirty=true;renderAdmin();
+  });
+  body.querySelectorAll('[data-multi]').forEach(b=>b.onclick=()=>{
+    const m=draft.members.find(x=>x.id===b.dataset.multi);if(!m)return;
+    const n=parseInt(prompt(m.name+' — কত মাসের চাঁদা একসাথে নিলেন? (সবচেয়ে পুরনো বাকি মাস থেকে ধরা হবে)','1'),10);
+    if(!(n>0&&n<=120))return;
+    const have=new Set(draft.payments.filter(p=>p.mid===m.id).map(p=>p.ym));
+    let i=ymIdx(mStart(m,draft)),added=0;
+    while(added<n){const k=idxYm(i++);if(!have.has(k)){draft.payments.push({id:uid(),mid:m.id,ym:k,amount:mAmt(m,draft),date:today()});added++}}
+    dirty=true;renderAdmin();toast(bn(n)+' মাসের চাঁদা যোগ হয়েছে');
+  });
 }
 
 function memberHTML(){
@@ -324,6 +430,8 @@ function memberHTML(){
 ${inp('name','নাম *')}${inp('father','পিতার নাম')}${inp('profession','পেশা')}
 <label>রক্তের গ্রুপ</label><select data-f="blood"><option value="">— বাছুন —</option>${BLOODS.map(b=>`<option ${e&&e.blood===b?'selected':''}>${b}</option>`).join('')}</select>
 ${inp('village','গ্রাম')}${inp('post','পোস্ট')}${inp('thana','থানা')}${inp('district','জেলা')}
+${inp('camt','মাসিক চাঁদার পরিমাণ (ফাঁকা = সাধারণ হার, ০ = চাঁদা দেয় না)','number','min="0"')}
+${inp('cstart','চাঁদা শুরুর মাস (ফাঁকা = সংগঠনের সাধারণ শুরুর মাস)','month')}
 <div class="warn" style="margin-top:6px">🔒 নিচের তথ্যগুলো এনক্রিপ্টেড থাকে, শুধু অ্যাডমিন পাসওয়ার্ড দিয়ে দেখা যায়।</div>
 ${inp('mobile','মোবাইল','tel')}
 <label class="chk"><input type="checkbox" data-f="showPhone" ${e&&e.showPhone?'checked':''}> মোবাইল নম্বর সদস্য কার্ডে সবাইকে দেখাবে</label>
@@ -371,7 +479,7 @@ function bindAdmin(){
   const k=adminTab,body=$('#abody');
   const ca=$('#acancel');if(ca)ca.onclick=()=>{editing=null;formPhoto=null;removePhoto=false;renderAdmin()};
   body.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editing={k,item:draft[k].find(x=>x.id===b.dataset.edit)};formPhoto=null;removePhoto=false;renderAdmin();window.scrollTo(0,0);$('#admin').scrollTo(0,0)});
-  body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('মুছে ফেলবেন?'))return;draft[k]=draft[k].filter(x=>x.id!==b.dataset.del);dirty=true;renderAdmin()});
+  body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('মুছে ফেলবেন?'))return;draft[k]=draft[k].filter(x=>x.id!==b.dataset.del);if(k==='members')draft.payments=(draft.payments||[]).filter(p=>p.mid!==b.dataset.del);dirty=true;renderAdmin()});
 
   if(k==='members'){
     const pf=$('#pfile');
@@ -402,6 +510,7 @@ function bindAdmin(){
       editing=null;dirty=true;renderAdmin();toast('খসড়ায় যোগ হয়েছে');
     };
   }
+  if(k==='chanda')bindChanda();
   const ai=$('#ainfo');if(ai)ai.onclick=()=>{
     body.querySelectorAll('[data-o]').forEach(i=>draft.org[i.dataset.o]=i.value.trim());
     draft.org.contacts=draft.org.contacts||{};body.querySelectorAll('[data-c]').forEach(i=>draft.org.contacts[i.dataset.c]=i.value.trim());
@@ -428,7 +537,7 @@ async function putFile(base,H,path,content64,msg){
 async function buildPublic(){
   const out=clone(draft);out.members=[];
   for(const m of draft.members){
-    const pub={id:m.id,serial:m.serial,name:m.name,father:m.father||'',profession:m.profession||'',blood:m.blood||'',village:m.village||'',post:m.post||'',thana:m.thana||'',district:m.district||'',showPhone:!!m.showPhone};
+    const pub={id:m.id,serial:m.serial,name:m.name,father:m.father||'',profession:m.profession||'',blood:m.blood||'',village:m.village||'',post:m.post||'',thana:m.thana||'',district:m.district||'',showPhone:!!m.showPhone,camt:m.camt==null?'':m.camt,cstart:m.cstart||''};
     if(m.photo){pub.photo=m.photo;pub.pv=m.pv}
     if(m.showPhone&&m.mobile)pub.mobile=m.mobile;
     const sec={mobile:m.mobile||'',guardian:m.guardian||'',nid:m.nid||''};

@@ -1,4 +1,4 @@
-const CACHE = 'al-ittefaq-v2';
+const CACHE = 'al-ittefaq-v3';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon.jpg'];
 
 self.addEventListener('install', e => {
