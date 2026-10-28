@@ -17,6 +17,7 @@
       "id": "mvrpevx81f2h",
       "serial": 1,
       "name": "যাকওয়ান আহমদ",
+      "role": "সহ সভাপতি",
       "father": "জহুরুল ইসলাম",
       "profession": "শিক্ষকতা",
       "blood": "A+",
@@ -30,12 +31,13 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "qTiSziF6SKp4aGBy1SZYIxFIPGHSTgGCKCajZlb4YlydhO6jwlz85nRS5TSwBceweGrqrd8pM2ht4Nuc1ZR/ET89bGNOOQeqIZ1a/XzTGgk1IFZ3Oh0ieyi2V9j6z3Iv"
+      "enc": "nIBTWOhJAgxglGVlcOX+braaZXhBxh5bnzWLlb9nj+AUoOTOody1D0L6ZargDmw8V7F1eGnZNBlGV39s3H710N2XixNY8GEFBV5u6C5uB1ox+4iQ8sjtDrp7Zd/zsQLc"
     },
     {
       "id": "mvrrcx1n96lb",
       "serial": 2,
       "name": "রাকিব",
+      "role": "",
       "father": "সুরুজ",
       "profession": "",
       "blood": "",
@@ -84,6 +86,7 @@
       "date": "2026-10-28"
     }
   ],
+  "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "S+rhbTuG/gOs/ug+yrL3LfDtqlgz2gqg75ypGXmM"
+  "check": "F1ejM0+FLBCg4ChSl3VdK8mXf411gBIULGzRcVqa"
 }
