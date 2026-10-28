@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>আল-ইত্তেফাক</title>
+<meta name="description" content="ইত্তেফাকুত ত্বলাবা ওয়াল উলামা — অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন, ৪নং চর, ইসলামপুর, জামালপুর।">
+<meta name="theme-color" content="#0b4a3f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.jpg">
+<link rel="apple-touch-icon" href="icon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0b4a3f;--g2:#06352d;--m:#6b0000;--cream:#fbf7e6;--olive:#7a8a2a;--bg:#f2f5f1;--card:#fff;--tx:#1b2a26;--mut:#5f6f6a;--ln:#dfe6e1;--in:#13805f;--ex:#b3261e}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:78px;line-height:1.55}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top))}
+header img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.7);background:var(--g)}
+header .t{flex:1;min-width:0}
+header .t b{display:block;font-size:18px;line-height:1.2}
+header .t small{opacity:.8;font-size:12px}
+.bell{position:relative;background:rgba(255,255,255,.14);border:0;color:#fff;width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer}
+.bell i{position:absolute;top:-3px;right:-3px;min-width:19px;height:19px;border-radius:10px;background:#f0b400;color:#222;font:700 11px/19px inherit;font-style:normal;text-align:center;padding:0 4px}
+main{max-width:720px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h2,.card h3{margin:0 0 8px;color:var(--g)}
+.hero{text-align:center;background:linear-gradient(160deg,var(--g),var(--g2));color:#fff;border:0}
+.hero img{width:150px;height:150px;border-radius:50%;border:4px solid rgba(255,255,255,.85);object-fit:cover;background:var(--g)}
+.hero h1{margin:10px 0 2px;font-size:23px;line-height:1.3}
+.hero p{margin:2px 0;opacity:.92}
+.pill{display:inline-block;background:rgba(255,255,255,.16);border-radius:20px;padding:3px 12px;font-size:13px;margin:6px 3px 0}
+.muted{color:var(--mut)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border-radius:14px;padding:10px 6px;text-align:center;background:var(--bg);border:1px solid var(--ln)}
+.stat small{display:block;color:var(--mut);font-size:12px}
+.stat b{font-size:16px}
+.in{color:var(--in)}.ex{color:var(--ex)}
+.row{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--ln)}
+.row:last-child{border:0}
+.row .grow{flex:1;min-width:0}
+.av{width:42px;height:42px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.amt{font-weight:700;white-space:nowrap}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;background:#fff;margin:4px 0 8px}
+textarea{min-height:80px;resize:vertical}
+label{font-size:13px;color:var(--mut)}
+.btn{font:inherit;font-weight:600;border:0;border-radius:12px;padding:10px 16px;background:var(--g);color:#fff;cursor:pointer}
+.btn.alt{background:#e7efe9;color:var(--g)}
+.btn.red{background:var(--ex)}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:9px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#fff;border-top:1px solid var(--ln);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;font:inherit;font-size:11.5px;color:var(--mut);padding:8px 2px 7px;cursor:pointer}
+nav button span{display:block;font-size:20px;line-height:1.2}
+nav button.on{color:var(--g);font-weight:700}
+.ci a{color:var(--g);font-weight:600;text-decoration:none}
+.unread{border-left:4px solid #f0b400}
+#admin{position:fixed;inset:0;z-index:50;background:var(--bg);overflow:auto;display:none}
+#admin.show{display:block}
+.abar{position:sticky;top:0;background:var(--m);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:8px;z-index:2}
+.abar b{flex:1}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 14px 0}
+.tabs button{flex:none;font:inherit;border:1px solid var(--ln);background:#fff;border-radius:20px;padding:6px 14px;cursor:pointer}
+.tabs button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.warn{background:#fff4d6;border:1px solid #f0d98a;border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:10px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222;color:#fff;padding:9px 16px;border-radius:20px;z-index:99;font-size:14px;max-width:90%}
+.empty{text-align:center;color:var(--mut);padding:22px 0}
+</style>
+</head>
+<body>
+<header>
+  <img id="logo" src="icon.jpg" alt="লোগো" onerror="this.style.visibility='hidden'">
+  <div class="t"><b>আল-ইত্তেফাক</b><small>ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div>
+  <button class="bell" id="bell" aria-label="নোটিফিকেশন">🔔<i id="badge" hidden>0</i></button>
+</header>
+<main id="view"></main>
+<nav id="nav">
+  <button data-t="about"><span>🕌</span>পরিচিতি</button>
+  <button data-t="members"><span>👥</span>সদস্য</button>
+  <button data-t="money"><span>💰</span>আয়-ব্যয়</button>
+  <button data-t="notices"><span>📢</span>ঘোষণা</button>
+  <button data-t="contact"><span>📞</span>যোগাযোগ</button>
+</nav>
+<div id="admin"></div>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bn=n=>Number(n||0).toLocaleString('bn-BD');
+const fdate=d=>{try{return new Date(d).toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'})}catch(e){return d||''}};
+const today=()=>new Date().toISOString().slice(0,10);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+
+const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],adminHash:''};
+let DB=clone(DEFAULT),draft=null,tab='about',isAdmin=false,adminTab='members',editing=null,dirty=false;
+
+async function load(){
+  try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;DB=Object.assign(clone(DEFAULT),await r.json());lsSet('ai_cache',DB)}
+  catch(e){DB=Object.assign(clone(DEFAULT),lsGet('ai_cache',{}))}
+  render();updateBadge();maybeNotify();
+}
+
+/* ---------- Notifications ---------- */
+const seen=()=>new Set(lsGet('ai_seen',[]));
+function unreadList(){const s=seen();return (DB.notices||[]).filter(n=>!s.has(n.id))}
+function updateBadge(){const n=unreadList().length;const b=$('#badge');b.hidden=!n;b.textContent=bn(n)}
+function markSeen(){lsSet('ai_seen',(DB.notices||[]).map(n=>n.id));updateBadge()}
+function maybeNotify(){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  const lastN=lsGet('ai_pushed',[]);const fresh=unreadList().filter(n=>!lastN.includes(n.id));
+  fresh.slice(0,3).forEach(n=>{try{new Notification('আল-ইত্তেফাক: '+n.title,{body:n.body,icon:'icon.jpg'})}catch(e){}});
+  lsSet('ai_pushed',(DB.notices||[]).map(n=>n.id));
+}
+async function askPerm(){
+  if(!('Notification' in window)){toast('এই ব্রাউজারে নোটিফিকেশন সমর্থিত নয়');return}
+  const p=await Notification.requestPermission();toast(p==='granted'?'নোটিফিকেশন চালু হয়েছে':'অনুমতি দেওয়া হয়নি');render();
+}
+
+/* ---------- Public views ---------- */
+function vAbout(){const o=DB.org;return `
+<div class="card hero"><img src="icon.jpg" alt="" onerror="this.style.display='none'">
+<h1>${esc(o.name)}</h1><p>অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p>
+<span class="pill">স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div>
+<div class="card"><h2>আমাদের পরিচিতি</h2><p>${esc(o.about)}</p></div>
+${o.mission?`<div class="card"><h2>আমাদের লক্ষ্য</h2><p>${esc(o.mission)}</p></div>`:''}
+<div class="card"><h3>এক নজরে</h3><div class="grid3">
+<div class="stat"><small>সদস্য</small><b>${bn((DB.members||[]).length)}</b></div>
+<div class="stat"><small>ঘোষণা</small><b>${bn((DB.notices||[]).length)}</b></div>
+<div class="stat"><small>স্থাপিত</small><b>${esc(o.established)}</b></div></div></div>`}
+
+function vMembers(){
+  const q=(window._mq||'').trim().toLowerCase();
+  const list=(DB.members||[]).filter(m=>!q||(m.name+m.role+m.address).toLowerCase().includes(q));
+  return `<div class="card"><h2>সদস্য তালিকা (${bn((DB.members||[]).length)} জন)</h2>
+<input id="mq" placeholder="🔍 নাম বা পদবি দিয়ে খুঁজুন" value="${esc(window._mq||'')}">
+${list.length?list.map(m=>`<div class="row"><div class="av">${esc((m.name||'?').trim().charAt(0))}</div><div class="grow"><b>${esc(m.name)}</b>${m.role?` <span class="muted">· ${esc(m.role)}</span>`:''}<br><small class="muted">${esc(m.address||'')}${m.joined?' · যোগদান: '+fdate(m.joined):''}</small></div></div>`).join(''):'<div class="empty">কোনো সদস্য পাওয়া যায়নি</div>'}</div>`}
+
+function vMoney(){
+  const t=DB.transactions||[];
+  const inc=t.filter(x=>x.type==='income').reduce((a,x)=>a+ +x.amount,0);
+  const exp=t.filter(x=>x.type==='expense').reduce((a,x)=>a+ +x.amount,0);
+  const sorted=[...t].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  return `<div class="card"><h2>আয়-ব্যয়ের হিসাব</h2><div class="grid3">
+<div class="stat"><small>মোট আয়</small><b class="in">৳${bn(inc)}</b></div>
+<div class="stat"><small>মোট ব্যয়</small><b class="ex">৳${bn(exp)}</b></div>
+<div class="stat"><small>জমা</small><b>৳${bn(inc-exp)}</b></div></div></div>
+<div class="card">${sorted.length?sorted.map(x=>`<div class="row"><div class="grow"><b>${esc(x.title)}</b><br><small class="muted">${fdate(x.date)}${x.note?' · '+esc(x.note):''}</small></div><div class="amt ${x.type==='income'?'in':'ex'}">${x.type==='income'?'+':'−'}৳${bn(x.amount)}</div></div>`).join(''):'<div class="empty">এখনো কোনো লেনদেন যোগ হয়নি</div>'}</div>`}
+
+function vNotices(){
+  const s=new Set(lsGet('ai_seen_prev',[]));
+  const list=[...(DB.notices||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const perm='Notification' in window?Notification.permission:'unsupported';
+  return `<div class="card"><h2>নোটিফিকেশন ও ঘোষণা</h2>
+${perm==='default'?`<div class="warn">নতুন ঘোষণা এলে অ্যাপ খুললেই ব্রাউজার নোটিফিকেশন পেতে অনুমতি দিন।<div class="btns"><button class="btn sm" id="perm">নোটিফিকেশন চালু করুন</button></div></div>`:''}
+${list.length?list.map(n=>`<div class="card ${s.has(n.id)?'':'unread'}" style="margin:8px 0"><b>${esc(n.title)}</b><br><small class="muted">${fdate(n.date)}</small><p style="margin:6px 0 0">${esc(n.body)}</p></div>`).join(''):'<div class="empty">কোনো ঘোষণা নেই</div>'}</div>`}
+
+function vContact(){
+  const o=DB.org,c=o.contacts||{};
+  const items=[];
+  items.push(`<div class="row"><div class="av">📍</div><div class="grow"><b>ঠিকানা</b><br>${esc(o.address)}<br><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.address)}" target="_blank" rel="noopener">মানচিত্রে দেখুন</a></div></div>`);
+  if(c.phone)items.push(`<div class="row"><div class="av">📞</div><div class="grow"><b>ফোন</b><br><a href="tel:${esc(c.phone)}">${esc(c.phone)}</a></div></div>`);
+  if(c.whatsapp)items.push(`<div class="row"><div class="av">💬</div><div class="grow"><b>হোয়াটসঅ্যাপ</b><br><a href="https://wa.me/${esc(c.whatsapp.replace(/\D/g,''))}" target="_blank" rel="noopener">${esc(c.whatsapp)}</a></div></div>`);
+  if(c.email)items.push(`<div class="row"><div class="av">✉️</div><div class="grow"><b>ইমেইল</b><br><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div></div>`);
+  if(c.facebook)items.push(`<div class="row"><div class="av">🌐</div><div class="grow"><b>ফেসবুক</b><br><a href="${esc(c.facebook)}" target="_blank" rel="noopener">${esc(c.facebook)}</a></div></div>`);
+  return `<div class="card ci"><h2>যোগাযোগ</h2>${items.join('')}</div>`}
+
+function render(){
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
+  const v={about:vAbout,members:vMembers,money:vMoney,notices:vNotices,contact:vContact}[tab]();
+  $('#view').innerHTML=v;
+  const mq=$('#mq');if(mq)mq.oninput=e=>{window._mq=e.target.value;const p=e.target.selectionStart;render();const n=$('#mq');n.focus();n.setSelectionRange(p,p)};
+  const pm=$('#perm');if(pm)pm.onclick=askPerm;
+  if(tab==='notices'){lsSet('ai_seen_prev',lsGet('ai_seen',[]));markSeen()}
+}
+function go(t){tab=t;render();window.scrollTo(0,0)}
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
+$('#bell').onclick=()=>go('notices');
+
+/* ---------- Secret admin: tap logo 7 times (or open #admin) ---------- */
+let taps=0,tt;
+$('#logo').onclick=()=>{taps++;clearTimeout(tt);tt=setTimeout(()=>taps=0,2500);if(taps>=7){taps=0;openAdmin()}};
+if(location.hash==='#admin')setTimeout(openAdmin,400);
+
+async function openAdmin(){
+  draft=clone(DB);dirty=false;
+  const A=$('#admin');A.classList.add('show');document.body.style.overflow='hidden';
+  if(isAdmin){return renderAdmin()}
+  if(!DB.adminHash){
+    A.innerHTML=`<div class="abar"><b>🔐 অ্যাডমিন সেটআপ</b><button class="btn alt sm" id="aclose">বন্ধ</button></div><main><div class="card"><h2>নতুন পাসওয়ার্ড দিন</h2><p class="muted">প্রথমবার পাসওয়ার্ড ঠিক করুন (কমপক্ষে ৬ অক্ষর)। পরে "প্রকাশ করুন" চাপলে সেভ হবে।</p><input type="password" id="p1" placeholder="পাসওয়ার্ড"><input type="password" id="p2" placeholder="আবার লিখুন"><button class="btn" id="aset">সেট করুন</button></div></main>`;
+    $('#aclose').onclick=closeAdmin;
+    $('#aset').onclick=async()=>{const a=$('#p1').value,b=$('#p2').value;if(a.length<6)return toast('কমপক্ষে ৬ অক্ষর দিন');if(a!==b)return toast('দুটি পাসওয়ার্ড মেলেনি');draft.adminHash=await sha(a);dirty=true;isAdmin=true;renderAdmin()};
+  }else{
+    A.innerHTML=`<div class="abar"><b>🔐 অ্যাডমিন লগইন</b><button class="btn alt sm" id="aclose">বন্ধ</button></div><main><div class="card"><input type="password" id="p1" placeholder="পাসওয়ার্ড"><button class="btn" id="alog">প্রবেশ</button></div></main>`;
+    $('#aclose').onclick=closeAdmin;
+    const go1=async()=>{if(await sha($('#p1').value)===DB.adminHash){isAdmin=true;renderAdmin()}else toast('পাসওয়ার্ড ভুল')};
+    $('#alog').onclick=go1;$('#p1').onkeydown=e=>{if(e.key==='Enter')go1()};
+  }
+}
+function closeAdmin(){
+  if(dirty&&!confirm('অপ্রকাশিত পরিবর্তন মুছে যাবে। বন্ধ করবেন?'))return;
+  $('#admin').classList.remove('show');document.body.style.overflow='';isAdmin=false;editing=null;
+}
+
+const FIELDS={
+  members:[['name','নাম','text'],['role','পদবি','text'],['phone','ফোন (শুধু অ্যাডমিন দেখবে)','tel'],['address','ঠিকানা','text'],['joined','যোগদানের তারিখ','date']],
+  transactions:[['date','তারিখ','date'],['type','ধরন','select'],['title','বিষয়','text'],['amount','টাকার পরিমাণ','number'],['note','মন্তব্য (ঐচ্ছিক)','text']],
+  notices:[['title','শিরোনাম','text'],['body','বিস্তারিত','textarea']]
+};
+const TNAME={members:'সদস্য',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',info:'সংগঠনের তথ্য',settings:'সেটিং'};
+const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
+
+function renderAdmin(){
+  const A=$('#admin');
+  A.innerHTML=`<div class="abar"><b>⚙️ অ্যাডমিন প্যানেল</b><button class="btn alt sm" id="aclose">বন্ধ</button></div>
+<div class="tabs">${Object.keys(TNAME).map(k=>`<button data-k="${k}" class="${k===adminTab?'on':''}">${TNAME[k]}</button>`).join('')}</div>
+<main>${dirty?'<div class="warn">⚠️ অপ্রকাশিত পরিবর্তন আছে। সেটিং ট্যাবে গিয়ে "প্রকাশ করুন" চাপুন।</div>':''}<div id="abody"></div></main>`;
+  $('#aclose').onclick=closeAdmin;
+  A.querySelector('.tabs').onclick=e=>{const b=e.target.closest('button');if(b){adminTab=b.dataset.k;editing=null;renderAdmin()}};
+  const body=$('#abody');
+  if(adminTab==='info')body.innerHTML=infoForm();
+  else if(adminTab==='settings')body.innerHTML=settingsForm();
+  else body.innerHTML=crudHTML(adminTab);
+  bindAdmin();
+}
+function crudHTML(k){
+  const e=editing&&editing.k===k?editing.item:null;
+  const form=FIELDS[k].map(([f,l,t])=>{
+    const v=e?e[f]:(f==='date'&&k!=='members'?today():'');
+    if(t==='select')return `<label>${l}</label><select data-f="${f}"><option value="income" ${e&&e.type==='income'?'selected':''}>আয়</option><option value="expense" ${e&&e.type==='expense'?'selected':''}>ব্যয়</option></select>`;
+    if(t==='textarea')return `<label>${l}</label><textarea data-f="${f}">${esc(v)}</textarea>`;
+    return `<label>${l}</label><input data-f="${f}" type="${t}" value="${esc(v)}">`}).join('');
+  const sum=it=>k==='members'?`<b>${esc(it.name)}</b> <span class="muted">${esc(it.role||'')} ${esc(it.phone||'')}</span>`:k==='transactions'?`<b>${esc(it.title)}</b> <span class="${it.type==='income'?'in':'ex'}">${it.type==='income'?'+':'−'}৳${bn(it.amount)}</span><br><small class="muted">${fdate(it.date)}</small>`:`<b>${esc(it.title)}</b><br><small class="muted">${fdate(it.date)}</small>`;
+  return `<div class="card"><h3>${e?'সম্পাদনা':'নতুন যোগ করুন'}</h3>${form}<div class="btns"><button class="btn" id="asave">${e?'আপডেট':'যোগ করুন'}</button>${e?'<button class="btn alt" id="acancel">বাতিল</button>':''}</div></div>
+<div class="card"><h3>তালিকা (${bn(draft[k].length)})</h3>${draft[k].length?[...draft[k]].reverse().map(it=>`<div class="row"><div class="grow">${sum(it)}</div><button class="btn alt sm" data-edit="${it.id}">সম্পাদনা</button><button class="btn red sm" data-del="${it.id}">মুছুন</button></div>`).join(''):'<div class="empty">খালি</div>'}</div>`;
+}
+function infoForm(){const o=draft.org,c=o.contacts||{};return `<div class="card"><h3>সংগঠনের তথ্য</h3>
+<label>নাম</label><input data-o="name" value="${esc(o.name)}"><label>ঠিকানা</label><input data-o="address" value="${esc(o.address)}"><label>স্থাপিত সাল</label><input data-o="established" value="${esc(o.established)}">
+<label>পরিচিতি</label><textarea data-o="about">${esc(o.about)}</textarea><label>লক্ষ্য</label><textarea data-o="mission">${esc(o.mission)}</textarea>
+<h3>যোগাযোগ</h3><label>ফোন</label><input data-c="phone" value="${esc(c.phone)}"><label>হোয়াটসঅ্যাপ</label><input data-c="whatsapp" value="${esc(c.whatsapp)}"><label>ইমেইল</label><input data-c="email" value="${esc(c.email)}"><label>ফেসবুক লিংক</label><input data-c="facebook" value="${esc(c.facebook)}">
+<div class="btns"><button class="btn" id="ainfo">সংরক্ষণ (খসড়ায়)</button></div></div>`}
+function settingsForm(){const g=gh();return `<div class="card"><h3>📤 প্রকাশ করুন (GitHub-এ সেভ)</h3>
+<p class="muted">খসড়ার পরিবর্তনগুলো GitHub রিপোর data.json-এ সেভ হবে; তারপর সবাই নতুন তথ্য দেখবে (১-২ মিনিট লাগতে পারে)।</p>
+<label>GitHub ইউজারনেম</label><input id="gho" value="${esc(g.owner)}"><label>রিপোজিটরির নাম</label><input id="ghr" value="${esc(g.repo)}">
+<label>Personal Access Token (শুধু এই ডিভাইসে থাকবে)</label><input id="ght" type="password" value="${esc(g.token)}" placeholder="github_pat_...">
+<div class="btns"><button class="btn" id="apub">🚀 প্রকাশ করুন</button><button class="btn alt" id="aexp">ব্যাকআপ ডাউনলোড</button></div></div>
+<div class="card"><h3>🔑 পাসওয়ার্ড পরিবর্তন</h3><input type="password" id="np" placeholder="নতুন পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)"><button class="btn alt" id="achp">পরিবর্তন</button></div>`}
+
+function bindAdmin(){
+  const k=adminTab,body=$('#abody');
+  const sv=$('#asave');
+  if(sv)sv.onclick=()=>{
+    const obj={};body.querySelectorAll('[data-f]').forEach(i=>obj[i.dataset.f]=i.value.trim());
+    const req=k==='members'?'name':'title';if(!obj[req])return toast('প্রয়োজনীয় ঘর পূরণ করুন');
+    if(k==='transactions'){obj.amount=Number(obj.amount);if(!(obj.amount>0))return toast('সঠিক টাকার পরিমাণ দিন')}
+    if(k==='notices'&&!(editing&&editing.k===k))obj.date=today();
+    if(editing&&editing.k===k){const i=draft[k].findIndex(x=>x.id===editing.item.id);draft[k][i]=Object.assign({},editing.item,obj)}
+    else{obj.id=uid();draft[k].push(obj)}
+    editing=null;dirty=true;renderAdmin();toast('খসড়ায় যোগ হয়েছে');
+  };
+  const ca=$('#acancel');if(ca)ca.onclick=()=>{editing=null;renderAdmin()};
+  body.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editing={k,item:draft[k].find(x=>x.id===b.dataset.edit)};renderAdmin();window.scrollTo(0,0)});
+  body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('মুছে ফেলবেন?'))return;draft[k]=draft[k].filter(x=>x.id!==b.dataset.del);dirty=true;renderAdmin()});
+  const ai=$('#ainfo');if(ai)ai.onclick=()=>{
+    body.querySelectorAll('[data-o]').forEach(i=>draft.org[i.dataset.o]=i.value.trim());
+    draft.org.contacts=draft.org.contacts||{};body.querySelectorAll('[data-c]').forEach(i=>draft.org.contacts[i.dataset.c]=i.value.trim());
+    dirty=true;renderAdmin();toast('খসড়ায় সংরক্ষিত');
+  };
+  const pb=$('#apub');if(pb)pb.onclick=publish;
+  const ex=$('#aexp');if(ex)ex.onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(draft,null,2)],{type:'application/json'}));a.download='al-ittefaq-backup-'+today()+'.json';a.click()};
+  const cp=$('#achp');if(cp)cp.onclick=async()=>{const p=$('#np').value;if(p.length<6)return toast('কমপক্ষে ৬ অক্ষর দিন');draft.adminHash=await sha(p);dirty=true;renderAdmin();toast('নতুন পাসওয়ার্ড খসড়ায় — প্রকাশ করুন')};
+}
+const b64=s=>{const b=new TextEncoder().encode(s);let r='';b.forEach(x=>r+=String.fromCharCode(x));return btoa(r)};
+async function publish(){
+  const o=$('#gho').value.trim(),r=$('#ghr').value.trim(),t=$('#ght').value.trim();
+  if(!o||!r||!t)return toast('ইউজারনেম, রিপো ও টোকেন দিন');
+  lsSet('ai_gh',{owner:o,repo:r,token:t});
+  const url=`https://api.github.com/repos/${encodeURIComponent(o)}/${encodeURIComponent(r)}/contents/data.json`;
+  const H={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'};
+  const btn=$('#apub');btn.disabled=true;btn.textContent='প্রকাশ হচ্ছে…';
+  try{
+    let sha1;const g=await fetch(url,{headers:H,cache:'no-store'});
+    if(g.ok)sha1=(await g.json()).sha;else if(g.status!==404)throw new Error(g.status===401||g.status===403?'টোকেন সঠিক নয় বা অনুমতি নেই':'ত্রুটি '+g.status);
+    const body={message:'ডাটা আপডেট',content:b64(JSON.stringify(draft,null,2))};if(sha1)body.sha=sha1;
+    const p=await fetch(url,{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},H),body:JSON.stringify(body)});
+    if(!p.ok)throw new Error(p.status===401||p.status===403?'টোকেনে Contents লেখার অনুমতি নেই':'সেভ ব্যর্থ ('+p.status+')');
+    DB=clone(draft);lsSet('ai_cache',DB);dirty=false;render();updateBadge();toast('✅ সফলভাবে প্রকাশিত হয়েছে');renderAdmin();
+  }catch(e){toast('❌ '+e.message);const b=$('#apub');if(b){b.disabled=false;b.textContent='🚀 প্রকাশ করুন'}}
+}
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+load();
+</script>
+</body>
+</html>
