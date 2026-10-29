@@ -78,7 +78,7 @@ nav button.on{color:var(--g);font-weight:700}
 .mc-top .bl{padding:1px 8px!important;font-size:12.5px!important}
 .mc-ph{width:76px!important;height:76px!important;margin-top:-38px!important;font-size:30px!important;border-width:3px!important}
 .mc h3{font-size:16px!important;margin:6px 6px 0!important;line-height:1.3}
-.mc .prof{display:block;text-align:center;margin:2px 8px 4px;font-size:12.5px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--a),var(--b));border-radius:20px;padding:1px 10px;width:fit-content;max-width:calc(100% - 16px);margin-left:auto;margin-right:auto}
+.mc .prof{display:block;text-align:center;margin:2px 8px 4px;font-size:12.5px;font-weight:600;color:#fff!important;background:linear-gradient(135deg,var(--a),var(--b));border-radius:20px;padding:1px 10px;width:fit-content;max-width:calc(100% - 16px);margin-left:auto;margin-right:auto}
 .mc-b{padding:2px 10px 10px!important}
 .mc-b div{font-size:12.5px!important;padding:4px 0!important;gap:6px!important}
 .mc-b span{width:58px!important}
@@ -89,7 +89,6 @@ nav button.on{color:var(--g);font-weight:700}
 .mc-ph{width:96px;height:96px;border-radius:50%;margin:-48px auto 0;border:4px solid #fff;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;display:grid;place-items:center;font-size:38px;font-weight:700;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.18)}
 .mc-ph img{width:100%;height:100%;object-fit:cover}
 .mc h3{text-align:center;margin:8px 10px 2px;font-size:20px;color:var(--a)}
-.mc .prof{text-align:center;color:var(--mut);font-size:14px;margin-bottom:6px}
 .mc-b{padding:4px 16px 14px}
 .mc-b div{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed var(--ln);font-size:14.5px}
 .mc-b div:last-child{border:0}
@@ -167,6 +166,7 @@ background:radial-gradient(circle at 50% 0%,#13806a 0,#0b4a3f 45%,#06352d 100%);
 .hayah small{display:block;margin-top:-4px}
 .pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .hero2 .pills .pill{margin:0;font-size:12px;padding:2px 10px}
+.tiles button:last-child:nth-child(3n+1){grid-column:1/-1}
 .sn{display:inline-block;min-width:28px;text-align:center;background:var(--g);color:#fff;border-radius:8px;font-size:12px;padding:1px 6px;margin-right:4px}
 </style>
 </head>
@@ -244,7 +244,7 @@ async function encStr(key,text){
 }
 async function decStr(key,b){const u=b64d(b);return TD.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},key,u.slice(12)))}
 
-const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],adminHash:''};
+const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],advisors:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],adminHash:''};
 let DB=clone(DEFAULT),draft=null,tab='home',isAdmin=false,adminTab='members',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
@@ -281,8 +281,9 @@ return `
 <div class="hayah"><div class="ar">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</div><small>সূরা আল-মায়িদা ৫:২</small></div>
 <div class="pills"><span class="pill">🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div></div>
 <div class="tiles">
-<button data-go="intro"><span>🕌</span>পরিচিতি</button><button data-go="members"><span>👥</span>সদস্য</button><button data-go="chanda"><span>🗓️</span>মাসিক চাঁদা</button>
-<button data-go="money"><span>💰</span>আয়-ব্যয়</button><button data-go="notices"><span>📢</span>ঘোষণা</button><button data-go="contact"><span>📞</span>যোগাযোগ</button></div>
+<button data-go="intro"><span>🕌</span>পরিচিতি</button><button data-go="advisors"><span>🎓</span>উপদেষ্টা</button><button data-go="members"><span>👥</span>সদস্য</button>
+<button data-go="chanda"><span>🗓️</span>মাসিক চাঁদা</button><button data-go="money"><span>💰</span>আয়-ব্যয়</button><button data-go="notices"><span>📢</span>ঘোষণা</button>
+<button data-go="contact"><span>📞</span>যোগাযোগ</button></div>
 ${ln?`<div class="card latest"><small class="muted">📢 সর্বশেষ ঘোষণা · ${fdate(ln.date)}</small><br><b>${esc(ln.title)}</b><p style="margin:4px 0 0">${esc(ln.body)}</p></div>`:''}`}
 
 function vIntro(){return vIntroTop()+vIntroStats()}
@@ -301,7 +302,7 @@ const photoSrc=m=>m.photoData?m.photoData:(m.photo?m.photo+'?v='+(m.pv||''):'');
 function memberCard(m,i){
   const p=PALS[((+m.serial||i+1)-1)%PALS.length];
   const src=photoSrc(m);
-  const rows=[['পিতার নাম',m.father],['পেশা',m.profession],['গ্রাম',m.village],['পোস্ট',m.post],['থানা',m.thana],['জেলা',m.district]]
+  const rows=[['পেশা',m.profession],['পিতার নাম',m.father],['গ্রাম',m.village],['পোস্ট',m.post],['থানা',m.thana],['জেলা',m.district]]
     .filter(r=>r[1]).map(r=>`<div><span>${r[0]}</span><b>${esc(r[1])}</b></div>`).join('');
   const mob=m.showPhone&&m.mobile?`<div><span>মোবাইল</span><b><a href="tel:${esc(m.mobile)}">${esc(m.mobile)}</a></b></div>`:'';
   return `<div class="mc" style="--a:${p[0]};--b:${p[1]}">
@@ -310,6 +311,13 @@ function memberCard(m,i){
 <h3>${esc(m.name)}</h3>${m.role?`<span class="prof">${esc(m.role)}</span>`:''}
 <div class="mc-b">${rows}${mob}</div></div>`;
 }
+function vAdvisors(){
+  const q=(window._aq||'').trim().toLowerCase();
+  const all=sortMembers(DB.advisors||[]);
+  const list=all.filter(m=>!q||[m.name,m.role,m.father,m.profession,m.village,m.post,m.thana,m.district,m.blood,m.serial].join(' ').toLowerCase().includes(q));
+  return `<div class="card sec"><h2>উপদেষ্টাবৃন্দ (${bn(all.length)} জন)</h2>
+<input id="aq" placeholder="🔍 নাম, গ্রাম বা ক্রমিক নং দিয়ে খুঁজুন" value="${esc(window._aq||'')}" style="margin-bottom:0"></div>
+${list.length?`<div class="mgrid">${list.map(memberCard).join('')}</div>`:'<div class="card"><div class="empty">কোনো উপদেষ্টা পাওয়া যায়নি</div></div>'}`}
 function vMembers(){
   const q=(window._mq||'').trim().toLowerCase();
   const all=sortMembers(DB.members||[]);
@@ -488,7 +496,7 @@ function pdfMember(src,id,btn){return withBusy(btn,async()=>{
   const rows=[...set].sort((x,y)=>ymIdx(x)-ymIdx(y)).map(ym=>{const p=pm[ym];return{ym,paid:!!p,amt:p?(Number(p.amount)||0):a,date:p&&p.date}});
   const paid=rows.filter(r=>r.paid),due=rows.filter(r=>!r.paid);
   const paidAmt=paid.reduce((x,r)=>x+r.amt,0),dueAmt=due.length*a;
-  const info=[['ক্রমিক নং',bn(m.serial)],['নাম',m.name],['পদবী',m.role],['পিতার নাম',m.father],['পেশা',m.profession],['রক্তের গ্রুপ',m.blood],['গ্রাম',m.village],['থানা / জেলা',[m.thana,m.district].filter(Boolean).join(', ')],['মাসিক চাঁদা',ex?'প্রযোজ্য নয়':'৳'+bn(a)],['চাঁদা শুরু',ex?'—':ymLabel(mStart(m,src))]].filter(r=>r[1]);
+  const info=[['ক্রমিক নং',bn(m.serial)],['নাম',m.name],['পদবী',m.role],['পেশা',m.profession],['পিতার নাম',m.father],['রক্তের গ্রুপ',m.blood],['গ্রাম',m.village],['থানা / জেলা',[m.thana,m.district].filter(Boolean).join(', ')],['মাসিক চাঁদা',ex?'প্রযোজ্য নয়':'৳'+bn(a)],['চাঁদা শুরু',ex?'—':ymLabel(mStart(m,src))]].filter(r=>r[1]);
   const cols=[{l:'ক্রমিক',w:62},{l:'মাস',w:210,al:'l'},{l:'অবস্থা',w:140},{l:'পরিমাণ (৳)',w:130},{l:'পরিশোধের তারিখ'}];
   const trs=rows.map((r,i)=>({k:r.paid?'ok':'due',c:[bn(i+1),ymLabel(r.ym),r.paid?'✔ পরিশোধ':'বাকি',bn(r.amt),r.paid&&r.date?fdate(r.date):'—']}));
   const chunks=chunkRows(trs,23,33),logo=await pdfPrep(),jp=[];
@@ -553,10 +561,10 @@ function vSettings(){
 <div class="row"><div class="grow"><b>ℹ️ অ্যাপ</b><br><small class="muted">আল-ইত্তেফাক · ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div></div></div>`;
 }
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();window._ip=e;if(tab==='settings')render()});
-const TITLES={intro:'পরিচিতি',members:'সদস্য',chanda:'মাসিক চাঁদা',money:'আয়-ব্যয়',notices:'ঘোষণা',contact:'যোগাযোগ',profile:'প্রোফাইল',settings:'সেটিং'};
+const TITLES={intro:'পরিচিতি',advisors:'উপদেষ্টা',members:'সদস্য',chanda:'মাসিক চাঁদা',money:'আয়-ব্যয়',notices:'ঘোষণা',contact:'যোগাযোগ',profile:'প্রোফাইল',settings:'সেটিং'};
 
 function render(){
-  const v=({home:vHome,intro:vIntro,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact,profile:vProfile,settings:vSettings}[tab]||vHome)();
+  const v=({home:vHome,intro:vIntro,advisors:vAdvisors,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact,profile:vProfile,settings:vSettings}[tab]||vHome)();
   $('#view').innerHTML=v;
   $('#view').style.zoom=tab==='home'?1:lsGet('ai_fs',1);
   $('#back').hidden=tab==='home';
@@ -574,6 +582,7 @@ function render(){
   document.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{window._cs=b.dataset.cs;render()});
   document.querySelectorAll('[data-cm]').forEach(b=>b.onclick=()=>{window._cm=shiftYM(window._cm||nowYM(),+b.dataset.cm);render()});
   document.querySelectorAll('[data-cy]').forEach(b=>b.onclick=()=>{window._cy=String(+(window._cy||nowYM().slice(0,4))+ +b.dataset.cy);render()});
+  const aq=$('#aq');if(aq)aq.oninput=e=>{window._aq=e.target.value;const p=e.target.selectionStart;render();const n=$('#aq');n.focus();n.setSelectionRange(p,p)};
   const mq=$('#mq');if(mq)mq.oninput=e=>{window._mq=e.target.value;const p=e.target.selectionStart;render();const n=$('#mq');n.focus();n.setSelectionRange(p,p)};
   const pm=$('#perm');if(pm)pm.onclick=askPerm;
   if(tab==='notices'){lsSet('ai_seen_prev',lsGet('ai_seen',[]));markSeen()}
@@ -602,12 +611,15 @@ if(location.hash==='#admin')setTimeout(openAdmin,400);
 const newSalt=()=>b64e(crypto.getRandomValues(new Uint8Array(16)));
 async function prepDraft(salt){
   draft=clone(DB);draft.encSalt=salt;
-  for(let i=0;i<draft.members.length;i++){
-    const m=draft.members[i];
-    if(m.enc){try{Object.assign(m,JSON.parse(await decStr(adminKey,m.enc)))}catch(e){}}
-    delete m.enc;
-    if(m.phone&&!m.mobile)m.mobile=m.phone;delete m.phone;
-    if(!m.serial)m.serial=i+1;
+  for(const key of ['members','advisors']){
+    draft[key]=draft[key]||[];
+    for(let i=0;i<draft[key].length;i++){
+      const m=draft[key][i];
+      if(m.enc){try{Object.assign(m,JSON.parse(await decStr(adminKey,m.enc)))}catch(e){}}
+      delete m.enc;
+      if(m.phone&&!m.mobile)m.mobile=m.phone;delete m.phone;
+      if(!m.serial)m.serial=i+1;
+    }
   }
 }
 async function openAdmin(){
@@ -649,7 +661,7 @@ const FIELDS={
   contacts:[['name','নাম','text'],['role','পদবী / দায়িত্ব','text'],['phone','মোবাইল নম্বর','tel'],['whatsapp','হোয়াটসঅ্যাপ নম্বর (ঐচ্ছিক)','tel']]
 };
 let adminMonth=null;
-const TNAME={members:'সদস্য',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',settings:'সেটিং'};
+const TNAME={members:'সদস্য',advisors:'উপদেষ্টা',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',settings:'সেটিং'};
 const BLOODS=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
 
@@ -663,7 +675,7 @@ function renderAdmin(){
   const body=$('#abody');
   if(adminTab==='info')body.innerHTML=infoForm();
   else if(adminTab==='settings')body.innerHTML=settingsForm();
-  else if(adminTab==='members')body.innerHTML=memberHTML();
+  else if(adminTab==='members'||adminTab==='advisors')body.innerHTML=memberHTML(adminTab);
   else if(adminTab==='chanda')body.innerHTML=chandaHTML();
   else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
   else body.innerHTML=crudHTML(adminTab);
@@ -724,30 +736,31 @@ function bindChanda(){
   });
 }
 
-function memberHTML(){
-  const e=editing&&editing.k==='members'?editing.item:null;
-  const next=Math.max(0,...draft.members.map(m=>+m.serial||0))+1;
+function memberHTML(k){
+  k=k||'members';const W=k==='advisors'?'উপদেষ্টা':'সদস্য';
+  const e=editing&&editing.k===k?editing.item:null;
+  const next=Math.max(0,...draft[k].map(m=>+m.serial||0))+1;
   const v=f=>esc(e&&e[f]!=null?e[f]:'');
   const prev=removePhoto?'':(formPhoto||(e?photoSrc(e):''));
   const inp=(f,l,t='text',extra='')=>`<label>${l}</label><input data-f="${f}" type="${t}" value="${v(f)}" ${extra}>`;
-  const form=`<h3>${e?'সদস্য সম্পাদনা':'নতুন সদস্য যোগ করুন'}</h3>
+  const form=`<h3>${e?W+' সম্পাদনা':'নতুন '+W+' যোগ করুন'}</h3>
 <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px"><div class="pv" id="pvbox">${prev?`<img src="${esc(prev)}" alt="">`:'📷'}</div>
 <div><input type="file" id="pfile" accept="image/*" style="margin:0 0 6px"><button class="btn alt sm" id="prm" type="button">ছবি সরান</button></div></div>
 <label>ক্রমিক নং</label><input data-f="serial" type="number" min="1" value="${e?esc(e.serial):next}">
-${inp('name','নাম *')}${inp('role','পদবী (যেমন: সভাপতি, সম্পাদক, সদস্য)')}
-${inp('camt','💰 এই সদস্যের মাসিক চাঁদা (টাকা) — ফাঁকা রাখলে সংগঠনের সাধারণ হার, ০ দিলে চাঁদা দেয় না','number','min="0"')}
-${inp('father','পিতার নাম')}${inp('profession','পেশা')}
+${inp('name','নাম *')}${inp('role',k==='advisors'?'পদবী (যেমন: প্রধান উপদেষ্টা, উপদেষ্টা)':'পদবী (যেমন: সভাপতি, সম্পাদক, সদস্য)')}
+${k!=='members'?'':inp('camt','💰 এই সদস্যের মাসিক চাঁদা (টাকা) — ফাঁকা রাখলে সংগঠনের সাধারণ হার, ০ দিলে চাঁদা দেয় না','number','min="0"')}
+${inp('profession','পেশা')}${inp('father','পিতার নাম')}
 <label>রক্তের গ্রুপ</label><select data-f="blood"><option value="">— বাছুন —</option>${BLOODS.map(b=>`<option ${e&&e.blood===b?'selected':''}>${b}</option>`).join('')}</select>
 ${inp('village','গ্রাম')}${inp('post','পোস্ট')}${inp('thana','থানা')}${inp('district','জেলা')}
-${inp('cstart','চাঁদা শুরুর মাস (ফাঁকা = সংগঠনের সাধারণ শুরুর মাস)','month')}
+${k!=='members'?'':inp('cstart','চাঁদা শুরুর মাস (ফাঁকা = সংগঠনের সাধারণ শুরুর মাস)','month')}
 <div class="warn" style="margin-top:6px">🔒 নিচের তথ্যগুলো এনক্রিপ্টেড থাকে, শুধু অ্যাডমিন পাসওয়ার্ড দিয়ে দেখা যায়।</div>
 ${inp('mobile','মোবাইল','tel')}
-<label class="chk"><input type="checkbox" data-f="showPhone" ${e&&e.showPhone?'checked':''}> মোবাইল নম্বর সদস্য কার্ডে সবাইকে দেখাবে</label>
+<label class="chk"><input type="checkbox" data-f="showPhone" ${e&&e.showPhone?'checked':''}> মোবাইল নম্বর কার্ডে সবাইকে দেখাবে</label>
 ${inp('guardian','অভিভাবকের নম্বর','tel')}${inp('nid','জন্ম নিবন্ধন / এনআইডি নম্বর')}
 <div class="btns"><button class="btn" id="asave">${e?'আপডেট':'যোগ করুন'}</button>${e?'<button class="btn alt" id="acancel">বাতিল</button>':''}</div>`;
-  const list=sortMembers(draft.members);
+  const list=sortMembers(draft[k]);
   return `<div class="card">${form}</div>
-<div class="card"><h3>তালিকা (${bn(list.length)}) — ক্রমিক নং অনুযায়ী</h3>${list.length?list.map(m=>{const s=photoSrc(m);return `<div class="row"><div class="av">${s?`<img src="${esc(s)}" alt="">`:esc((m.name||'?').charAt(0))}</div><div class="grow"><span class="sn">${bn(m.serial)}</span><b>${esc(m.name)}</b>${m.role?` <span class="muted">· ${esc(m.role)}</span>`:''}<br><small class="muted">${isEx(m)?'চাঁদা নেই':'চাঁদা ৳'+bn(mAmt(m,draft))+'/মাস'} ${esc(m.mobile||'')}</small></div><button class="btn alt sm" data-edit="${m.id}">সম্পাদনা</button><button class="btn red sm" data-del="${m.id}">মুছুন</button></div>`}).join(''):'<div class="empty">খালি</div>'}</div>`;
+<div class="card"><h3>তালিকা (${bn(list.length)}) — ক্রমিক নং অনুযায়ী</h3>${list.length?list.map(m=>{const s=photoSrc(m);return `<div class="row"><div class="av">${s?`<img src="${esc(s)}" alt="">`:esc((m.name||'?').charAt(0))}</div><div class="grow"><span class="sn">${bn(m.serial)}</span><b>${esc(m.name)}</b>${m.role?` <span class="muted">· ${esc(m.role)}</span>`:''}<br><small class="muted">${k==='members'?(isEx(m)?'চাঁদা নেই':'চাঁদা ৳'+bn(mAmt(m,draft))+'/মাস'):''} ${esc(m.mobile||'')}</small></div><button class="btn alt sm" data-edit="${m.id}">সম্পাদনা</button><button class="btn red sm" data-del="${m.id}">মুছুন</button></div>`}).join(''):'<div class="empty">খালি</div>'}</div>`;
 }
 
 function crudHTML(k){
@@ -789,7 +802,7 @@ function bindAdmin(){
   body.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editing={k,item:draft[k].find(x=>x.id===b.dataset.edit)};formPhoto=null;removePhoto=false;renderAdmin();window.scrollTo(0,0);$('#admin').scrollTo(0,0)});
   body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('মুছে ফেলবেন?'))return;draft[k]=draft[k].filter(x=>x.id!==b.dataset.del);if(k==='members')draft.payments=(draft.payments||[]).filter(p=>p.mid!==b.dataset.del);dirty=true;renderAdmin()});
 
-  if(k==='members'){
+  if(k==='members'||k==='advisors'){
     const pf=$('#pfile');
     if(pf)pf.onchange=async e=>{const f=e.target.files[0];if(!f)return;try{formPhoto=await resizeImg(f);removePhoto=false;$('#pvbox').innerHTML=`<img src="${formPhoto}" alt="">`}catch(x){toast('ছবি পড়া যায়নি')}};
     const pr=$('#prm');if(pr)pr.onclick=()=>{formPhoto=null;removePhoto=true;$('#pvbox').textContent='📷';const f=$('#pfile');if(f)f.value=''};
@@ -797,13 +810,13 @@ function bindAdmin(){
     if(sv)sv.onclick=()=>{
       const obj={};body.querySelectorAll('[data-f]').forEach(i=>obj[i.dataset.f]=i.type==='checkbox'?i.checked:i.value.trim());
       if(!obj.name)return toast('নাম লিখুন');
-      let sr=Math.floor(Number(obj.serial));if(!(sr>0))sr=Math.max(0,...draft.members.map(m=>+m.serial||0))+1;obj.serial=sr;
-      if(editing&&editing.k==='members'){
-        const i=draft.members.findIndex(x=>x.id===editing.item.id);const item=Object.assign({},editing.item,obj);
+      let sr=Math.floor(Number(obj.serial));if(!(sr>0))sr=Math.max(0,...draft[k].map(m=>+m.serial||0))+1;obj.serial=sr;
+      if(editing&&editing.k===k){
+        const i=draft[k].findIndex(x=>x.id===editing.item.id);const item=Object.assign({},editing.item,obj);
         if(formPhoto)item.photoData=formPhoto;
         if(removePhoto){delete item.photo;delete item.photoData;delete item.pv}
-        draft.members[i]=item;
-      }else{obj.id=uid();if(formPhoto)obj.photoData=formPhoto;draft.members.push(obj)}
+        draft[k][i]=item;
+      }else{obj.id=uid();if(formPhoto)obj.photoData=formPhoto;draft[k].push(obj)}
       editing=null;formPhoto=null;removePhoto=false;dirty=true;renderAdmin();toast('খসড়ায় যোগ হয়েছে');
     };
   }else if(k==='transactions'||k==='notices'||k==='contacts'){
@@ -830,7 +843,7 @@ function bindAdmin(){
     dirty=true;renderAdmin();toast('খসড়ায় সংরক্ষিত');
   };
   const pb=$('#apub');if(pb)pb.onclick=publish;
-  const ex=$('#aexp');if(ex)ex.onclick=()=>{const d=clone(draft);d.members.forEach(m=>delete m.photoData);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='al-ittefaq-backup-'+today()+'.json';a.click()};
+  const ex=$('#aexp');if(ex)ex.onclick=()=>{const d=clone(draft);d.members.forEach(m=>delete m.photoData);(d.advisors||[]).forEach(m=>delete m.photoData);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='al-ittefaq-backup-'+today()+'.json';a.click()};
   const cp=$('#achp');if(cp)cp.onclick=async()=>{
     const p=$('#np').value;if(p.length<8)return toast('কমপক্ষে ৮ অক্ষর দিন');
     toast('অপেক্ষা করুন…');const salt=newSalt();adminKey=await deriveKey(p,salt);draft.encSalt=salt;dirty=true;renderAdmin();toast('নতুন পাসওয়ার্ড খসড়ায় — প্রকাশ করুন');
@@ -848,14 +861,17 @@ async function putFile(base,H,path,content64,msg){
   if(!p.ok)throw ghErr(p.status);
 }
 async function buildPublic(){
-  const out=clone(draft);out.members=[];
-  for(const m of draft.members){
-    const pub={id:m.id,serial:m.serial,name:m.name,role:m.role||'',father:m.father||'',profession:m.profession||'',blood:m.blood||'',village:m.village||'',post:m.post||'',thana:m.thana||'',district:m.district||'',showPhone:!!m.showPhone,camt:m.camt==null?'':m.camt,cstart:m.cstart||''};
-    if(m.photo){pub.photo=m.photo;pub.pv=m.pv}
-    if(m.showPhone&&m.mobile)pub.mobile=m.mobile;
-    const sec={mobile:m.mobile||'',guardian:m.guardian||'',nid:m.nid||''};
-    if(sec.mobile||sec.guardian||sec.nid)pub.enc=await encStr(adminKey,JSON.stringify(sec));
-    out.members.push(pub);
+  const out=clone(draft);out.members=[];out.advisors=[];
+  for(const key of ['members','advisors']){
+    for(const m of (draft[key]||[])){
+      const pub={id:m.id,serial:m.serial,name:m.name,role:m.role||'',father:m.father||'',profession:m.profession||'',blood:m.blood||'',village:m.village||'',post:m.post||'',thana:m.thana||'',district:m.district||'',showPhone:!!m.showPhone};
+      if(key==='members'){pub.camt=m.camt==null?'':m.camt;pub.cstart=m.cstart||''}
+      if(m.photo){pub.photo=m.photo;pub.pv=m.pv}
+      if(m.showPhone&&m.mobile)pub.mobile=m.mobile;
+      const sec={mobile:m.mobile||'',guardian:m.guardian||'',nid:m.nid||''};
+      if(sec.mobile||sec.guardian||sec.nid)pub.enc=await encStr(adminKey,JSON.stringify(sec));
+      out[key].push(pub);
+    }
   }
   out.check=await encStr(adminKey,'ok');delete out.adminHash;
   return out;
@@ -868,11 +884,11 @@ async function publish(){
   const H={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'};
   const btn=$('#apub');btn.disabled=true;btn.textContent='প্রকাশ হচ্ছে…';
   try{
-    for(const m of draft.members){
+    for(const m of [...draft.members,...(draft.advisors||[])]){
       if(m.photoData){
         btn.textContent='ছবি আপলোড হচ্ছে…';
         const path='photos/'+m.id+'.jpg';
-        await putFile(base,H,path,m.photoData.split(',')[1],'সদস্যের ছবি');
+        await putFile(base,H,path,m.photoData.split(',')[1],'ছবি');
         m.photo=path;m.pv=Date.now();delete m.photoData;
       }
     }
