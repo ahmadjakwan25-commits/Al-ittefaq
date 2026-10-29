@@ -7,7 +7,7 @@
 <meta name="description" content="ইত্তেফাকুত ত্বলাবা ওয়াল উলামা — অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন, ৪নং চর, ইসলামপুর, জামালপুর।">
 <meta name="theme-color" content="#0b4a3f">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.jpg">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
@@ -251,8 +251,10 @@ let adminKey=null,formPhoto=null,removePhoto=false;
 async function load(){
   try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;DB=Object.assign(clone(DEFAULT),await r.json());lsSet('ai_cache',DB)}
   catch(e){DB=Object.assign(clone(DEFAULT),lsGet('ai_cache',{}))}
-  render();updateBadge();maybeNotify();
+  render();updateBadge();maybeNotify();warmCache();
 }
+// অফলাইনের জন্য সব ছবি আগেই ক্যাশে রাখা
+function warmCache(){try{[...(DB.members||[]),...(DB.advisors||[])].filter(m=>m.photo).forEach(m=>fetch(m.photo+'?v='+(m.pv||'')).catch(()=>{}))}catch(e){}}
 
 /* ---------- Notifications ---------- */
 const seen=()=>new Set(lsGet('ai_seen',[]));

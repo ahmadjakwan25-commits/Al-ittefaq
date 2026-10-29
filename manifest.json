@@ -1,4 +1,5 @@
 {
+  "id": "./",
   "name": "আল-ইত্তেফাক",
   "short_name": "আল-ইত্তেফাক",
   "description": "ইত্তেফাকুত ত্বলাবা ওয়াল উলামা — অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন",
@@ -7,10 +8,12 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b4a3f",
+  "orientation": "portrait",
+  "background_color": "#02413a",
   "theme_color": "#0b4a3f",
   "icons": [
-    { "src": "icon.jpg", "sizes": "192x192", "type": "image/jpeg", "purpose": "any" },
-    { "src": "icon.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
