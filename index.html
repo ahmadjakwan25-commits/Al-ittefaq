@@ -10,12 +10,12 @@
 <link rel="icon" href="icon.jpg">
 <link rel="apple-touch-icon" href="icon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--g:#0b4a3f;--g2:#06352d;--m:#6b0000;--cream:#fbf7e6;--bg:#f2f5f1;--card:#fff;--tx:#1b2a26;--mut:#5f6f6a;--ln:#dfe6e1;--in:#13805f;--ex:#b3261e}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:78px;line-height:1.55}
+body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:24px;line-height:1.55}
 header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top))}
 header img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.7);background:var(--g)}
 header .t{flex:1;min-width:0}
@@ -134,24 +134,57 @@ background:radial-gradient(circle at 50% 0%,#13806a 0,#0b4a3f 45%,#06352d 100%);
 .pcard .grow{flex:1;min-width:0}
 .pcard a.cb{flex:none;text-decoration:none;color:#fff;background:var(--g);border-radius:12px;padding:7px 12px;font-weight:600;font-size:13px}
 .pcard a.wa{background:#1fa855}
+.hb{background:rgba(255,255,255,.14);border:0;color:#fff;width:38px;height:38px;border-radius:50%;font-size:20px;cursor:pointer;flex:none}
+.hb[hidden]{display:none}
+#drawer{position:fixed;inset:0;z-index:40}
+#drawer[hidden]{display:none}
+.dback{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.dpanel{position:absolute;top:0;right:0;bottom:0;width:78%;max-width:300px;background:#fff;padding:0 0 20px;box-shadow:-6px 0 20px rgba(0,0,0,.25);display:flex;flex-direction:column;animation:sl .2s ease}
+@keyframes sl{from{transform:translateX(100%)}to{transform:none}}
+.dhead{background:linear-gradient(160deg,var(--g),var(--g2));color:#fff;padding:calc(22px + env(safe-area-inset-top)) 16px 16px;border-bottom:3px solid var(--gold);margin-bottom:8px}
+.dhead img{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);display:block;margin-bottom:8px;background:var(--g)}
+.dhead b{display:block;font-size:19px}.dhead small{opacity:.85}
+.dpanel button{font:inherit;text-align:left;border:0;background:none;padding:14px 18px;font-size:16px;color:var(--tx);cursor:pointer;border-bottom:1px solid var(--ln)}
+.dpanel button:active{background:var(--bg)}
+.sbtn{font:inherit;border:1px solid var(--ln);background:#fff;border-radius:10px;width:44px;height:38px;cursor:pointer;font-weight:700}
+.hayah{margin:4px 6px 10px;padding:8px 10px 6px;border-radius:14px;background:rgba(0,0,0,.18);border:1px solid rgba(236,217,138,.45)}
+.hayah .ar{font-size:25px;line-height:1.9;color:var(--gold2)}
+.hayah p{margin:0!important;color:#fff!important;font-size:13.5px;line-height:1.4}
+.hayah small{color:rgba(255,255,255,.7);font-size:12px}
+.hero2{padding:10px 12px 12px!important;margin-bottom:10px!important}
+.hero2 .wm{position:absolute;right:-8px;bottom:-46px;font-size:190px;line-height:1;color:var(--gold);opacity:.10;pointer-events:none;font-family:'Aref Ruqaa','Amiri',serif;direction:rtl}
+.hero2 .wm2{position:absolute;left:-6px;top:30px;font-size:96px;line-height:1;color:var(--gold);opacity:.07;pointer-events:none;font-family:'Amiri',serif}
+.hero2 .bism{font-family:'Aref Ruqaa','Amiri',serif;font-size:27px;line-height:1.55;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+.hrow{display:flex;align-items:center;gap:12px;margin:2px 0 4px}
+.hero2 .arch{width:92px;height:100px;margin:0;flex:none;border-radius:50px 50px 12px 12px;border-width:2px;padding:3px;box-shadow:0 0 0 3px rgba(201,162,39,.25),0 4px 10px rgba(0,0,0,.3)}
+.hero2 .arch img{border-radius:46px 46px 8px 8px}
+.htxt{flex:1;min-width:0;text-align:center}
+.hero2 h1{font-size:19px!important;margin:0!important;line-height:1.35}
+.hero2 .orn{font-size:11px;letter-spacing:7px;margin:2px 0}
+.hero2 .htxt p{font-size:12.5px;margin:0!important}
+.hayah{margin:6px 0 6px!important;padding:2px 8px 4px!important}
+.hayah .ar{font-size:23px!important;line-height:1.75!important}
+.hayah small{display:block;margin-top:-4px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.hero2 .pills .pill{margin:0;font-size:12px;padding:2px 10px}
 .sn{display:inline-block;min-width:28px;text-align:center;background:var(--g);color:#fff;border-radius:8px;font-size:12px;padding:1px 6px;margin-right:4px}
 </style>
 </head>
 <body>
 <header>
+  <button class="hb" id="back" hidden aria-label="পেছনে">←</button>
   <img id="logo" src="icon.jpg" alt="লোগো" onerror="this.style.visibility='hidden'">
-  <div class="t"><b>আল-ইত্তেফাক</b><small>ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div>
+  <div class="t"><b>আল-ইত্তেফাক</b><small id="sub">ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div>
   <button class="bell" id="bell" aria-label="নোটিফিকেশন">🔔<i id="badge" hidden>0</i></button>
+  <button class="bell" id="menubtn" aria-label="মেনু">☰</button>
 </header>
 <main id="view"></main>
-<nav id="nav">
-  <button data-t="about"><span>🕌</span>পরিচিতি</button>
-  <button data-t="members"><span>👥</span>সদস্য</button>
-  <button data-t="chanda"><span>🗓️</span>চাঁদা</button>
-  <button data-t="money"><span>💰</span>আয়-ব্যয়</button>
-  <button data-t="notices"><span>📢</span>ঘোষণা</button>
-  <button data-t="contact"><span>📞</span>যোগাযোগ</button>
-</nav>
+<div id="drawer" hidden><div class="dback" id="dback"></div><aside class="dpanel">
+  <div class="dhead"><img src="icon.jpg" alt="" onerror="this.style.display='none'"><b>আল-ইত্তেফাক</b><small>ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div>
+  <button data-m="home">🏠 হোম</button>
+  <button data-m="profile">👤 প্রোফাইল</button>
+  <button data-m="settings">⚙️ সেটিং</button>
+</aside></div>
 <div id="admin"></div>
 
 <script>
@@ -212,7 +245,7 @@ async function encStr(key,text){
 async function decStr(key,b){const u=b64d(b);return TD.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},key,u.slice(12)))}
 
 const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],adminHash:''};
-let DB=clone(DEFAULT),draft=null,tab='about',isAdmin=false,adminTab='members',editing=null,dirty=false;
+let DB=clone(DEFAULT),draft=null,tab='home',isAdmin=false,adminTab='members',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
 async function load(){
@@ -238,21 +271,26 @@ async function askPerm(){
 }
 
 /* ---------- Public views ---------- */
-function vAbout(){const o=DB.org;
+function vHome(){const o=DB.org;
 const ln=[...(DB.notices||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0];
 return `
-<div class="hero2"><div class="bism ar">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-<div class="arch"><img src="icon.jpg" alt="" onerror="this.style.display='none'"></div>
-<h1>${esc(o.name)}</h1><div class="orn">✦ ❖ ✦</div><p>অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p>
-<span class="pill">🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div>
-<div class="card ayah"><div class="ar">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</div><p>"তোমরা পুণ্য ও তাকওয়ার কাজে একে অপরকে সহযোগিতা করো।"</p><small>সূরা আল-মায়িদা ৫:২</small></div>
+<div class="hero2"><span class="wm ar">الله</span>
+<div class="bism ar">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+<div class="hrow"><div class="arch"><img src="icon.jpg" alt="" onerror="this.style.display='none'"></div>
+<div class="htxt"><h1>${esc(o.name)}</h1><div class="orn">✦ ❖ ✦</div><p>অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p></div></div>
+<div class="hayah"><div class="ar">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</div><small>সূরা আল-মায়িদা ৫:২</small></div>
+<div class="pills"><span class="pill">🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div></div>
 <div class="tiles">
-<button data-go="members"><span>👥</span>সদস্য</button><button data-go="chanda"><span>🗓️</span>মাসিক চাঁদা</button><button data-go="money"><span>💰</span>আয়-ব্যয়</button>
-<button data-go="notices"><span>📢</span>ঘোষণা</button><button data-go="contact"><span>📞</span>যোগাযোগ</button><button data-go="about" onclick="window.scrollTo(0,document.body.scrollHeight)"><span>🕌</span>পরিচিতি</button></div>
-${ln?`<div class="card latest"><small class="muted">📢 সর্বশেষ ঘোষণা · ${fdate(ln.date)}</small><br><b>${esc(ln.title)}</b><p style="margin:4px 0 0">${esc(ln.body)}</p></div>`:''}
-<div class="card sec"><h2>আমাদের পরিচিতি</h2><p>${esc(o.about)}</p></div>
-${o.mission?`<div class="card sec"><h2>আমাদের লক্ষ্য</h2><p>${esc(o.mission)}</p></div>`:''}
-<div class="card sec"><h3>এক নজরে</h3><div class="grid3">
+<button data-go="intro"><span>🕌</span>পরিচিতি</button><button data-go="members"><span>👥</span>সদস্য</button><button data-go="chanda"><span>🗓️</span>মাসিক চাঁদা</button>
+<button data-go="money"><span>💰</span>আয়-ব্যয়</button><button data-go="notices"><span>📢</span>ঘোষণা</button><button data-go="contact"><span>📞</span>যোগাযোগ</button></div>
+${ln?`<div class="card latest"><small class="muted">📢 সর্বশেষ ঘোষণা · ${fdate(ln.date)}</small><br><b>${esc(ln.title)}</b><p style="margin:4px 0 0">${esc(ln.body)}</p></div>`:''}`}
+
+function vIntro(){return vIntroTop()+vIntroStats()}
+function vIntroTop(){const o=DB.org;return `
+<div class="card sec"><h2>আমাদের পরিচিতি</h2><p>${esc(o.about)}</p><p class="muted">📍 ${esc(o.address)}<br>🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</p></div>
+${o.mission?`<div class="card sec"><h2>আমাদের লক্ষ্য</h2><p>${esc(o.mission)}</p></div>`:''}`}
+
+function vIntroStats(){const o=DB.org;return `<div class="card sec"><h3>এক নজরে</h3><div class="grid3">
 <div class="stat"><small>সদস্য</small><b>${bn((DB.members||[]).length)}</b></div>
 <div class="stat"><small>ঘোষণা</small><b>${bn((DB.notices||[]).length)}</b></div>
 <div class="stat"><small>স্থাপিত</small><b>${esc(o.established)}</b></div></div></div>`}
@@ -298,12 +336,12 @@ function vChanda(){
     if(sc==='month')right=r.paidThis?`<div class="amt in">✅ ৳${bn(r.paidAmt||r.a)}</div>`:(r.inRange?`<div class="amt ex">❌ বাকি ৳${bn(r.a)}</div>`:`<div class="amt muted">—</div>`);
     else right=r.dueN>0?`<div class="amt ex">বাকি ${bn(r.dueN)} মাস<br><small>৳${bn(r.dueAmt)}</small></div>`:`<div class="amt in">✅ পরিষ্কার</div>`;
     const sub=sc==='month'?'':`<br><small class="muted">দিয়েছে ${bn(r.paidN)} মাস · ৳${bn(r.paidAmt)}</small>`;
-    return `<div class="row"><div class="grow"><span class="sn">${bn(r.m.serial)}</span><b>${esc(r.m.name)}</b>${sub}</div>${right}</div>`;
+    return `<div class="row"><div class="grow"><span class="sn">${bn(r.m.serial)}</span><b>${esc(r.m.name)}</b>${sub}</div>${right}<button class="sbtn" data-pdf="${esc(r.m.id)}" title="এই সদস্যের PDF">📄</button></div>`;
   }).join('');
   return `<div class="card"><h2>মাসিক চাঁদা</h2>${seg}${sel}
 ${+CH(DB).amount===0?'<div class="warn">মাসিক চাঁদার পরিমাণ এখনো ঠিক করা হয়নি।</div>':''}
 <div class="grid3"><div class="stat"><small>আদায়</small><b class="in">৳${bn(t.paid)}</b></div><div class="stat"><small>বাকি</small><b class="ex">৳${bn(t.due)}</b></div>${third}</div></div>
-<div class="card">${list}</div>`;
+${(CH(DB).public!==false&&rows.length)?`<button class="btn" id="pdfall" style="width:100%;margin-bottom:12px">📄 সকল সদস্যের হিসাব PDF (${esc(chScope().label)})</button>`:''}<div class="card">${list}</div>`;
 }
 
 function vMoney(){
@@ -337,11 +375,202 @@ function vContact(){
     return `<div class="pcard"><div class="av">${esc((p.name||'?').trim().charAt(0))}</div><div class="grow"><b>${esc(p.name)}</b>${p.role?`<br><small class="muted">${esc(p.role)}</small>`:''}<br><small>${esc(p.phone||'')}</small></div>${num?`<a class="cb" href="tel:${esc(num)}">📞 কল</a>`:''}${wa?`<a class="cb wa" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">💬</a>`:''}</div>`}).join('');
   return `<div class="card ci sec"><h2>যোগাযোগ</h2>${items.join('')}</div>${ppl?`<div class="card sec"><h2>যোগাযোগের ব্যক্তি</h2>${ppl}</div>`:''}`}
 
+/* ---------- PDF ডাউনলোড (নিজস্ব PDF, বাইরের কোনো লাইব্রেরি লাগে না) ---------- */
+const PW=794,PH=1123,PS=3;
+const PFONT='"Hind Siliguri","Noto Sans Bengali","Vrinda","Shonar Bangla",system-ui,sans-serif';
+const PC={g:'#0b4a3f',gold:'#c9a227',ln:'#dfe6e1',mut:'#5f6f6a',tx:'#1b2a26',ok:'#eef8f2',due:'#fdeeed',tot:'#f6efd2',in:'#13805f',ex:'#b3261e',box:'#fbfcfb'};
+const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
+class Pg{
+  constructor(){this.cv=document.createElement('canvas');this.cv.width=PW*PS;this.cv.height=PH*PS;this.x=this.cv.getContext('2d');this.x.scale(PS,PS);this.x.fillStyle='#fff';this.x.fillRect(0,0,PW,PH);this.x.textBaseline='middle'}
+  font(sz,w){this.x.font=(w||400)+' '+sz+'px '+PFONT}
+  fit(t,maxW){const x=this.x;t=String(t==null?'':t);if(x.measureText(t).width<=maxW)return t;while(t.length>1&&x.measureText(t+'…').width>maxW)t=t.slice(0,-1);return t+'…'}
+  text(t,px,py,o){o=o||{};const x=this.x;this.font(o.size||14,o.weight);x.fillStyle=o.color||PC.tx;x.textAlign=o.align||'left';t=o.maxW?this.fit(t,o.maxW):String(t==null?'':t);x.fillText(t,px,py)}
+  tw(t,sz,w){this.font(sz,w);return this.x.measureText(String(t)).width}
+  rect(px,py,w,h,fill,stroke,r){const x=this.x;x.beginPath();if(r&&x.roundRect)x.roundRect(px,py,w,h,r);else x.rect(px,py,w,h);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.lineWidth=1;x.stroke()}}
+  line(x1,y1,x2,y2,col,w){const x=this.x;x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.strokeStyle=col;x.lineWidth=w||1;x.stroke()}
+  jpeg(){const b=atob(this.cv.toDataURL('image/jpeg',0.95).split(',')[1]);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);const r={u,w:this.cv.width,h:this.cv.height};this.cv.width=this.cv.height=0;return r}
+}
+function pgHeader(p,org,first,logo){
+  p.rect(0,0,PW,10,PC.g);
+  const sz=first?64:40,y0=first?26:22,tx=40+sz+14,mw=PW-40-tx;
+  if(logo){const x=p.x;x.save();x.beginPath();x.arc(40+sz/2,y0+sz/2,sz/2,0,Math.PI*2);x.clip();x.drawImage(logo,40,y0,sz,sz);x.restore();x.beginPath();x.arc(40+sz/2,y0+sz/2,sz/2,0,Math.PI*2);x.strokeStyle=PC.gold;x.lineWidth=2;x.stroke()}
+  p.text(org.name,tx,y0+sz/2-(first?11:8),{size:first?23:16,weight:700,color:PC.g,maxW:mw});
+  p.text(org.address,tx,y0+sz/2+(first?14:11),{size:first?13.5:11.5,color:PC.mut,maxW:mw});
+  const ly=y0+sz+10;p.line(40,ly,PW-40,ly,PC.gold,2);p.line(40,ly+4,PW-40,ly+4,PC.gold,1);
+  return ly+16;
+}
+function pgFooter(p,no,total){
+  p.line(40,PH-44,PW-40,PH-44,PC.ln,1);
+  p.text('কম্পিউটার দ্বারা প্রস্তুতকৃত · তারিখ: '+fdate(today()),40,PH-30,{size:12,color:PC.mut});
+  p.text('পৃষ্ঠা '+bn(no)+' / '+bn(total),PW-40,PH-30,{size:12,color:PC.mut,align:'right'});
+}
+function pgTitle(p,y,t,sub){
+  p.rect(40,y,PW-80,34,PC.g,null,8);p.text(t,PW/2,y+17,{size:19,weight:700,color:'#fff',align:'center'});
+  if(sub)p.text(sub,PW/2,y+48,{size:12.5,color:PC.mut,align:'center'});
+  return y+(sub?66:44);
+}
+function pgSummary(p,y,items){
+  const gap=8,w=(PW-80-gap*(items.length-1))/items.length;
+  items.forEach((it,i)=>{const x=40+i*(w+gap);p.rect(x,y,w,52,PC.box,PC.ln,8);p.text(it[0],x+w/2,y+15,{size:12,color:PC.mut,align:'center'});p.text(it[1],x+w/2,y+36,{size:15.5,weight:700,color:it[2]||PC.tx,align:'center',maxW:w-8})});
+  return y+62;
+}
+function pgInfo(p,y,items){
+  const rows=Math.ceil(items.length/2),h=rows*24+14,cw=(PW-80)/2;
+  p.rect(40,y,PW-80,h,PC.box,PC.ln,8);
+  items.forEach((it,i)=>{const tx=54+(i%2)*cw,ty=y+7+Math.floor(i/2)*24+12,lw=p.tw(it[0]+':',13.5)+6;
+    p.text(it[0]+':',tx,ty,{size:13.5,color:PC.mut});p.text(it[1],tx+lw,ty,{size:14,weight:600,maxW:cw-28-lw})});
+  return y+h+10;
+}
+// cols: [{l:'শিরোনাম',w:সংখ্যা|null,al:'l'|'c'}]  rows: [{c:[...],k:'ok'|'due'|'tot',span:n}]
+function pgTable(p,y,cols,rows){
+  const fixed=cols.reduce((a,c)=>a+(c.w||0),0),tw=PW-80;
+  const ws=cols.map(c=>c.w||(tw-fixed)),xs=[];let ax=40;ws.forEach(w=>{xs.push(ax);ax+=w});
+  p.rect(40,y,tw,32,PC.g);
+  cols.forEach((c,i)=>p.text(c.l,xs[i]+ws[i]/2,y+16,{size:12.5,weight:700,color:'#fff',align:'center',maxW:ws[i]-6}));
+  y+=32;
+  rows.forEach(r=>{
+    p.rect(40,y,tw,28,PC[r.k||'ok']);
+    let ci=0;
+    r.c.forEach((v,j)=>{
+      const sp=(j===0&&r.span)?r.span:1,x0=xs[ci],w=ws.slice(ci,ci+sp).reduce((a,b)=>a+b,0),al=cols[ci].al==='l'&&sp===1?'l':'c';
+      p.text(v,al==='l'?x0+6:x0+w/2,y+14,{size:13,weight:r.k==='tot'?700:400,align:al==='l'?'left':'center',maxW:w-10});
+      if(ci>0)p.line(x0,y,x0,y+28,PC.ln,1);
+      ci+=sp;
+    });
+    p.line(40,y+28,40+tw,y+28,r.k==='tot'?PC.gold:PC.ln,1);
+    y+=28;
+  });
+  p.rect(40,y-28*rows.length-32,tw,28*rows.length+32,null,PC.ln);
+  return y;
+}
+function chunkRows(rows,first,rest){const out=[];let i=0,cap=first;while(i<rows.length){out.push(rows.slice(i,i+cap));i+=cap;cap=rest}if(!out.length)out.push([]);return out}
+
+function buildPdfBlob(jp){
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const put=x=>{const u=typeof x==='string'?enc.encode(x):x;parts.push(u);len+=u.length};
+  const n=jp.length,W=595.28,H=841.89,kids=jp.map((_,i)=>(3+3*i)+' 0 R').join(' ');
+  put('%PDF-1.4\n');
+  offs[1]=len;put('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  offs[2]=len;put('2 0 obj\n<< /Type /Pages /Kids [ '+kids+' ] /Count '+n+' >>\nendobj\n');
+  jp.forEach((j,i)=>{
+    const pg=3+3*i,ct=4+3*i,im=5+3*i,cs='q '+W+' 0 0 '+H+' 0 0 cm /Im0 Do Q';
+    offs[pg]=len;put(pg+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im0 '+im+' 0 R >> >> /Contents '+ct+' 0 R >>\nendobj\n');
+    offs[ct]=len;put(ct+' 0 obj\n<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream\nendobj\n');
+    offs[im]=len;put(im+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+j.w+' /Height '+j.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+j.u.length+' >>\nstream\n');put(j.u);put('\nendstream\nendobj\n');
+  });
+  const total=3+3*n,xr=len;
+  put('xref\n0 '+total+'\n0000000000 65535 f \n');
+  for(let i=1;i<total;i++)put(String(offs[i]).padStart(10,'0')+' 00000 n \n');
+  put('trailer\n<< /Size '+total+' /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF');
+  return new Blob(parts,{type:'application/pdf'});
+}
+function downloadBlob(blob,name){
+  const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{a.remove();URL.revokeObjectURL(u)},5000);
+}
+async function pdfPrep(){
+  try{for(const w of [400,600,700])await document.fonts.load(w+' 16px "Hind Siliguri"','আবক১২৩');await document.fonts.ready}catch(e){}
+  return await loadImg('icon.jpg');
+}
+async function withBusy(btn,fn){
+  if(window._pdfBusy)return;window._pdfBusy=1;
+  const old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ PDF তৈরি হচ্ছে…'}
+  toast('PDF তৈরি হচ্ছে, একটু অপেক্ষা করুন…');
+  try{await fn();toast('✅ PDF ডাউনলোড হয়েছে')}catch(e){console.error(e);toast('❌ PDF তৈরি করা যায়নি')}
+  window._pdfBusy=0;if(btn){btn.disabled=false;btn.textContent=old}
+}
+function pdfMember(src,id,btn){return withBusy(btn,async()=>{
+  const m=(src.members||[]).find(x=>x.id===id);if(!m)throw new Error('সদস্য পাওয়া যায়নি');
+  const org=src.org||DB.org,pm={};
+  (src.payments||[]).filter(p=>p.mid===id).forEach(p=>pm[p.ym]=p);
+  const ex=isEx(m),a=mAmt(m,src),now=ymIdx(nowYM()),set=new Set(Object.keys(pm));
+  if(!ex)for(let i=ymIdx(mStart(m,src));i<=now;i++)set.add(idxYm(i));
+  const rows=[...set].sort((x,y)=>ymIdx(x)-ymIdx(y)).map(ym=>{const p=pm[ym];return{ym,paid:!!p,amt:p?(Number(p.amount)||0):a,date:p&&p.date}});
+  const paid=rows.filter(r=>r.paid),due=rows.filter(r=>!r.paid);
+  const paidAmt=paid.reduce((x,r)=>x+r.amt,0),dueAmt=due.length*a;
+  const info=[['ক্রমিক নং',bn(m.serial)],['নাম',m.name],['পদবী',m.role],['পিতার নাম',m.father],['পেশা',m.profession],['রক্তের গ্রুপ',m.blood],['গ্রাম',m.village],['থানা / জেলা',[m.thana,m.district].filter(Boolean).join(', ')],['মাসিক চাঁদা',ex?'প্রযোজ্য নয়':'৳'+bn(a)],['চাঁদা শুরু',ex?'—':ymLabel(mStart(m,src))]].filter(r=>r[1]);
+  const cols=[{l:'ক্রমিক',w:62},{l:'মাস',w:210,al:'l'},{l:'অবস্থা',w:140},{l:'পরিমাণ (৳)',w:130},{l:'পরিশোধের তারিখ'}];
+  const trs=rows.map((r,i)=>({k:r.paid?'ok':'due',c:[bn(i+1),ymLabel(r.ym),r.paid?'✔ পরিশোধ':'বাকি',bn(r.amt),r.paid&&r.date?fdate(r.date):'—']}));
+  const chunks=chunkRows(trs,23,33),logo=await pdfPrep(),jp=[];
+  chunks.forEach((c,i)=>{
+    const p=new Pg();let y=pgHeader(p,org,i===0,logo);
+    if(i===0){
+      y=pgTitle(p,y,'মাসিক চাঁদার হিসাব বিবরণী','তৈরির তারিখ: '+fdate(today()));
+      y=pgInfo(p,y,info);
+      y=pgSummary(p,y,[['পরিশোধিত',bn(paid.length)+' মাস · ৳'+bn(paidAmt),PC.in],['বাকি',bn(due.length)+' মাস · ৳'+bn(dueAmt),PC.ex],['মোট ধার্য',bn(rows.length)+' মাস · ৳'+bn(paidAmt+dueAmt)]]);
+    }
+    if(c.length)pgTable(p,y,cols,c);
+    else p.text(ex?'এই সদস্যের চাঁদা প্রযোজ্য নয়':'এখনো কোনো মাস ধার্য হয়নি',PW/2,y+40,{size:15,color:PC.mut,align:'center'});
+    pgFooter(p,i+1,chunks.length);jp.push(p.jpeg());
+  });
+  downloadBlob(buildPdfBlob(jp),'al-ittefaq-hisab-'+(m.serial||'')+'-'+today()+'.pdf');
+})}
+function pdfAll(src,from,to,label,btn){return withBusy(btn,async()=>{
+  const org=src.org||DB.org,rows=calc(src,from,to),t=sumRows(rows);
+  if(!rows.length)throw new Error('কোনো সদস্য নেই');
+  const expT=rows.reduce((x,r)=>x+r.expected,0);
+  const cols=[{l:'ক্রমিক',w:50},{l:'নাম',w:176,al:'l'},{l:'পদবী',w:92,al:'l'},{l:'হার (৳)',w:56},{l:'ধার্য মাস',w:56},{l:'দিয়েছে (মাস)',w:64},{l:'আদায় (৳)',w:74},{l:'বাকি (মাস)',w:60},{l:'বাকি (৳)'}];
+  const trs=rows.map(r=>({k:r.dueN>0?'due':'ok',c:[bn(r.m.serial),r.m.name,r.m.role||'',bn(r.a),bn(r.expected),bn(r.paidN),bn(r.paidAmt),bn(r.dueN),bn(r.dueAmt)]}));
+  trs.push({k:'tot',span:4,c:['সর্বমোট',bn(expT),bn(t.paidN),bn(t.paid),bn(t.dueN),bn(t.due)]});
+  const chunks=chunkRows(trs,28,33),logo=await pdfPrep(),jp=[];
+  chunks.forEach((c,i)=>{
+    const p=new Pg();let y=pgHeader(p,org,i===0,logo);
+    if(i===0){
+      y=pgTitle(p,y,'সকল সদস্যের মাসিক চাঁদার হিসাব','সময়কাল: '+label+' · তৈরির তারিখ: '+fdate(today()));
+      y=pgSummary(p,y,[['মোট আদায়','৳'+bn(t.paid),PC.in],['মোট বাকি','৳'+bn(t.due)+' ('+bn(t.dueN)+' মাস)',PC.ex],['চাঁদাদাতা সদস্য',bn(rows.length)+' জন']]);
+    }
+    pgTable(p,y,cols,c);pgFooter(p,i+1,chunks.length);jp.push(p.jpeg());
+  });
+  downloadBlob(buildPdfBlob(jp),'al-ittefaq-chanda-all-'+today()+'.pdf');
+})}
+function chScope(){
+  const sc=window._cs||'month',cm=window._cm||nowYM(),cy=window._cy||nowYM().slice(0,4);
+  if(sc==='month')return{from:ymIdx(cm),to:ymIdx(cm),label:ymLabel(cm)};
+  if(sc==='year')return{from:ymIdx(cy+'-01'),to:ymIdx(cy+'-12'),label:bny(cy)+' সাল'};
+  return{from:0,to:1e9,label:'শুরু থেকে আজ পর্যন্ত (আজীবন)'};
+}
+
+/* ---------- প্রোফাইল ও সেটিং ---------- */
+function vProfile(){
+  const id=lsGet('ai_me',null),list=sortM(DB.members||[]);
+  const me=list.find(m=>m.id===id);
+  if(!me)return `<div class="card sec"><h2>আমার প্রোফাইল</h2><p class="muted">তালিকা থেকে নিজের নাম বেছে নিন। এই ডিভাইসে মনে থাকবে, তাই পরে সরাসরি আপনার কার্ড ও চাঁদার অবস্থা দেখতে পারবেন।</p>
+${list.length?`<select id="mesel"><option value="">— নিজের নাম বাছুন —</option>${list.map(m=>`<option value="${esc(m.id)}">${bn(m.serial)}. ${esc(m.name)}${m.father?' (পিতা: '+esc(m.father)+')':''}</option>`).join('')}</select><button class="btn" id="mesave">সংরক্ষণ</button>`:'<div class="empty">এখনো কোনো সদস্য যোগ হয়নি</div>'}</div>`;
+  const r=calc({members:[me],payments:DB.payments,chanda:DB.chanda},0,1e9)[0];
+  const ch=r&&CH(DB).public!==false?`<div class="card sec"><h3>🗓️ আমার চাঁদা</h3><div class="grid3"><div class="stat"><small>মাসিক হার</small><b>৳${bn(r.a)}</b></div><div class="stat"><small>দিয়েছি</small><b class="in">${bn(r.paidN)} মাস</b></div><div class="stat"><small>বাকি</small><b class="ex">${bn(r.dueN)} মাস</b></div></div><p class="muted" style="margin:8px 0 0">মোট দিয়েছি ৳${bn(r.paidAmt)} · বাকি ৳${bn(r.dueAmt)}</p></div>`:'';
+  return `<div style="max-width:300px;margin:0 auto 12px">${memberCard(me,0)}</div>${ch}<div class="btns" style="justify-content:center">${CH(DB).public!==false?`<button class="btn" id="pdfme">📄 আমার হিসাব PDF</button>`:''}<button class="btn alt" id="mereset">অন্য প্রোফাইল বাছুন</button></div>`;
+}
+const FS=[.9,1,1.12,1.25];
+function vSettings(){
+  const perm='Notification' in window?Notification.permission:'unsupported';
+  const pt={granted:'✅ চালু আছে',denied:'🚫 ব্লক করা (ব্রাউজারের সাইট সেটিং থেকে খুলতে হবে)',default:'বন্ধ',unsupported:'এই ব্রাউজারে সমর্থিত নয়'}[perm];
+  const fs=lsGet('ai_fs',1);
+  return `<div class="card sec"><h2>সেটিং</h2>
+<div class="row"><div class="grow"><b>🔔 নোটিফিকেশন</b><br><small class="muted">${pt}</small></div>${perm==='default'?'<button class="btn sm" id="perm">চালু করুন</button>':''}</div>
+<div class="row"><div class="grow"><b>🔠 লেখার আকার</b><br><small class="muted">বর্তমান: ${bn(Math.round(fs*100))}%</small></div><button class="sbtn" id="fsm">A−</button><button class="sbtn" id="fsp">A+</button></div>
+<div class="row"><div class="grow"><b>🔄 তথ্য নতুন করে আনুন</b><br><small class="muted">সর্বশেষ সদস্য, চাঁদা ও ঘোষণা আনবে</small></div><button class="btn alt sm" id="refr">রিফ্রেশ</button></div>
+<div class="row"><div class="grow"><b>📲 ফোনে অ্যাপ হিসেবে রাখুন</b><br><small class="muted">ব্রাউজারের মেনু (⋮) থেকে "হোম স্ক্রিনে যোগ করুন" চাপুন।</small></div>${window._ip?'<button class="btn alt sm" id="inst">ইনস্টল</button>':''}</div>
+<div class="row"><div class="grow"><b>ℹ️ অ্যাপ</b><br><small class="muted">আল-ইত্তেফাক · ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div></div></div>`;
+}
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();window._ip=e;if(tab==='settings')render()});
+const TITLES={intro:'পরিচিতি',members:'সদস্য',chanda:'মাসিক চাঁদা',money:'আয়-ব্যয়',notices:'ঘোষণা',contact:'যোগাযোগ',profile:'প্রোফাইল',settings:'সেটিং'};
+
 function render(){
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
-  const v={about:vAbout,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact}[tab]();
+  const v=({home:vHome,intro:vIntro,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact,profile:vProfile,settings:vSettings}[tab]||vHome)();
   $('#view').innerHTML=v;
-  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.go!=='about')go(b.dataset.go)}));
+  $('#view').style.zoom=tab==='home'?1:lsGet('ai_fs',1);
+  $('#back').hidden=tab==='home';
+  $('#sub').textContent=tab==='home'?'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা':(TITLES[tab]||'');
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+  document.querySelectorAll('#view [data-pdf]').forEach(b=>b.onclick=()=>pdfMember(DB,b.dataset.pdf,b));
+  const pa=$('#pdfall');if(pa)pa.onclick=()=>{const c=chScope();pdfAll(DB,c.from,c.to,c.label,pa)};
+  const pme=$('#pdfme');if(pme)pme.onclick=()=>pdfMember(DB,lsGet('ai_me',null),pme);
+  const ms=$('#mesave');if(ms)ms.onclick=()=>{const v=$('#mesel').value;if(!v)return toast('নিজের নাম বাছুন');lsSet('ai_me',v);render()};
+  const mr=$('#mereset');if(mr)mr.onclick=()=>{lsSet('ai_me',null);render()};
+  const setFs=d=>{const c=lsGet('ai_fs',1);let i=FS.indexOf(c);if(i<0)i=1;i=Math.max(0,Math.min(FS.length-1,i+d));lsSet('ai_fs',FS[i]);render()};
+  const fm=$('#fsm');if(fm)fm.onclick=()=>setFs(-1);const fp=$('#fsp');if(fp)fp.onclick=()=>setFs(1);
+  const rf=$('#refr');if(rf)rf.onclick=async()=>{await load();toast('তথ্য আপডেট হয়েছে')};
+  const ins=$('#inst');if(ins)ins.onclick=async()=>{const e=window._ip;if(!e)return;e.prompt();await e.userChoice;window._ip=null;render()};
   document.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{window._cs=b.dataset.cs;render()});
   document.querySelectorAll('[data-cm]').forEach(b=>b.onclick=()=>{window._cm=shiftYM(window._cm||nowYM(),+b.dataset.cm);render()});
   document.querySelectorAll('[data-cy]').forEach(b=>b.onclick=()=>{window._cy=String(+(window._cy||nowYM().slice(0,4))+ +b.dataset.cy);render()});
@@ -349,9 +578,21 @@ function render(){
   const pm=$('#perm');if(pm)pm.onclick=askPerm;
   if(tab==='notices'){lsSet('ai_seen_prev',lsGet('ai_seen',[]));markSeen()}
 }
-function go(t){tab=t;render();window.scrollTo(0,0)}
-$('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
+const isAdminOpen=()=>$('#admin').classList.contains('show');
+function closeDrawer(){$('#drawer').hidden=true}
+function go(t,fromPop){
+  if(t===tab&&!fromPop){closeDrawer();return}
+  tab=t;render();window.scrollTo(0,0);closeDrawer();
+  if(!fromPop){try{history.pushState({t},'')}catch(e){}}
+}
+try{history.replaceState({t:'home'},'')}catch(e){}
+addEventListener('popstate',e=>{if(!$('#drawer').hidden){closeDrawer();try{history.pushState({t:tab},'')}catch(x){}return}
+  go((e.state&&e.state.t)||'home',true)});
 $('#bell').onclick=()=>go('notices');
+$('#back').onclick=()=>{if(history.state&&history.state.t&&history.state.t!=='home')history.back();else go('home')};
+$('#menubtn').onclick=()=>{$('#drawer').hidden=false};
+$('#dback').onclick=closeDrawer;
+document.querySelectorAll('#drawer [data-m]').forEach(b=>b.onclick=()=>go(b.dataset.m));
 
 /* ---------- Secret admin: লোগোতে ৭ বার ট্যাপ (বা #admin) ---------- */
 let taps=0,tt;
@@ -452,9 +693,10 @@ function chandaHTML(){
 <p class="muted" style="font-size:13px">কোনো সদস্যের জন্য আলাদা পরিমাণ বা শুরুর মাস দিতে চাইলে "সদস্য" ট্যাবে তার ফর্মে দিন। পরিমাণ ০ দিলে সে চাঁদার তালিকায় আসবে না।</p></div>
 <div class="card"><h3>🗓️ মাস অনুযায়ী আদায়</h3>
 <input type="month" id="cmon" value="${ym}">
+<div class="btns" style="margin:0 0 10px"><button class="btn sm" id="pdfAllM">📄 ${ymLabel(ym)} মাসের PDF</button><button class="btn sm" id="pdfAllL">📄 সকল সদস্য — আজীবন PDF</button></div>
 <div class="grid3"><div class="stat"><small>আদায়</small><b class="in">৳${bn(t.paid)}</b></div><div class="stat"><small>বাকি</small><b class="ex">৳${bn(t.due)}</b></div><div class="stat"><small>মোট বাকি (সব মাস)</small><b class="ex">৳${bn(allDue.due)}</b></div></div>
-${rows.length?rows.map(r=>`<div class="row"><div class="grow"><span class="sn">${bn(r.m.serial)}</span><b>${esc(r.m.name)}</b><br><small class="muted">৳${bn(r.a)} · মোট বাকি ${bn(calc({members:[r.m],payments:draft.payments,chanda:draft.chanda},0,1e9)[0].dueN)} মাস</small></div>
-<button class="btn ${r.paidThis?'':'red'} sm" data-tg="${r.m.id}">${r.paidThis?'✅ পরিশোধ':'বাকি'}</button><button class="btn alt sm" data-multi="${r.m.id}">একাধিক মাস</button></div>`).join(''):'<div class="empty">আগে "সদস্য" ট্যাবে সদস্য যোগ করুন</div>'}</div>`;
+${rows.length?rows.map(r=>`<div class="row" style="flex-wrap:wrap"><div class="grow"><span class="sn">${bn(r.m.serial)}</span><b>${esc(r.m.name)}</b><br><small class="muted">৳${bn(r.a)} · মোট বাকি ${bn(calc({members:[r.m],payments:draft.payments,chanda:draft.chanda},0,1e9)[0].dueN)} মাস</small></div>
+<button class="btn ${r.paidThis?'':'red'} sm" data-tg="${r.m.id}">${r.paidThis?'✅ পরিশোধ':'বাকি'}</button><button class="btn alt sm" data-multi="${r.m.id}">একাধিক মাস</button><button class="sbtn" data-pdf="${esc(r.m.id)}" title="এই সদস্যের PDF">📄</button></div>`).join(''):'<div class="empty">আগে "সদস্য" ট্যাবে সদস্য যোগ করুন</div>'}</div>`;
 }
 function bindChanda(){
   const body=$('#abody');
@@ -462,6 +704,9 @@ function bindChanda(){
   $('#cmon').onchange=e=>{if(e.target.value){adminMonth=e.target.value;renderAdmin()}};
   draft.payments=draft.payments||[];
   const ym=adminMonth||nowYM();
+  body.querySelectorAll('[data-pdf]').forEach(b=>b.onclick=()=>pdfMember(draft,b.dataset.pdf,b));
+  $('#pdfAllM').onclick=e=>pdfAll(draft,ymIdx(ym),ymIdx(ym),ymLabel(ym),e.currentTarget);
+  $('#pdfAllL').onclick=e=>pdfAll(draft,0,1e9,'শুরু থেকে আজ পর্যন্ত (আজীবন)',e.currentTarget);
   body.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{
     const m=draft.members.find(x=>x.id===b.dataset.tg);if(!m)return;
     const i=draft.payments.findIndex(p=>p.mid===m.id&&p.ym===ym);
