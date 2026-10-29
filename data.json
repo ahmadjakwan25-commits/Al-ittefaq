@@ -31,7 +31,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "onoSEEKldKxk60kAmNEi7u3l7UaiWXktsOUKRm3gq8zATd5Jj9J7jxUa7V3Aej3mR9KKGF+Iy0OK2rAbz00/b3b7kkYSf9ZeJFmGclDeCFbseuynTIsSC5mJ6G9SDM9O"
+      "enc": "aryNCY8YDZF4ll8qVPRD3NN5ibO1F3VQAAueubvR2ASDJErdFuDFeUMqD+TdBDWQlafW/+ddv4i0d105z6TTfC+/RDYsINOpmP4M8+7wv/d9uU+muwtZGmJKmPuL6jHj"
     },
     {
       "id": "mvrrcx1n96lb",
@@ -49,7 +49,7 @@
       "camt": "50",
       "cstart": "2026-08",
       "mobile": "01999022826",
-      "enc": "DWyreHL0ikUrw6MFNaL/2Es+yfIGsiLHt68GyY05ZvSUI5xiwT1e6PHak4Udu+apXnN7Nyvv/Yh6t5mmihhTQ3A7V/LK18E4jShS"
+      "enc": "3NL7CEWE2wskP4P51YPO1Mte1SF+4B9VYz2s7BetQ5qEBhgR+5uvja0CirdbcZ7YqwZBod/fnLvCP0EXwIKQKky1QOFFtQtt/kfN"
     },
     {
       "id": "mvszh3s32bja",
@@ -67,7 +67,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01907532240",
-      "enc": "IbtRKHmRHVma1yOkhxRpEhwr27MWs3yoZSnjRHitnTsk/KKlqs/zN4T0U3UStgyF0JTKQSiGTxeGRYgq8tkxBb7n0jhHgKmox+Px"
+      "enc": "X0+Vc/h3AGenCZsRjsV9K+phz7A7cupgOBNTdyj0WTrwD7vTds2z9CBmDMu0CUUY0EO7QsZamT1JrYoz36nqfNEVcTToAOTOOU6r"
     },
     {
       "id": "mvt087klmp00",
@@ -85,7 +85,25 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01968889226",
-      "enc": "ZCcEOi2ixO7gWN3G+RfcN1Zi2sO/gnJ7OZduI6uCd15eYu1uzH0Wx7K64kDnwMaJtM0gbsBRKgEGJQ7O4CleDr70vf1bxL+UOQKM"
+      "enc": "ItNMBtkmjU2rRQllHlVB1MmPIiN17rD/B5TbU9LoeizJCqdaB+FCqfl/7ZdHPbn4iQ2h2ByEr14XPIa6joI5ibmE6olfWekSVEC6"
+    },
+    {
+      "id": "mvt247f9k1mb",
+      "serial": 5,
+      "name": "মাওলানা কাউসার আহমাদ",
+      "role": "কোষাধ্যক্ষ",
+      "father": "মোহাম্মদ মমতাজ ফারাজী",
+      "profession": "শিক্ষকতা",
+      "blood": "O+",
+      "village": "৪নং চর নতুন পাড়া",
+      "post": "ডিগ্রীর চর",
+      "thana": "ইসলামপুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "camt": "100",
+      "cstart": "2026-04",
+      "mobile": "01400754337",
+      "enc": "W5UWEp7CIziKzw9OU2h2P2d9PwuDJuhu2MrGbI/exQ7SN6PLPiqsNBXD3lDlGn+Y7SPPibFOEd/7Obx7ooH/lQDmxrDO80nHOw8h"
     }
   ],
   "transactions": [],
@@ -126,5 +144,5 @@
   ],
   "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "1c4oYL5o9dUQJkm/32YmI/oO9nui8N55MVqr5Riq"
+  "check": "irlYg/qeswvDzs0yprTOrS8z1RXqQmVqHaJUpd7U"
 }
