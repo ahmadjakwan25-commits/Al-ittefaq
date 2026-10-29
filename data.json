@@ -31,7 +31,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "YXI/TvpyIOj9XZx/vXhFX8r2/+p/UNoRfDr/Jsbzr/J09SjeckqmvFaYlF8WYD81YKF46AHmoCnNy1D/+/3uGtvF0GCoVZP1WfacNOTVbz/rDl0ASbTduMX0aka5iTtk"
+      "enc": "f+6Kd4WECG0GNiIMdNYXIRptTwtvhargJH6pGQa1RunX2ritdiKZOsEdTrsYG6FCn5xQEbTR6XsR0uaGN//4clCI8hBs+eW4bZ56q1DdnoPSA4FH7iVkNJFKDEhMjNqF"
     },
     {
       "id": "mvrrcx1n96lb",
@@ -49,7 +49,7 @@
       "camt": "50",
       "cstart": "2026-08",
       "mobile": "01999022826",
-      "enc": "/Srm7ZRGtFeC6t4RQr4R1aMByNrnJ/LzSbgG2Ok5QiuPbmOiqDP121I1rs99o13vovYr2pzOFo9isIFQ5X/lEJ+U50Vj3/cgZ/yh"
+      "enc": "YGEaEj3i/Qhail3aMEUWINInZwVeYDrKlCFBPVb/lOLX3T1b2EvViYgEREQ+g4Cgr+Pk4bSxW4VLSAlADTMHe4RJnRy3uepG0chW"
     },
     {
       "id": "mvszh3s32bja",
@@ -67,7 +67,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01907532240",
-      "enc": "1jQqdQbmdiP7Vnk2hzHuSeGNy6SecJ12UnDLzue2d1uKAcFckIklIEX9E3Wmj9c2KEMBuTK3ZWPlrd2tkYgvEREk/41zQSz71W/6"
+      "enc": "8F4O0AzqIpVs+sHV6DXRZetlAdhADG7O81HdEyQPvNQ53m5c0XugboZDQXadib6ifTAWOwS4ma+RhVKGrlr6Z4SuDh/lXZjgCEom"
     },
     {
       "id": "mvt087klmp00",
@@ -85,7 +85,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01968889226",
-      "enc": "xizW573qcVMpWOrgxBMylE8kpC6p72/1E0CycjY+kYBpG5piQJi8+tPVf4o3MsOA7Y16a1hS20AakNTqL/34U2wvUaJO2Gs1tnf1"
+      "enc": "7TwgFjHw8/md315dDj0EVzPc31/EZTKJxlq8RLV+bfz9UR4JFIoKu0m7rGf82xkVmdUdXCWajNvGL8jp4LwiyXFDHu1lNjae3+dd"
     },
     {
       "id": "mvt247f9k1mb",
@@ -103,7 +103,25 @@
       "camt": "100",
       "cstart": "2026-04",
       "mobile": "01400754337",
-      "enc": "g1pEvFHBFb3Jhk7WfqDwiIdWcGrN6r8dNqG2wAaEONoQo8iWH6h0gxuA62q89nI9y15JkVcOsdUz/YMbN9VAU3MuPsm9LbtfCpoV"
+      "enc": "jxSb1tiE+T/4VBgALxZPn05rbv+FoEcKn5X17GmmgaeKIm3vCuQZvcgyatgFRSVTp4d+6X+IbiwXNbIdyIuaedLIzwhN0GKtMXQZ"
+    },
+    {
+      "id": "mvt2bwg6shj3",
+      "serial": 6,
+      "name": "মাওলানা আব্দুল লতিফ লিমন",
+      "role": "সাংগঠনিক সম্পাদক",
+      "father": "মরহুম মোহাম্মদ শাহিন ফারাজী",
+      "profession": "শিক্ষকতা",
+      "blood": "",
+      "village": "৪নং চর নতুন পাড়া",
+      "post": "ডিগ্রীর চর",
+      "thana": "ইসলামপুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "camt": "100",
+      "cstart": "2026-04",
+      "mobile": "01972857809",
+      "enc": "P+NygYCKeOuP0VCDW2p3AgvHDvjLfKmJfAz8JkDVqiuaqV4G8/l+AKcyHl93MmG3Ph9Ckrl7uBn2+AJQhxRXLmlrGJKbfBLA5EMP"
     }
   ],
   "transactions": [],
@@ -144,5 +162,5 @@
   ],
   "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "ewshDTgvoAatuKCFswtkRlQ1CR65g43kPoRwBD6m"
+  "check": "oE4uX9TY0dwAS7DC6/vu1OT7uuerwCS+4PBdt9Ae"
 }
