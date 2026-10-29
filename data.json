@@ -31,7 +31,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "GwmQ1WFkAD5c0Au3yCfjpY38Hy9dnVnV1db6aZBKjk/TfUK4h+ImbaFYKcSWbopqfREGFDWO+DKTfXm2C8WG6eMR8aDayyTZafen3y1BuYuQY7le2A9jExM4zpBw4RGY"
+      "enc": "roxUMgTdeiv9R85xQQlBsqjZoe5MaOCOMkkAvhALDNtco+wWwXXE1+906NwMaZNZI2lfpaFW5mRmfyxQVkQ/qBNjJC26B44h8SRXE9j+LDkCmlmhsZdHrqsZ7a04oVpx"
     },
     {
       "id": "mvrrcx1n96lb",
@@ -48,6 +48,24 @@
       "showPhone": false,
       "camt": "",
       "cstart": ""
+    },
+    {
+      "id": "mvszh3s32bja",
+      "serial": 3,
+      "name": "মাওলানা শিহাব উদ্দিন",
+      "role": "সহকারী সাংগঠনিক সম্পাদক",
+      "father": "মুহাম্মদ দুলাল শেখ",
+      "profession": "শিক্ষকতা",
+      "blood": "A+",
+      "village": "৪নংচর নতুন পাড়া",
+      "post": "ডিগ্রীরচর",
+      "thana": "ইসলামপুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "camt": "100",
+      "cstart": "2026-08",
+      "mobile": "01907532240",
+      "enc": "BLyNhrIseisnfSxS2jqUboPR3aGm4W7r7b22gv5veyydZ4BIz22pBgLIX5CE68kbMu/bEw+DhEKXxj2qLWkdJUrZl3cH1Fuwsu7f"
     }
   ],
   "transactions": [],
@@ -88,5 +106,5 @@
   ],
   "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "kYp9rUJZxXs/W1SW8wmhm5R3I6wNeET+PjSAwbdL"
+  "check": "JjZdf2BF5ynCeKc2wkdozfJAWt/J7vmEaw0ZZWuI"
 }
