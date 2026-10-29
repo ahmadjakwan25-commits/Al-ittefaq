@@ -31,7 +31,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "roxUMgTdeiv9R85xQQlBsqjZoe5MaOCOMkkAvhALDNtco+wWwXXE1+906NwMaZNZI2lfpaFW5mRmfyxQVkQ/qBNjJC26B44h8SRXE9j+LDkCmlmhsZdHrqsZ7a04oVpx"
+      "enc": "xu0lvJIbNYxzWoWwSH0tIWm4skmIloydbw3f2HMDern66emV1cjDs2UgM+V3QUnEcmFbQ/gKRKZi8fD+0QMWofies7o4C9NGVBBiaHc/BLnGxHgZI80aE1mSbhXPGxlJ"
     },
     {
       "id": "mvrrcx1n96lb",
@@ -65,7 +65,25 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01907532240",
-      "enc": "BLyNhrIseisnfSxS2jqUboPR3aGm4W7r7b22gv5veyydZ4BIz22pBgLIX5CE68kbMu/bEw+DhEKXxj2qLWkdJUrZl3cH1Fuwsu7f"
+      "enc": "4jCQ9BUSb0j6Zx/hQ1mc8HvLQY28XgkiXsq81lI0gQ2QxMP4bHloYb09E2IU7DRRU7THLfEPmnV8nwSkWWNxF6C+QND+dvLjp1ys"
+    },
+    {
+      "id": "mvt087klmp00",
+      "serial": 4,
+      "name": "মাওলানা সাব্বির আহমাদ",
+      "role": "সাধারণ সম্পাদক",
+      "father": "মুহাম্মদ আমির আলী শেখ",
+      "profession": "শিক্ষাগতা",
+      "blood": "",
+      "village": "৪নং চর নতুন পাড়া",
+      "post": "ডিগ্রীর চর",
+      "thana": "ইসলাম পুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "camt": "100",
+      "cstart": "2026-08",
+      "mobile": "01968889226",
+      "enc": "XX08toKat/smqzaWGq96WFsZAHSHZWk95yzR1DS4+rZhgH9yDYY/DoqyfH8QkBr3UJEM0onkgnezaTY11Bv5UL8EoDhN1xq1iPYN"
     }
   ],
   "transactions": [],
@@ -106,5 +124,5 @@
   ],
   "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "JjZdf2BF5ynCeKc2wkdozfJAWt/J7vmEaw0ZZWuI"
+  "check": "uva0Wx4Q34nuu9AcENIw+zbwrk00rbowWMwdiXVw"
 }
