@@ -31,23 +31,25 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "liUeYlhpzvSrAQeGloHQgjq8h7dfitfz0ENzBTyb7W2pBdrWv9OL4VD38Vb87dlGA4HOhlFnzTLKhaGHHh4CDEiSU/3+x7B4V67nh0K+219R4gFOSS3mEiC9a5PT2Vyb"
+      "enc": "onoSEEKldKxk60kAmNEi7u3l7UaiWXktsOUKRm3gq8zATd5Jj9J7jxUa7V3Aej3mR9KKGF+Iy0OK2rAbz00/b3b7kkYSf9ZeJFmGclDeCFbseuynTIsSC5mJ6G9SDM9O"
     },
     {
       "id": "mvrrcx1n96lb",
       "serial": 2,
-      "name": "রাকিব",
-      "role": "",
-      "father": "সুরুজ",
-      "profession": "",
+      "name": "মুহাম্মদ রাকিবুল ইসলাম",
+      "role": "কোষাধ্যক্ষ",
+      "father": "মুহাম্মদ সুরুজ আলী শেখ",
+      "profession": "অধ্যায়নরত",
       "blood": "",
-      "village": "",
-      "post": "",
-      "thana": "",
-      "district": "",
-      "showPhone": false,
-      "camt": "",
-      "cstart": ""
+      "village": "৪নং চর নতুন পাড়া",
+      "post": "ডিগ্রীর চর",
+      "thana": "ইসলামপুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "camt": "50",
+      "cstart": "2026-08",
+      "mobile": "01999022826",
+      "enc": "DWyreHL0ikUrw6MFNaL/2Es+yfIGsiLHt68GyY05ZvSUI5xiwT1e6PHak4Udu+apXnN7Nyvv/Yh6t5mmihhTQ3A7V/LK18E4jShS"
     },
     {
       "id": "mvszh3s32bja",
@@ -65,7 +67,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01907532240",
-      "enc": "1hmRM8/2iV678bmNtLzeso4fXXlNQs1loCvksj5TQk3hgn9nrMsMEeDQ2BxY9/U6nffgz8KLF+nXxm9gU3OZGHGEn7e4Ngc1lmRy"
+      "enc": "IbtRKHmRHVma1yOkhxRpEhwr27MWs3yoZSnjRHitnTsk/KKlqs/zN4T0U3UStgyF0JTKQSiGTxeGRYgq8tkxBb7n0jhHgKmox+Px"
     },
     {
       "id": "mvt087klmp00",
@@ -83,7 +85,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01968889226",
-      "enc": "z+A/pSZxuuEKci4EFLFKluczJn1bk84/Vw3+PbjPZUb17ZIi7taium2/3NWVry49oej+nLnErVjW+8WJBFxFKfZTk2HeVNHaWGyD"
+      "enc": "ZCcEOi2ixO7gWN3G+RfcN1Zi2sO/gnJ7OZduI6uCd15eYu1uzH0Wx7K64kDnwMaJtM0gbsBRKgEGJQ7O4CleDr70vf1bxL+UOQKM"
     }
   ],
   "transactions": [],
@@ -124,5 +126,5 @@
   ],
   "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "rBe7d7KiGGuAAUb9hH3xecNjqmd00St2OOAofOLv"
+  "check": "1c4oYL5o9dUQJkm/32YmI/oO9nui8N55MVqr5Riq"
 }
