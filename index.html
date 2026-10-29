@@ -361,6 +361,7 @@ function vMoney(){
 <div class="stat"><small>মোট আয়</small><b class="in">৳${bn(inc)}</b></div>
 <div class="stat"><small>মোট ব্যয়</small><b class="ex">৳${bn(exp)}</b></div>
 <div class="stat"><small>জমা</small><b>৳${bn(inc-exp)}</b></div></div></div>
+${t.length?moneyCard('m'):''}
 <div class="card">${sorted.length?sorted.map(x=>`<div class="row"><div class="grow"><b>${esc(x.title)}</b><br>${x.name?`<small>👤 ${esc(x.name)}</small><br>`:''}<small class="muted">${fdate(x.date)}${x.note?' · '+esc(x.note):''}</small></div><div class="amt ${x.type==='income'?'in':'ex'}">${x.type==='income'?'+':'−'}৳${bn(x.amount)}</div></div>`).join(''):'<div class="empty">এখনো কোনো লেনদেন যোগ হয়নি</div>'}</div>`}
 
 function vNotices(){
@@ -531,6 +532,43 @@ function pdfAll(src,from,to,label,btn){return withBusy(btn,async()=>{
   });
   downloadBlob(buildPdfBlob(jp),'al-ittefaq-chanda-all-'+today()+'.pdf');
 })}
+
+/* ---------- আয়-ব্যয় PDF (তারিখ থেকে তারিখ) ---------- */
+const moneyFmt=n=>(n<0?'−':'')+'৳'+bn(Math.abs(n));
+function moneyCard(pre){
+  const src=pre==='a'?draft:DB,ds=(src.transactions||[]).map(x=>x.date).filter(Boolean).sort();
+  const f=window._tf||ds[0]||today(),t=window._tt||today();
+  return `<div class="card sec"><h3>📄 আয়-ব্যয়ের PDF ডাউনলোড</h3>
+<div style="display:flex;gap:8px"><div style="flex:1;min-width:0"><label>তারিখ থেকে</label><input type="date" id="${pre}tf" value="${esc(f)}"></div><div style="flex:1;min-width:0"><label>তারিখ পর্যন্ত</label><input type="date" id="${pre}tt" value="${esc(t)}"></div></div>
+<button class="btn" id="${pre}pdf" style="width:100%">📄 PDF ডাউনলোড</button></div>`;
+}
+function bindMoney(pre){
+  const b=$('#'+pre+'pdf');if(!b)return;
+  $('#'+pre+'tf').onchange=e=>{window._tf=e.target.value};$('#'+pre+'tt').onchange=e=>{window._tt=e.target.value};
+  b.onclick=()=>{const f=$('#'+pre+'tf').value,t=$('#'+pre+'tt').value;if(!f||!t)return toast('দুটি তারিখই দিন');window._tf=f;window._tt=t;pdfMoney(pre==='a'?draft:DB,f,t,b)};
+}
+function pdfMoney(src,from,to,btn){return withBusy(btn,async()=>{
+  if(from>to){const x=from;from=to;to=x}
+  const org=src.org||DB.org,all=src.transactions||[];
+  const rowsIn=all.filter(x=>x.date>=from&&x.date<=to).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const sum=(a,ty)=>a.filter(x=>x.type===ty).reduce((n,x)=>n+(+x.amount||0),0);
+  const before=all.filter(x=>x.date<from),open=sum(before,'income')-sum(before,'expense');
+  const inc=sum(rowsIn,'income'),exp=sum(rowsIn,'expense'),close=open+inc-exp;
+  const cols=[{l:'ক্রমিক',w:46},{l:'তারিখ',w:124},{l:'নাম',w:150,al:'l'},{l:'বিষয়',al:'l'},{l:'আয় (৳)',w:86},{l:'ব্যয় (৳)',w:86}];
+  const trs=rowsIn.map((x,i)=>({k:x.type==='income'?'ok':'due',c:[bn(i+1),fdate(x.date),x.name||'—',x.title||'',x.type==='income'?bn(x.amount):'',x.type==='expense'?bn(x.amount):'']}));
+  if(!trs.length)trs.push({k:'ok',span:6,c:['এই সময়ের মধ্যে কোনো লেনদেন নেই']});
+  trs.push({k:'tot',span:4,c:['সর্বমোট',bn(inc),bn(exp)]});
+  const chunks=chunkRows(trs,27,33),logo=await pdfPrep(),jp=[];
+  chunks.forEach((c,i)=>{
+    const p=new Pg();let y=pgHeader(p,org,i===0,logo);
+    if(i===0){
+      y=pgTitle(p,y,'আয়-ব্যয়ের হিসাব বিবরণী','সময়কাল: '+fdate(from)+' থেকে '+fdate(to)+' পর্যন্ত · তৈরির তারিখ: '+fdate(today()));
+      y=pgSummary(p,y,[['প্রারম্ভিক জমা',moneyFmt(open)],['মোট আয়',moneyFmt(inc),PC.in],['মোট ব্যয়',moneyFmt(exp),PC.ex],['সমাপনী জমা',moneyFmt(close),close<0?PC.ex:PC.g]]);
+    }
+    pgTable(p,y,cols,c);pgFooter(p,i+1,chunks.length);jp.push(p.jpeg());
+  });
+  downloadBlob(buildPdfBlob(jp),'al-ittefaq-ay-bay-'+from+'_'+to+'.pdf');
+})}
 function chScope(){
   const sc=window._cs||'month',cm=window._cm||nowYM(),cy=window._cy||nowYM().slice(0,4);
   if(sc==='month')return{from:ymIdx(cm),to:ymIdx(cm),label:ymLabel(cm)};
@@ -571,6 +609,7 @@ function render(){
   $('#sub').textContent=tab==='home'?'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা':(TITLES[tab]||'');
   document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
   document.querySelectorAll('#view [data-pdf]').forEach(b=>b.onclick=()=>pdfMember(DB,b.dataset.pdf,b));
+  bindMoney('m');
   const pa=$('#pdfall');if(pa)pa.onclick=()=>{const c=chScope();pdfAll(DB,c.from,c.to,c.label,pa)};
   const pme=$('#pdfme');if(pme)pme.onclick=()=>pdfMember(DB,lsGet('ai_me',null),pme);
   const ms=$('#mesave');if(ms)ms.onclick=()=>{const v=$('#mesel').value;if(!v)return toast('নিজের নাম বাছুন');lsSet('ai_me',v);render()};
@@ -669,7 +708,7 @@ function renderAdmin(){
   const A=$('#admin'),st=A.scrollTop;
   A.innerHTML=`<div class="abar"><b>⚙️ অ্যাডমিন প্যানেল</b><button class="btn alt sm" id="aclose">বন্ধ</button></div>
 <div class="tabs">${Object.keys(TNAME).map(k=>`<button data-k="${k}" class="${k===adminTab?'on':''}">${TNAME[k]}</button>`).join('')}</div>
-<main>${dirty?'<div class="warn">⚠️ অপ্রকাশিত পরিবর্তন আছে। সেটিং ট্যাবে গিয়ে "প্রকাশ করুন" চাপুন।</div>':''}<div id="abody"></div></main>`;
+<main>${dirty?'<div class="warn">⚠️ অপ্রকাশিত পরিবর্তন আছে — প্রকাশ না করলে অন্যরা দেখবে না।<div class="btns"><button class="btn sm" id="gopub">🚀 এখনই প্রকাশ করুন</button></div></div>':''}<div id="abody"></div></main>`;
   $('#aclose').onclick=closeAdmin;
   A.querySelector('.tabs').onclick=e=>{const b=e.target.closest('button');if(b){adminTab=b.dataset.k;editing=null;formPhoto=null;removePhoto=false;renderAdmin()}};
   const body=$('#abody');
@@ -678,8 +717,9 @@ function renderAdmin(){
   else if(adminTab==='members'||adminTab==='advisors')body.innerHTML=memberHTML(adminTab);
   else if(adminTab==='chanda')body.innerHTML=chandaHTML();
   else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
-  else body.innerHTML=crudHTML(adminTab);
+  else body.innerHTML=(adminTab==='transactions'?moneyCard('a'):'')+crudHTML(adminTab);
   bindAdmin();
+  const gp=$('#gopub');if(gp)gp.onclick=()=>{adminTab='settings';editing=null;renderAdmin();A.scrollTop=0};
   A.scrollTop=st;
 }
 
@@ -832,6 +872,7 @@ function bindAdmin(){
     };
   }
   if(k==='chanda')bindChanda();
+  if(k==='transactions')bindMoney('a');
   const cc=$('#ccsave');if(cc)cc.onclick=()=>{
     body.querySelectorAll('[data-o]').forEach(i=>draft.org[i.dataset.o]=i.value.trim());
     draft.org.contacts=draft.org.contacts||{};body.querySelectorAll('[data-c]').forEach(i=>draft.org.contacts[i.dataset.c]=i.value.trim());
@@ -896,7 +937,7 @@ async function publish(){
     const out=await buildPublic();
     await putFile(base,H,'data.json',b64(JSON.stringify(out,null,2)),'ডাটা আপডেট');
     DB=clone(out);lsSet('ai_cache',DB);dirty=false;render();updateBadge();toast('✅ সফলভাবে প্রকাশিত হয়েছে');renderAdmin();
-  }catch(e){toast('❌ '+e.message);const b=$('#apub');if(b){b.disabled=false;b.textContent='🚀 প্রকাশ করুন'}}
+  }catch(e){toast('❌ '+(/fetch|network/i.test(e.message)?'ইন্টারনেট সংযোগ নেই':e.message));const b=$('#apub');if(b){b.disabled=false;b.textContent='🚀 প্রকাশ করুন'}}
 }
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
