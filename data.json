@@ -31,7 +31,7 @@
       "photo": "photos/mvrpevx81f2h.jpg",
       "pv": 1793169030958,
       "mobile": "01938712111",
-      "enc": "f+6Kd4WECG0GNiIMdNYXIRptTwtvhargJH6pGQa1RunX2ritdiKZOsEdTrsYG6FCn5xQEbTR6XsR0uaGN//4clCI8hBs+eW4bZ56q1DdnoPSA4FH7iVkNJFKDEhMjNqF"
+      "enc": "WQEjSDEh4dFMTZjNcFaZctHFCii5sDB6UIWM907oRYMlHcedYBPmuWzK3qBJV2qOCD+xSc5rEAeG+o+9R0WGoXFtFsAHwH9BWgTcDFyJUhy2WGNuuShlTqfNtoIK//aM"
     },
     {
       "id": "mvrrcx1n96lb",
@@ -49,7 +49,7 @@
       "camt": "50",
       "cstart": "2026-08",
       "mobile": "01999022826",
-      "enc": "YGEaEj3i/Qhail3aMEUWINInZwVeYDrKlCFBPVb/lOLX3T1b2EvViYgEREQ+g4Cgr+Pk4bSxW4VLSAlADTMHe4RJnRy3uepG0chW"
+      "enc": "tlvKi3NMrsd+Trp+VKhiEIHWclCuA2xDKic3TD0y4FmiH4mGa5ZSS5qCH3vQSYCzIzSs7YNEbhjd7dIuWTMI/jwEvvC3URHvyUlF"
     },
     {
       "id": "mvszh3s32bja",
@@ -67,7 +67,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01907532240",
-      "enc": "8F4O0AzqIpVs+sHV6DXRZetlAdhADG7O81HdEyQPvNQ53m5c0XugboZDQXadib6ifTAWOwS4ma+RhVKGrlr6Z4SuDh/lXZjgCEom"
+      "enc": "BVWFBfGiOQrluDp0L/PMq/xCTKsmS6OFUmbq/plsqfeDZ1dT7ZHbZ9tMcKAAm6+gs7x09RYjAynaTqQ95FMQWrtoozXD2S/WYMaL"
     },
     {
       "id": "mvt087klmp00",
@@ -85,7 +85,7 @@
       "camt": "100",
       "cstart": "2026-08",
       "mobile": "01968889226",
-      "enc": "7TwgFjHw8/md315dDj0EVzPc31/EZTKJxlq8RLV+bfz9UR4JFIoKu0m7rGf82xkVmdUdXCWajNvGL8jp4LwiyXFDHu1lNjae3+dd"
+      "enc": "9kwvwkuq11cPtxItSSYbAUGz5y+Wo3Te+joc5s1pUaA2dMB7zaGlccMGAwK+YlG+a2BYS2m58WaEMo0YHuBqXPl+A1ryhtdoE8vr"
     },
     {
       "id": "mvt247f9k1mb",
@@ -103,7 +103,7 @@
       "camt": "100",
       "cstart": "2026-04",
       "mobile": "01400754337",
-      "enc": "jxSb1tiE+T/4VBgALxZPn05rbv+FoEcKn5X17GmmgaeKIm3vCuQZvcgyatgFRSVTp4d+6X+IbiwXNbIdyIuaedLIzwhN0GKtMXQZ"
+      "enc": "oQsAU9Gxv7FuHZmriP3oLzt1uCLINxLDDlpeNLNaYxJbk5ul8DoagW46pJsAQKKgMR3OTie/NK4oLavXf/29JInTtdyY8DBS0AM8"
     },
     {
       "id": "mvt2bwg6shj3",
@@ -121,7 +121,25 @@
       "camt": "100",
       "cstart": "2026-04",
       "mobile": "01972857809",
-      "enc": "P+NygYCKeOuP0VCDW2p3AgvHDvjLfKmJfAz8JkDVqiuaqV4G8/l+AKcyHl93MmG3Ph9Ckrl7uBn2+AJQhxRXLmlrGJKbfBLA5EMP"
+      "enc": "N1rCnVczcVv4OORUBofmURDPjoe6Q2+F0hV+nfurUTiH59iLn0G8q45rp7eqPev2fz7K8q54W/pvE2kVWCQDjar3dHmHYk+/wa/7"
+    },
+    {
+      "id": "mvt2h6w2vpgy",
+      "serial": 7,
+      "name": "মাওলানা আব্দুল আজিজ",
+      "role": "সভাপতি",
+      "father": "মোহাম্মদ আব্দুর রউফ ফারাজী",
+      "profession": "শিক্ষকতা",
+      "blood": "",
+      "village": "৪নং চর নতুন পাড়া",
+      "post": "ডিগ্রীর চর",
+      "thana": "ইসলামপুর",
+      "district": "জামালপুর",
+      "showPhone": true,
+      "camt": "100",
+      "cstart": "2026-04",
+      "mobile": "01603860786",
+      "enc": "mEnUyzy1F5Sd5bqT8iRQlByKkvOSaEYlRh5AnNGM5lWwYTRoPftj91tKgillTA3NmjVHkr6yKD/7lfnBFYIUVC03uOMxLpsvJ0Q4"
     }
   ],
   "transactions": [],
@@ -162,5 +180,5 @@
   ],
   "contacts": [],
   "encSalt": "LYP/AGlKheKku424RW9NVg==",
-  "check": "oE4uX9TY0dwAS7DC6/vu1OT7uuerwCS+4PBdt9Ae"
+  "check": "D9HeuSCVCQyu5nOUSBTaJNVsHzKGg42s+s2ZVWxC"
 }
