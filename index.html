@@ -246,7 +246,7 @@ async function encStr(key,text){
 }
 async function decStr(key,b){const u=b64d(b);return TD.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},key,u.slice(12)))}
 
-const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],advisors:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],adminHash:''};
+const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],advisors:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],track:{url:'',clientId:''},adminHash:''};
 let DB=clone(DEFAULT),draft=null,tab='home',isAdmin=false,adminTab='members',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
@@ -254,9 +254,42 @@ async function load(){
   try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;DB=Object.assign(clone(DEFAULT),await r.json());lsSet('ai_cache',DB)}
   catch(e){DB=Object.assign(clone(DEFAULT),lsGet('ai_cache',{}))}
   render();updateBadge();maybeNotify();warmCache();
+  if(!opened){opened=true;lastBeat=Date.now();trkSend('open')}
 }
 // অফলাইনের জন্য সব ছবি আগেই ক্যাশে রাখা
 function warmCache(){try{[...(DB.members||[]),...(DB.advisors||[])].filter(m=>m.photo).forEach(m=>fetch(m.photo+'?v='+(m.pv||'')).catch(()=>{}))}catch(e){}}
+
+/* ---------- সক্রিয়তা ট্র্যাকিং (Google Apps Script) ---------- */
+const TRK=()=>DB.track||{};
+let devId=lsGet('ai_dev',null);if(!devId){devId=(window.crypto&&crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));lsSet('ai_dev',devId)}
+const gTok=()=>{try{return sessionStorage.getItem('ai_gtok')||''}catch(e){return ''}};
+function trkSend(a,extra){
+  const u=TRK().url;if(!u||!navigator.onLine)return;
+  const me=(DB.members||[]).find(m=>m.id===lsGet('ai_me',null));
+  let pwa=false;try{pwa=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){}
+  try{fetch(u,{method:'POST',mode:'no-cors',keepalive:true,body:JSON.stringify(Object.assign({a,dev:devId,id:me?me.id:'',name:me?me.name:(lsGet('ai_myname','')||(lsGet('ai_gv',null)||{}).name||''),pwa,ua:navigator.userAgent},extra||{}))}).catch(()=>{})}catch(e){}
+}
+let lastBeat=0,opened=false;
+function trkBeat(){if(document.visibilityState!=='visible')return;if(Date.now()-lastBeat<100000)return;lastBeat=Date.now();trkSend('beat')}
+setInterval(trkBeat,120000);document.addEventListener('visibilitychange',trkBeat);
+function jwtPayload(t){try{let x=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');while(x.length%4)x+='=';return JSON.parse(TD.decode(Uint8Array.from(atob(x),c=>c.charCodeAt(0))))}catch(e){return{}}}
+function loadGsi(){return new Promise((res,rej)=>{if(window.google&&google.accounts&&google.accounts.id)return res();const sc=document.createElement('script');sc.src='https://accounts.google.com/gsi/client';sc.async=true;sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)})}
+async function initGoogle(){
+  const el=$('#gbtn');if(!el)return;
+  if(!navigator.onLine){el.innerHTML='<p class="muted">Google লগইনের জন্য ইন্টারনেট লাগবে</p>';return}
+  try{
+    await loadGsi();
+    google.accounts.id.initialize({client_id:TRK().clientId,callback:r=>{
+      const pl=jwtPayload(r.credential);
+      try{sessionStorage.setItem('ai_gtok',r.credential)}catch(e){}
+      lsSet('ai_gv',{email:pl.email||'',name:pl.name||''});
+      if(lsGet('ai_me',null))trkSend('register',{token:r.credential});
+      toast('Google লগইন সফল');render();
+    }});
+    const w=Math.min(300,(el.clientWidth||280));
+    google.accounts.id.renderButton(el,{theme:'outline',size:'large',text:'signin_with',shape:'pill',locale:'bn',width:w});
+  }catch(e){el.innerHTML='<p class="muted">Google লগইন লোড হয়নি — ইন্টারনেট দেখে আবার চেষ্টা করুন</p>'}
+}
 
 /* ---------- Notifications ---------- */
 const seen=()=>new Set(lsGet('ai_seen',[]));
@@ -584,11 +617,20 @@ function chScope(){
 function vProfile(){
   const id=lsGet('ai_me',null),list=sortM(DB.members||[]);
   const me=list.find(m=>m.id===id);
-  if(!me)return `<div class="card sec"><h2>আমার প্রোফাইল</h2><p class="muted">তালিকা থেকে নিজের নাম বেছে নিন। এই ডিভাইসে মনে থাকবে, তাই পরে সরাসরি আপনার কার্ড ও চাঁদার অবস্থা দেখতে পারবেন।</p>
-${list.length?`<select id="mesel"><option value="">— নিজের নাম বাছুন —</option>${list.map(m=>`<option value="${esc(m.id)}">${bn(m.serial)}. ${esc(m.name)}${m.father?' (পিতা: '+esc(m.father)+')':''}</option>`).join('')}</select><button class="btn" id="mesave">সংরক্ষণ</button>`:'<div class="empty">এখনো কোনো সদস্য যোগ হয়নি</div>'}</div>`;
+  const T=TRK(),gv=lsGet('ai_gv',null),gOn=!!(T.clientId&&T.url);
+  const gCard=`<div class="card sec"><h2>আমার প্রোফাইল</h2><p class="muted">Google অ্যাকাউন্ট দিয়ে লগইন করলে আপনার পরিচয় যাচাই হবে এবং আপনি অ্যাপ ব্যবহারকারী হিসেবে গণ্য হবেন।</p><div id="gbtn" style="min-height:44px;display:flex;justify-content:center"></div><div class="btns" style="justify-content:center"><button class="btn alt sm" id="gskip">লগইন ছাড়া চালিয়ে যান</button></div></div>`;
+  if(!me){
+    if(gOn&&!gv&&!lsGet('ai_gskip',false))return gCard;
+    const mn=lsGet('ai_myname','');
+    if(mn)return `<div class="card sec"><h2>আমার প্রোফাইল</h2><p style="font-size:19px;margin:6px 0"><b>${esc(mn)}</b></p>${gv?`<p class="muted" style="margin:0">✅ ${esc(gv.email)}</p>`:''}<p class="muted">আপনার নাম অ্যাডমিন দেখতে পাবেন।</p><div class="btns"><button class="btn alt" id="mereset">নাম বদলান</button></div></div>`;
+    return `<div class="card sec"><h2>আমার প্রোফাইল</h2>${gv?`<p class="muted" style="margin-top:0">✅ লগইন: ${esc(gv.email)}</p>`:''}<p class="muted">তালিকা থেকে নিজের নাম বেছে নিন। এই ডিভাইসে মনে থাকবে, তাই পরে সরাসরি আপনার কার্ড ও চাঁদার অবস্থা দেখতে পারবেন।</p>
+${list.length?`<select id="mesel"><option value="">— নিজের নাম বাছুন —</option>${list.map(m=>`<option value="${esc(m.id)}">${bn(m.serial)}. ${esc(m.name)}${m.father?' (পিতা: '+esc(m.father)+')':''}</option>`).join('')}</select><button class="btn" id="mesave">সংরক্ষণ</button>`:'<div class="empty">এখনো কোনো সদস্য যোগ হয়নি</div>'}
+<p class="muted" style="margin:14px 0 6px">তালিকায় নাম না থাকলে এখানে নিজের নাম লিখুন:</p><input id="myname" placeholder="আপনার নাম" value="${esc(gv&&gv.name||'')}"><button class="btn alt" id="mynsave">নাম সংরক্ষণ</button></div>`;
+  }
   const r=calc({members:[me],payments:DB.payments,chanda:DB.chanda},0,1e9)[0];
   const ch=r&&CH(DB).public!==false?`<div class="card sec"><h3>🗓️ আমার চাঁদা</h3><div class="grid3"><div class="stat"><small>মাসিক হার</small><b>৳${bn(r.a)}</b></div><div class="stat"><small>দিয়েছি</small><b class="in">${bn(r.paidN)} মাস</b></div><div class="stat"><small>বাকি</small><b class="ex">${bn(r.dueN)} মাস</b></div></div><p class="muted" style="margin:8px 0 0">মোট দিয়েছি ৳${bn(r.paidAmt)} · বাকি ৳${bn(r.dueAmt)}</p></div>`:'';
-  return `<div style="max-width:300px;margin:0 auto 12px">${memberCard(me,0)}</div>${ch}<div class="btns" style="justify-content:center">${CH(DB).public!==false?`<button class="btn" id="pdfme">📄 আমার হিসাব PDF</button>`:''}<button class="btn alt" id="mereset">অন্য প্রোফাইল বাছুন</button></div>`;
+  const gx=gv?`<p class="muted" style="text-align:center;margin:0 0 10px">✅ যাচাইকৃত: ${esc(gv.email)}</p>`:(gOn?gCard.replace('<h2>আমার প্রোফাইল</h2>','<h3>Google দিয়ে যাচাই করুন</h3>').replace('<div class="btns" style="justify-content:center"><button class="btn alt sm" id="gskip">লগইন ছাড়া চালিয়ে যান</button></div>',''):'');
+  return `<div style="max-width:300px;margin:0 auto 12px">${memberCard(me,0)}</div>${gx}${ch}<div class="btns" style="justify-content:center">${CH(DB).public!==false?`<button class="btn" id="pdfme">📄 আমার হিসাব PDF</button>`:''}<button class="btn alt" id="mereset">অন্য প্রোফাইল বাছুন</button></div>`;
 }
 const FS=[.9,1,1.12,1.25];
 function vSettings(){
@@ -616,8 +658,11 @@ function render(){
   bindMoney('m');
   const pa=$('#pdfall');if(pa)pa.onclick=()=>{const c=chScope();pdfAll(DB,c.from,c.to,c.label,pa)};
   const pme=$('#pdfme');if(pme)pme.onclick=()=>pdfMember(DB,lsGet('ai_me',null),pme);
-  const ms=$('#mesave');if(ms)ms.onclick=()=>{const v=$('#mesel').value;if(!v)return toast('নিজের নাম বাছুন');lsSet('ai_me',v);render()};
-  const mr=$('#mereset');if(mr)mr.onclick=()=>{lsSet('ai_me',null);render()};
+  const ms=$('#mesave');if(ms)ms.onclick=()=>{const v=$('#mesel').value;if(!v)return toast('নিজের নাম বাছুন');lsSet('ai_me',v);lsSet('ai_myname','');trkSend('register',{token:gTok()});render()};
+  const mns=$('#mynsave');if(mns)mns.onclick=()=>{const v=($('#myname').value||'').trim();if(v.length<2)return toast('নাম লিখুন');lsSet('ai_myname',v);trkSend('register',{token:gTok()});render()};
+  const gs=$('#gskip');if(gs)gs.onclick=()=>{lsSet('ai_gskip',true);render()};
+  if($('#gbtn'))initGoogle();
+  const mr=$('#mereset');if(mr)mr.onclick=()=>{lsSet('ai_me',null);lsSet('ai_myname','');lsSet('ai_gv',null);lsSet('ai_gskip',false);try{sessionStorage.removeItem('ai_gtok')}catch(e){}render()};
   const setFs=d=>{const c=lsGet('ai_fs',1);let i=FS.indexOf(c);if(i<0)i=1;i=Math.max(0,Math.min(FS.length-1,i+d));lsSet('ai_fs',FS[i]);render()};
   const fm=$('#fsm');if(fm)fm.onclick=()=>setFs(-1);const fp=$('#fsp');if(fp)fp.onclick=()=>setFs(1);
   const rf=$('#refr');if(rf)rf.onclick=async()=>{await load();toast('তথ্য আপডেট হয়েছে')};
@@ -704,7 +749,7 @@ const FIELDS={
   contacts:[['name','নাম','text'],['role','পদবী / দায়িত্ব','text'],['phone','মোবাইল নম্বর','tel'],['whatsapp','হোয়াটসঅ্যাপ নম্বর (ঐচ্ছিক)','tel']]
 };
 let adminMonth=null;
-const TNAME={members:'সদস্য',advisors:'উপদেষ্টা',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',settings:'সেটিং'};
+const TNAME={members:'সদস্য',advisors:'উপদেষ্টা',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',activity:'সক্রিয়তা',settings:'সেটিং'};
 const BLOODS=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
 
@@ -718,6 +763,7 @@ function renderAdmin(){
   const body=$('#abody');
   if(adminTab==='info')body.innerHTML=infoForm();
   else if(adminTab==='settings')body.innerHTML=settingsForm();
+  else if(adminTab==='activity')body.innerHTML=activityHTML();
   else if(adminTab==='members'||adminTab==='advisors')body.innerHTML=memberHTML(adminTab);
   else if(adminTab==='chanda')body.innerHTML=chandaHTML();
   else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
@@ -829,7 +875,43 @@ function settingsForm(){const g=gh();return `<div class="card"><h3>📤 প্�
 <label>Personal Access Token (শুধু এই ডিভাইসে থাকবে)</label><input id="ght" type="password" value="${esc(g.token)}" placeholder="github_pat_...">
 <div class="btns"><button class="btn" id="apub">🚀 প্রকাশ করুন</button><button class="btn alt" id="aexp">ব্যাকআপ ডাউনলোড</button></div>
 <p class="muted" style="font-size:13px">ব্যাকআপ ফাইলে গোপন তথ্য (মোবাইল, এনআইডি) সাধারণ লেখায় থাকে, তাই সেটা কারও সাথে শেয়ার করবেন না।</p></div>
+<div class="card"><h3>📊 সক্রিয়তা ট্র্যাকিং</h3>
+<p class="muted">কে অ্যাপ চালাচ্ছে তা জানতে Google Apps Script-এর Web App URL বসান। Google লগইনের জন্য Client ID বসান (ঐচ্ছিক)। তারপর "প্রকাশ করুন" চাপুন।</p>
+<label>Apps Script Web App URL</label><input id="trurl" value="${esc((draft.track||{}).url||'')}" placeholder="https://script.google.com/macros/s/.../exec">
+<label>Google OAuth Client ID (ঐচ্ছিক)</label><input id="trcid" value="${esc((draft.track||{}).clientId||'')}" placeholder="xxxx.apps.googleusercontent.com">
+<div class="btns"><button class="btn" id="trsave">সংরক্ষণ (খসড়ায়)</button></div></div>
 <div class="card"><h3>🔑 পাসওয়ার্ড পরিবর্তন</h3><input type="password" id="np" placeholder="নতুন পাসওয়ার্ড (কমপক্ষে ৮ অক্ষর)"><button class="btn alt" id="achp">পরিবর্তন</button></div>`}
+
+
+/* ---------- অ্যাডমিন: সক্রিয়তা ---------- */
+const agoTxt=ms=>{const m=Math.floor((Date.now()-ms)/6e4);if(m<5)return 'এখন সক্রিয়';if(m<60)return bn(m)+' মিনিট আগে';const h=Math.floor(m/60);if(h<24)return bn(h)+' ঘণ্টা আগে';return bn(Math.floor(h/24))+' দিন আগে'};
+function activityHTML(){
+  const t=draft.track||{};
+  if(!t.url)return `<div class="card"><h3>📊 সক্রিয়তা</h3><p class="muted">আগে "সেটিং" ট্যাবে Apps Script URL বসিয়ে সংরক্ষণ ও প্রকাশ করুন।</p></div>`;
+  return `<div class="card"><h3>📊 কে অ্যাপ চালাচ্ছে</h3><label>অ্যাডমিন কী (Apps Script কোডে যা দিয়েছেন)</label><input id="trk" type="password" value="${esc(lsGet('ai_trk',''))}"><div class="btns"><button class="btn" id="trload">🔄 দেখুন</button></div></div><div id="trout"></div>`;
+}
+function bindActivity(){
+  const b=$('#trload');if(!b)return;
+  b.onclick=async()=>{
+    const k=$('#trk').value.trim();if(!k)return toast('অ্যাডমিন কী দিন');lsSet('ai_trk',k);
+    const out=$('#trout');out.innerHTML='<div class="card"><p class="muted">আনা হচ্ছে…</p></div>';
+    try{
+      const r=await fetch(draft.track.url+'?a=list&k='+encodeURIComponent(k),{cache:'no-store'});
+      const j=await r.json();if(!j.ok)throw new Error(j.err||'কী সঠিক নয়');
+      const rows=j.rows||[],now=Date.now(),DAY=864e5;
+      const act=rows.filter(x=>now-x.last<3e5).length,day=rows.filter(x=>now-x.last<DAY).length,wk=rows.filter(x=>now-x.last<7*DAY).length,pwa=rows.filter(x=>x.pwa).length;
+      const ms=sortM(draft.members||[]).map(m=>{const d=rows.filter(x=>x.id===m.id);return{m,last:d.length?Math.max(...d.map(x=>x.last)):0,cnt:d.reduce((a,x)=>a+(+x.count||0),0),ver:d.some(x=>x.verified),email:(d.find(x=>x.email)||{}).email||''}});
+      const used=ms.filter(x=>x.last).sort((a,b)=>b.last-a.last),never=ms.filter(x=>!x.last);
+      const anon=rows.filter(x=>!x.id).length;
+      const outs=rows.filter(x=>!x.id&&(x.name||x.email)).sort((a,b)=>b.last-a.last);
+      out.innerHTML=`<div class="card"><div class="grid3"><div class="stat"><small>মোট ডিভাইস</small><b>${bn(rows.length)}</b></div><div class="stat"><small>এখন সক্রিয়</small><b class="in">${bn(act)}</b></div><div class="stat"><small>আজ</small><b>${bn(day)}</b></div></div>
+<p class="muted" style="margin:8px 0 0">৭ দিনে ${bn(wk)} ডিভাইস · হোম স্ক্রিনে ইনস্টল ${bn(pwa)} · নাম ছাড়া ${bn(rows.filter(x=>!x.id&&!x.name).length)}</p></div>
+<div class="card"><h3>✅ যারা অ্যাপে ঢুকেছেন (${bn(used.length)} জন)</h3>${used.length?used.map(x=>`<div class="row"><div class="grow"><span class="sn">${bn(x.m.serial)}</span><b>${esc(x.m.name)}</b>${x.ver?' <span title="Google যাচাইকৃত">✔️</span>':''}<br><small class="muted">${x.email?esc(x.email)+' · ':''}${bn(x.cnt)} বার খুলেছেন</small></div><small style="${Date.now()-x.last<3e5?'color:#0a7a4d;font-weight:700':'color:#666'}">${Date.now()-x.last<3e5?'🟢 ':''}${agoTxt(x.last)}</small></div>`).join(''):'<div class="empty">এখনো কেউ নাম বাছেননি</div>'}</div>
+${outs.length?`<div class="card"><h3>🙋 নাম লিখে ঢুকেছেন — তালিকার বাইরে (${bn(outs.length)} জন)</h3>${outs.map(x=>`<div class="row"><div class="grow"><b>${esc(x.name||'(নাম নেই)')}</b>${x.verified?' ✔️':''}<br><small class="muted">${x.email?esc(x.email)+' · ':''}${bn(x.count)} বার খুলেছেন</small></div><small style="${Date.now()-x.last<3e5?'color:#0a7a4d;font-weight:700':'color:#666'}">${Date.now()-x.last<3e5?'🟢 ':''}${agoTxt(x.last)}</small></div>`).join('')}</div>`:''}
+<div class="card"><h3>⏳ এখনো ঢোকেননি (${bn(never.length)} জন)</h3>${never.length?never.map(x=>`<div class="row"><div class="grow"><span class="sn">${bn(x.m.serial)}</span>${esc(x.m.name)}</div></div>`).join(''):'<div class="empty">সবাই ঢুকেছেন 🎉</div>'}</div>`;
+    }catch(e){out.innerHTML=`<div class="card"><p style="color:#b3261e">❌ ${esc(/fetch|network|Failed/i.test(e.message)?'ইন্টারনেট সংযোগ নেই বা URL ভুল':e.message)}</p></div>`}
+  };
+}
 
 /* ---------- ছবি ছোট করা ---------- */
 function resizeImg(file,size=360){return new Promise((res,rej)=>{
@@ -876,6 +958,8 @@ function bindAdmin(){
     };
   }
   if(k==='chanda')bindChanda();
+  if(k==='activity')bindActivity();
+  const ts=$('#trsave');if(ts)ts.onclick=()=>{draft.track={url:$('#trurl').value.trim(),clientId:$('#trcid').value.trim()};dirty=true;renderAdmin();toast('খসড়ায় সংরক্ষিত — প্রকাশ করুন')};
   if(k==='transactions')bindMoney('a');
   const cc=$('#ccsave');if(cc)cc.onclick=()=>{
     body.querySelectorAll('[data-o]').forEach(i=>draft.org[i.dataset.o]=i.value.trim());
