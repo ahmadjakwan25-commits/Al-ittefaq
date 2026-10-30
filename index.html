@@ -124,6 +124,20 @@ background:radial-gradient(circle at 50% 0%,#13806a 0,#0b4a3f 45%,#06352d 100%);
 .ayah .ar{font-size:26px;line-height:2;color:var(--g2)}
 .ayah small{color:var(--mut)}
 .ayah p{margin:2px 0;color:#5a4a10}
+.cfull{position:fixed;left:0;right:0;bottom:0;top:var(--hh,64px);display:flex;flex-direction:column;background:var(--bg);z-index:5;max-width:760px;margin:0 auto}
+.cinfo{padding:6px 14px;font-size:12.5px;color:#6b6b60;background:#fff;border-bottom:1px solid var(--ln)}
+.cfull .msgs{flex:1;height:auto;border-radius:0;padding:10px 10px 6px}
+.cfull .cbox{margin:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--ln)}
+.cbox .ibtn{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:#f1ede0;cursor:pointer;border:1px solid var(--ln)}
+.cbox .send{flex:none;width:46px;height:46px;border-radius:50%;padding:0;display:grid;place-items:center;font-size:20px;background:var(--g);color:#fff;border:0;cursor:pointer;margin:0}
+.rbar{display:flex;align-items:center;gap:8px;padding:6px 12px;background:#eef6f2;border-top:1px solid var(--ln);font-size:13px}
+.rbar div{flex:1;min-width:0;border-right:3px solid var(--g);padding-right:8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rbar button{border:0;background:none;font-size:18px;cursor:pointer;color:#777}
+.bub .qt{background:rgba(0,0,0,.06);border-right:3px solid var(--g);border-radius:8px;padding:3px 8px;margin-bottom:5px;font-size:13px;color:#444}
+.bub .qt b{display:block;font-size:12px}
+.bub .cim{display:block;max-width:100%;width:230px;border-radius:10px;margin-bottom:4px;cursor:zoom-in;background:#e6e2d0;min-height:60px}
+.bub{cursor:pointer}.bub .st{font-style:normal}.bub.fail small{color:#b3261e;font-weight:700}
+#lbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99;display:grid;place-items:center}#lbox img{max-width:100%;max-height:100%}
 .tiles button{position:relative}.cbd{position:absolute;top:6px;right:8px;background:#c62828;color:#fff;border-radius:10px;font-size:12px;padding:0 7px;font-style:normal;line-height:18px}
 .msgs{height:52vh;overflow-y:auto;background:#f4f1e4;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}
 .bub{max-width:84%;padding:8px 12px;border-radius:14px;background:#fff;border:1px solid var(--ln);align-self:flex-start;word-wrap:break-word;overflow-wrap:anywhere;font-size:15px}
@@ -299,24 +313,54 @@ async function initGoogle(){
 
 /* ---------- বার্তা: অ্যাডমিনকে / গ্রুপ ---------- */
 const myName=()=>{const me=(DB.members||[]).find(m=>m.id===lsGet('ai_me',null));return me?me.name:(lsGet('ai_myname','')||(lsGet('ai_gv',null)||{}).name||'')};
-const chat={dm:lsGet('ai_c_dm',[]),group:lsGet('ai_c_group',[])};
-let chatReg=false,lastBg=0;
-function fmtT(ts){const d=new Date(ts),n=new Date(),h=d.getHours();let t=bn(h%12||12)+':'+String(d.getMinutes()).padStart(2,'0').replace(/\d/g,c=>'০১২৩৪৫৬৭৮৯'[c])+(h<12?' AM':' PM');if(d.toDateString()!==n.toDateString())t=bn(d.getDate())+'/'+bn(d.getMonth()+1)+' · '+t;return t}
+const chat={dm:lsGet('ai_c_dm',[]),group:lsGet('ai_c_group',[])},pend={dm:[],group:[]},replyTo={dm:null,group:null},sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let chatReg=false,lastBg=0,flushing=false;
+const DIG='০১২৩৪৫৬৭৮৯';
+function fmtT(ts){const d=new Date(ts),n=new Date(),h=d.getHours();let t=bn(h%12||12)+':'+String(d.getMinutes()).padStart(2,'0').replace(/\d/g,c=>DIG[c])+(h<12?' AM':' PM');if(d.toDateString()!==n.toDateString())t=bn(d.getDate())+'/'+bn(d.getMonth()+1)+' · '+t;return t}
+const imgUrl=(id,w)=>'https://lh3.googleusercontent.com/d/'+id+(w?'=w'+w:'');
+function shrinkImg(file,max=1000){return new Promise((res,rej)=>{
+  const url=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{let w=im.width,h=im.height;const k=Math.min(1,max/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);
+    const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);
+    URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',0.72))};
+  im.onerror=()=>{URL.revokeObjectURL(url);rej()};im.src=url})}
+function lightbox(src){const d=document.createElement('div');d.id='lbox';d.innerHTML='<img src="'+src+'" alt="">';d.onclick=()=>d.remove();document.body.appendChild(d)}
+const parseRe=r=>{if(!r)return null;if(typeof r==='object')return r;try{return JSON.parse(r)}catch(e){return null}};
+// একটি বার্তার HTML (ব্যবহারকারী ও অ্যাডমিন দুই দিকেই)
+function bubHTML(m,o){
+  const re=parseRe(m.re),ad=m.from==='admin';
+  const nameLbl=o.showName?`<b>${ad?'🛡️ অ্যাডমিন':esc(m.name||'সদস্য')}</b>`:'';
+  const q=re&&(re.n||re.t)?`<div class="qt"><b>${esc(re.n||'')}</b>${esc(re.t||'')}</div>`:'';
+  const im=m.img?`<img class="cim" loading="lazy" data-full="${esc(m.imgLocal?'':imgUrl(m.img))}" src="${m.imgLocal||imgUrl(m.img,600)}" alt="ছবি">`:'';
+  const st=m.pending==='q'?' <i class="st">⏳</i>':m.pending==='x'?' <i class="st">❌ আবার পাঠান</i>':'';
+  return `<div class="bub ${o.mine?'me':''} ${ad?'ad':''} ${m.pending==='x'?'fail':''}" data-i="${o.i}">${nameLbl}${q}${im}${m.text?esc(m.text).replace(/\n/g,'<br>'):''}<small>${fmtT(m.ts)}${st}</small></div>`;
+}
+function chatList(kind){
+  const srv=chat[kind]||[];const have=new Set(srv.map(m=>m.cid).filter(Boolean));
+  const pl=pend[kind].filter(m=>!have.has(m.cid)).map(m=>({id:m.cid,cid:m.cid,ts:m.ts,from:'user',mine:true,name:myName(),text:m.text,img:m.img?'local':'',imgLocal:m.img||'',re:m.re,pending:m.st==='ok'?'':m.st}));
+  return srv.concat(pl);
+}
+let curList={dm:[],group:[]};
 function msgsHTML(kind){
-  const l=chat[kind]||[];if(!l.length)return `<div class="empty" style="margin:auto">${kind==='dm'?'এখনো কোনো বার্তা নেই। অ্যাডমিনকে লিখুন।':'এখনো কোনো আলোচনা নেই। শুরু করুন।'}</div>`;
-  return l.map(m=>{const mine=kind==='dm'?m.from==='user':!!m.mine;const ad=m.from==='admin';
-    return `<div class="bub ${mine?'me':''} ${ad?'ad':''}">${(kind==='group'&&!mine)||ad?`<b>${ad?'🛡️ অ্যাডমিন':esc(m.name||'সদস্য')}</b>`:''}${esc(m.text).replace(/\n/g,'<br>')}<small>${fmtT(m.ts)}</small></div>`}).join('');
+  const l=curList[kind]=chatList(kind);
+  if(!l.length)return `<div class="empty" style="margin:auto">${kind==='dm'?'এখনো কোনো বার্তা নেই। অ্যাডমিনকে লিখুন।':'এখনো কোনো আলোচনা নেই। শুরু করুন।'}</div>`;
+  return l.map((m,i)=>{const mine=kind==='dm'?m.from==='user':!!m.mine;return bubHTML(m,{mine,showName:(kind==='group'&&!mine)||m.from==='admin',i})}).join('');
 }
 function vChat(kind){
   const T=TRK(),title=kind==='dm'?'অ্যাডমিনকে বার্তা':'গ্রুপ আলোচনা';
-  const info=kind==='dm'?'আপনার বার্তা শুধু অ্যাডমিন দেখবেন। অ্যাডমিনের উত্তরও শুধু আপনি দেখবেন।':'এখানে সবাই সবার বার্তা দেখতে পাবেন। সুন্দর ভাষায় আলোচনা করুন।';
+  const info=kind==='dm'?'🔒 আপনার বার্তা শুধু অ্যাডমিন দেখবেন, উত্তরও শুধু আপনি দেখবেন। বার্তায় ট্যাপ করলে উত্তর দিতে পারবেন।':'👥 সবাই সবার বার্তা দেখতে পাবেন। বার্তায় ট্যাপ করলে সেটির উত্তর দিতে পারবেন।';
   if(!T.url)return `<div class="card sec"><h2>${title}</h2><div class="empty">এই সুবিধা এখনো চালু হয়নি</div></div>`;
   if(kind==='group'&&!myName())return `<div class="card sec"><h2>${title}</h2><p class="muted">আলোচনায় অংশ নিতে আগে প্রোফাইলে নিজের নাম বেছে নিন বা লিখুন।</p><div class="btns"><button class="btn" data-go="profile">👤 প্রোফাইলে যান</button></div></div>`;
-  return `<div class="card sec"><h2>${title}</h2><p class="muted" style="margin:0 0 8px;font-size:13px">${info}</p><div class="msgs" id="msgs">${msgsHTML(kind)}</div><div class="cbox"><textarea id="ctext" rows="1" maxlength="600" placeholder="বার্তা লিখুন…"></textarea><button class="btn" id="csend">পাঠান</button></div></div>`;
+  return `<div class="cfull"><div class="cinfo">${info}</div><div class="msgs" id="msgs">${msgsHTML(kind)}</div><div id="rbar"></div><div class="cbox"><label class="ibtn" for="cimg" title="ছবি পাঠান">📷</label><input type="file" id="cimg" accept="image/*" hidden><textarea id="ctext" rows="1" maxlength="600" placeholder="বার্তা লিখুন…"></textarea><button class="send" id="csend" aria-label="পাঠান">➤</button></div></div>`;
+}
+function rbarPaint(kind){
+  const e=$('#rbar');if(!e)return;const r=replyTo[kind];
+  e.className=r?'rbar':'';e.innerHTML=r?`<div><b>↩ ${esc(r.n)}</b> · ${esc(r.t)}</div><button id="rclr" aria-label="বাতিল">✕</button>`:'';
+  const c=$('#rclr');if(c)c.onclick=()=>{replyTo[kind]=null;rbarPaint(kind)};
 }
 function chatPaint(kind,force){
   const box=$('#msgs');if(!box||tab!==kind)return;
-  const near=force||box.scrollHeight-box.scrollTop-box.clientHeight<80;
+  const near=force||box.scrollHeight-box.scrollTop-box.clientHeight<120;
   box.innerHTML=msgsHTML(kind);if(near)box.scrollTop=box.scrollHeight;
 }
 function chatSeen(kind){const l=chat[kind]||[];if(l.length)lsSet('ai_seen_'+kind,l[l.length-1].ts)}
@@ -332,26 +376,59 @@ async function pollChat(kind,force){
   try{
     const r=await fetch(u+'?a='+kind+'&dev='+encodeURIComponent(devId),{cache:'no-store'});const j=await r.json();
     if(!j.ok)return;
-    chat[kind]=j.msgs||[];lsSet('ai_c_'+kind,chat[kind]);
+    chat[kind]=j.msgs||[];lsSet('ai_c_'+kind,chat[kind].slice(-60));
+    const have=new Set(chat[kind].map(m=>m.cid));pend[kind]=pend[kind].filter(m=>!have.has(m.cid));
     if(tab===kind){chatPaint(kind,force);chatSeen(kind)}
     chatBadges();
   }catch(e){}
 }
-function chatEnter(kind){chatPaint(kind,true);chatSeen(kind);chatBadges();pollChat(kind,true)}
-async function sendChat(kind){
-  const ta=$('#ctext'),btn=$('#csend');const text=(ta.value||'').trim();if(!text)return;
-  if(!navigator.onLine)return toast('ইন্টারনেট সংযোগ নেই');
-  btn.disabled=true;
-  const cid=devId.slice(0,6)+Date.now().toString(36);
-  try{
-    if(!chatReg){await fetch(TRK().url,{method:'POST',body:JSON.stringify({a:'beat',dev:devId,id:lsGet('ai_me',null)||'',name:myName(),pwa:false,ua:navigator.userAgent})});chatReg=true}
-    const r=await fetch(TRK().url,{method:'POST',body:JSON.stringify({a:'msg',kind,dev:devId,name:myName(),text,cid})});
-    const j=await r.json();if(!j.ok)throw new Error(j.err||'fail');
-    ta.value='';await pollChat(kind,true);
-  }catch(e){toast(e.message==='slow'?'একটু পরে পাঠান':e.message==='noname'?'আগে প্রোফাইলে নাম দিন':'পাঠানো যায়নি — ইন্টারনেট দেখে আবার চেষ্টা করুন')}
-  btn.disabled=false;
+function chatBind(kind){
+  const box=$('#msgs'),ta=$('#ctext');if(!box)return;
+  box.onclick=e=>{
+    const im=e.target.closest('.cim');if(im){lightbox(im.dataset.full||im.src);return}
+    const b=e.target.closest('.bub');if(!b)return;const m=curList[kind][+b.dataset.i];if(!m)return;
+    if(m.pending==='x'){const p=pend[kind].find(x=>x.cid===m.cid);if(p){p.st='q';chatPaint(kind,true);flush()}return}
+    if(m.pending)return;
+    const mine=kind==='dm'?m.from==='user':!!m.mine;
+    replyTo[kind]={n:m.from==='admin'?'অ্যাডমিন':(mine?(myName()||'আমি'):(m.name||'সদস্য')),t:(m.text||'📷 ছবি').slice(0,100)};
+    rbarPaint(kind);ta.focus();
+  };
+  $('#cimg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+    try{const d=await shrinkImg(f);queueMsg(kind,ta.value.trim(),d);ta.value=''}catch(x){toast('ছবি পড়া যায়নি')}};
+  ta.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey&&!matchMedia('(pointer:coarse)').matches){e.preventDefault();$('#csend').click()}};
+  rbarPaint(kind);
 }
-setInterval(()=>{if(document.visibilityState!=='visible')return;if(tab==='dm'||tab==='group')pollChat(tab);else if(TRK().url&&Date.now()-lastBg>60000){lastBg=Date.now();pollChat('dm').then(()=>pollChat('group'))}},12000);
+function chatEnter(kind){chatBind(kind);chatPaint(kind,true);chatSeen(kind);chatBadges();pollChat(kind,true)}
+// এক ট্যাপেই বার্তা সঙ্গে সঙ্গে স্ক্রিনে আসে, পেছনে পাঠানো চলে
+function sendChat(kind){const ta=$('#ctext');const text=(ta.value||'').trim();if(!text)return;ta.value='';ta.focus();queueMsg(kind,text,'')}
+function queueMsg(kind,text,img){
+  if(!text&&!img)return;
+  const m={cid:devId.slice(0,6)+Date.now().toString(36)+Math.random().toString(36).slice(2,5),text,img,re:replyTo[kind]||'',ts:Date.now(),st:navigator.onLine?'q':'x'};
+  replyTo[kind]=null;pend[kind].push(m);rbarPaint(kind);chatPaint(kind,true);
+  if(m.st==='x')toast('ইন্টারনেট সংযোগ নেই');else flush();
+}
+async function flush(){
+  if(flushing)return;flushing=true;const u=TRK().url;
+  try{for(const kind of ['dm','group']){
+    for(const m of pend[kind]){
+      if(m.st!=='q')continue;
+      for(let t=0;t<5&&m.st==='q';t++){
+        try{
+          if(!chatReg){await fetch(u,{method:'POST',body:JSON.stringify({a:'beat',dev:devId,id:lsGet('ai_me',null)||'',name:myName(),pwa:false,ua:navigator.userAgent})});chatReg=true}
+          const r=await fetch(u,{method:'POST',body:JSON.stringify({a:'msg',kind,dev:devId,name:myName(),text:m.text,cid:m.cid,img:m.img?m.img.split(',')[1]:'',re:m.re||''})});
+          const j=await r.json();
+          if(j.ok)m.st='ok';
+          else if(j.err==='slow'||j.err==='ratelimit')await sleep(1700);
+          else{m.st='x';if(j.err==='noname')toast('আগে প্রোফাইলে নাম দিন')}
+        }catch(e){await sleep(1500)}
+      }
+      if(m.st==='q')m.st='x';
+      chatPaint(kind,true);
+    }
+  }}finally{flushing=false}
+  ['dm','group'].forEach(k=>{if(pend[k].some(m=>m.st==='ok'))pollChat(k,true)});
+}
+setInterval(()=>{if(document.visibilityState!=='visible')return;if(tab==='dm'||tab==='group')pollChat(tab);else if(TRK().url&&Date.now()-lastBg>60000){lastBg=Date.now();pollChat('dm').then(()=>pollChat('group'))}},10000);
 
 /* ---------- Notifications ---------- */
 const seen=()=>new Set(lsGet('ai_seen',[]));
@@ -713,7 +790,10 @@ const TITLES={intro:'পরিচিতি',advisors:'উপদেষ্টা',
 function render(){
   const v=({home:vHome,intro:vIntro,advisors:vAdvisors,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact,profile:vProfile,settings:vSettings,dm:()=>vChat('dm'),group:()=>vChat('group')}[tab]||vHome)();
   $('#view').innerHTML=v;
-  $('#view').style.zoom=tab==='home'?1:lsGet('ai_fs',1);
+  const isChat=(tab==='dm'||tab==='group')&&!!$('#view .cfull');
+  $('#view').style.zoom=(tab==='home'||isChat)?1:lsGet('ai_fs',1);
+  document.documentElement.style.setProperty('--hh',document.querySelector('header').offsetHeight+'px');
+  document.body.style.overflow=isChat?'hidden':'';
   $('#back').hidden=tab==='home';
   $('#sub').textContent=tab==='home'?'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা':(TITLES[tab]||'');
   document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
@@ -980,7 +1060,7 @@ ${outs.length?`<div class="card"><h3>🙋 নাম লিখে ঢুকেছ
 }
 
 /* ---------- অ্যাডমিন: বার্তা ---------- */
-let ac={view:'list',dev:'',name:''};
+let ac={view:'list',dev:'',name:'',re:null,list:[]};
 const acKey=()=>encodeURIComponent(lsGet('ai_trk',''));
 async function aGet(q){const r=await fetch(draft.track.url+'?'+q+'&k='+acKey(),{cache:'no-store'});const j=await r.json();if(!j.ok)throw new Error(j.err||'ব্যর্থ');return j}
 async function aPost(o){const r=await fetch(draft.track.url,{method:'POST',body:JSON.stringify(Object.assign({k:lsGet('ai_trk','')},o))});const j=await r.json();if(!j.ok)throw new Error(j.err||'ব্যর্থ')}
@@ -993,9 +1073,24 @@ function bindChatAdm(){
   if(!$('#acL'))return;
   const out=$('#acout');
   const saveKey=()=>{const v=$('#ackey').value.trim();if(!v){toast('অ্যাডমিন কী দিন');return false}lsSet('ai_trk',v);return true};
-  const bub=(m,del)=>{const ad=m.from==='admin';return `<div class="bub ${ad?'me ad':''}">${ac.view==='group'?`<b>${ad?'🛡️ অ্যাডমিন':esc(m.name||'সদস্য')}</b>`:''}${esc(m.text).replace(/\n/g,'<br>')}<small>${fmtT(m.ts)}${del?` · <a href="#" data-adel="${m.id}" style="color:#b3261e">🗑️ মুছুন</a>`:''}</small></div>`};
   const err=e=>{out.innerHTML=`<div class="card"><p style="color:#b3261e">❌ ${esc(/fetch|network|Failed|JSON/i.test(e.message)?'ইন্টারনেট সংযোগ নেই বা URL/কী ভুল':e.message)}</p></div>`};
   const box=()=>{const b=$('#amsgs');if(b)b.scrollTop=b.scrollHeight};
+  const compose=(ph)=>`<div id="arbar"></div><div class="cbox" style="margin-top:8px"><label class="ibtn" for="aimg">📷</label><input type="file" id="aimg" accept="image/*" hidden><textarea id="atext" rows="1" maxlength="600" placeholder="${ph}"></textarea><button class="send" id="asend">➤</button></div><p class="muted" style="font-size:12px">বার্তায় ট্যাপ করলে সেটির উত্তর দেওয়া যাবে।</p>`;
+  const arbar=()=>{const e=$('#arbar');if(!e)return;e.className=ac.re?'rbar':'';e.innerHTML=ac.re?`<div><b>↩ ${esc(ac.re.n)}</b> · ${esc(ac.re.t)}</div><button id="arclr">✕</button>`:'';const c=$('#arclr');if(c)c.onclick=()=>{ac.re=null;arbar()}};
+  const bindCompose=(send,reload)=>{
+    arbar();
+    const doSend=async img=>{const t=$('#atext').value.trim();if(!t&&!img)return;$('#asend').disabled=true;
+      try{await send({text:t,img:img?img.split(',')[1]:'',re:ac.re||'',cid:'a'+Date.now().toString(36)});ac.re=null;await reload()}catch(e){toast('❌ '+e.message);const b=$('#asend');if(b)b.disabled=false}};
+    $('#asend').onclick=()=>doSend('');
+    $('#aimg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{toast('ছবি পাঠানো হচ্ছে…');doSend(await shrinkImg(f))}catch(x){toast('ছবি পড়া যায়নি')}};
+    $('#amsgs').onclick=e=>{
+      const im=e.target.closest('.cim');if(im){lightbox(im.dataset.full||im.src);return}
+      const d=e.target.closest('[data-adel]');if(d){e.preventDefault();if(!confirm('এই বার্তা সবার জন্য মুছে ফেলবেন?'))return;aPost({a:'adel',id:d.dataset.adel}).then(reload).catch(x=>toast('❌ '+x.message));return}
+      const b=e.target.closest('.bub');if(!b)return;const m=ac.list[+b.dataset.i];if(!m)return;
+      ac.re={n:m.from==='admin'?'অ্যাডমিন':(m.name||'সদস্য'),t:(m.text||'📷 ছবি').slice(0,100)};arbar();$('#atext').focus();
+    };
+  };
+  const bubs=(msgs,grp)=>{ac.list=msgs;return msgs.map((m,i)=>bubHTML(m,{mine:m.from==='admin',showName:grp,i}).replace('</small>',grp?` · <a href="#" data-adel="${m.id}" style="color:#b3261e">🗑️</a></small>`:'</small>')).join('')||'<div class="empty" style="margin:auto">কোনো বার্তা নেই</div>'};
   async function showList(){
     ac.view='list';out.innerHTML='<div class="card"><p class="muted">আনা হচ্ছে…</p></div>';
     try{const j=await aGet('a=threads');
@@ -1006,20 +1101,16 @@ function bindChatAdm(){
   async function showThread(dev,name){
     ac.view='thread';ac.dev=dev;ac.name=name;
     try{const j=await aGet('a=thread&dev='+encodeURIComponent(dev));
-      out.innerHTML=`<div class="card"><div class="btns" style="margin:0 0 8px"><button class="btn alt sm" id="acB">← সব বার্তা</button></div><h3>${esc(name)}</h3><div class="msgs" id="amsgs">${j.msgs.map(m=>bub(m,false)).join('')||'<div class="empty">কোনো বার্তা নেই</div>'}</div><div class="cbox"><textarea id="atext" rows="1" maxlength="600" placeholder="${esc(name)}-কে উত্তর লিখুন…"></textarea><button class="btn" id="asend">উত্তর দিন</button></div><p class="muted" style="font-size:12px">এই উত্তর শুধু ${esc(name)} দেখবেন।</p></div>`;
+      out.innerHTML=`<div class="card"><div class="btns" style="margin:0 0 8px"><button class="btn alt sm" id="acB">← সব বার্তা</button></div><h3>${esc(name)}</h3><div class="msgs" id="amsgs" style="height:46vh">${bubs(j.msgs,false)}</div>${compose(esc(name)+'-কে উত্তর লিখুন…')}<p class="muted" style="font-size:12px;margin-top:0">এই উত্তর শুধু ${esc(name)} দেখবেন।</p></div>`;
       $('#acB').onclick=showList;box();
-      $('#asend').onclick=async()=>{const t=$('#atext').value.trim();if(!t)return;$('#asend').disabled=true;
-        try{await aPost({a:'areply',to:dev,text:t,cid:'a'+Date.now().toString(36)});await showThread(dev,name)}catch(e){toast('❌ '+e.message);$('#asend').disabled=false}};
+      bindCompose(o=>aPost(Object.assign({a:'areply',to:dev},o)),()=>showThread(dev,name));
     }catch(e){err(e)}
   }
   async function showGroup(){
     ac.view='group';out.innerHTML='<div class="card"><p class="muted">আনা হচ্ছে…</p></div>';
     try{const j=await aGet('a=gall');
-      out.innerHTML=`<div class="card"><h3>গ্রুপ আলোচনা</h3><div class="msgs" id="amsgs">${j.msgs.map(m=>bub(m,true)).join('')||'<div class="empty">এখনো কোনো আলোচনা নেই</div>'}</div><div class="cbox"><textarea id="atext" rows="1" maxlength="600" placeholder="অ্যাডমিন হিসেবে লিখুন…"></textarea><button class="btn" id="asend">পাঠান</button></div></div>`;
-      box();
-      out.querySelectorAll('[data-adel]').forEach(a=>a.onclick=async e=>{e.preventDefault();if(!confirm('এই বার্তা সবার জন্য মুছে ফেলবেন?'))return;try{await aPost({a:'adel',id:a.dataset.adel});showGroup()}catch(x){toast('❌ '+x.message)}});
-      $('#asend').onclick=async()=>{const t=$('#atext').value.trim();if(!t)return;$('#asend').disabled=true;
-        try{await aPost({a:'agroup',text:t,cid:'a'+Date.now().toString(36)});await showGroup()}catch(e){toast('❌ '+e.message);$('#asend').disabled=false}};
+      out.innerHTML=`<div class="card"><h3>গ্রুপ আলোচনা</h3><div class="msgs" id="amsgs" style="height:46vh">${bubs(j.msgs,true)}</div>${compose('অ্যাডমিন হিসেবে লিখুন…')}</div>`;
+      box();bindCompose(o=>aPost(Object.assign({a:'agroup'},o)),showGroup);
     }catch(e){err(e)}
   }
   const go2=()=>{if(!saveKey())return;ac.view==='group'?showGroup():ac.view==='thread'?showThread(ac.dev,ac.name):showList()};
