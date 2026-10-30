@@ -9,13 +9,15 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon.jpg">
+<link rel="preload" href="fonts/TiroBangla-Regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Tiro Bangla';src:url('fonts/TiroBangla-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
 :root{--g:#0b4a3f;--g2:#06352d;--m:#6b0000;--cream:#fbf7e6;--bg:#f2f5f1;--card:#fff;--tx:#1b2a26;--mut:#5f6f6a;--ln:#dfe6e1;--in:#13805f;--ex:#b3261e}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:24px;line-height:1.55}
+body{font-family:'Tiro Bangla','Noto Serif Bengali','Noto Sans Bengali',serif;background:var(--bg);color:var(--tx);padding-bottom:24px;line-height:1.55}
 header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top))}
 header img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.7);background:var(--g)}
 header .t{flex:1;min-width:0}
@@ -388,7 +390,7 @@ function vContact(){
 
 /* ---------- PDF ডাউনলোড (নিজস্ব PDF, বাইরের কোনো লাইব্রেরি লাগে না) ---------- */
 const PW=794,PH=1123,PS=3;
-const PFONT='"Hind Siliguri","Noto Sans Bengali","Vrinda","Shonar Bangla",system-ui,sans-serif';
+const PFONT='"Tiro Bangla","Noto Serif Bengali","Noto Sans Bengali","Vrinda","Shonar Bangla",serif';
 const PC={g:'#0b4a3f',gold:'#c9a227',ln:'#dfe6e1',mut:'#5f6f6a',tx:'#1b2a26',ok:'#eef8f2',due:'#fdeeed',tot:'#f6efd2',in:'#13805f',ex:'#b3261e',box:'#fbfcfb'};
 const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
 class Pg{
@@ -480,7 +482,7 @@ function downloadBlob(blob,name){
   setTimeout(()=>{a.remove();URL.revokeObjectURL(u)},5000);
 }
 async function pdfPrep(){
-  try{for(const w of [400,600,700])await document.fonts.load(w+' 16px "Hind Siliguri"','আবক১২৩');await document.fonts.ready}catch(e){}
+  try{for(const w of [400,700])await document.fonts.load(w+' 16px "Tiro Bangla"','আবক১২৩0123');await document.fonts.ready}catch(e){}
   return await loadImg('icon.jpg');
 }
 async function withBusy(btn,fn){
