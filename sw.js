@@ -1,5 +1,5 @@
 // আল-ইত্তেফাক — অফলাইন সার্ভিস ওয়ার্কার
-const CACHE = 'al-ittefaq-v18';
+const CACHE = 'al-ittefaq-v21';
 const FONTS = 'al-ittefaq-fonts-v1';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon.jpg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'fonts/TiroBangla-Regular.woff', 'data.json'];
 
