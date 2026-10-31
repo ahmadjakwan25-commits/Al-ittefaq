@@ -245,6 +245,26 @@ html[data-theme=night] .empty,html[data-theme=night] .muted{color:var(--mut)}
 html[data-theme=teal] .tiles button{border:0;background:var(--tl2);box-shadow:none;border-radius:22px;color:var(--g)}
 html[data-theme=teal] .tiles button span{background:#fff;color:inherit;box-shadow:0 3px 8px rgba(0,0,0,.14);font-size:24px}
 html[data-theme=teal] .hero2{border-radius:30px}
+
+/* মূল পাতার নতুন বিন্যাস */
+.hero2 .htop{display:flex;gap:10px;align-items:flex-start;text-align:center}
+.hero2 .hl{flex:none;width:96px}.hero2 .hl .arch{width:92px;height:98px}
+.hero2 .est{display:block;margin-top:7px;font-size:12px;line-height:1.35;color:#fff;background:rgba(201,162,39,.18);border:1px solid rgba(236,217,138,.5);border-radius:12px;padding:3px 4px}
+.hero2 .hrt{flex:1;min-width:0}
+.hero2 .hrt .bism{font-size:23px!important;line-height:1.45!important;margin:0 0 2px}
+.hero2 .hrt h1{font-size:18px!important;margin:0!important;line-height:1.35}
+.hero2 .addr{font-size:12.5px;color:var(--gold2);margin:3px 0 2px;line-height:1.4}
+.hero2 .tag{margin:2px 0 0!important;font-size:12px!important;color:#fff;opacity:.95}
+.hero2 .hayah{margin:6px 0 5px!important;padding:0 8px 2px!important}.hero2 .hayah .ar{font-size:21px!important;line-height:1.6!important}
+.dtm{margin:0 0 6px;padding:5px 6px 6px;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid rgba(236,217,138,.35);text-align:center}
+.dtm .dt1{font-size:12.5px;color:#fff;margin-bottom:4px}.dtm .dt1 b{color:var(--gold2)}
+.dtm .dt3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.dtm .dt3>div{background:rgba(255,255,255,.08);border-radius:9px;padding:3px 3px 4px;min-width:0}
+.dtm .dt3 small{display:block;font-size:10.5px;color:var(--gold2);opacity:.95}.dtm .dt3 b{display:block;font-size:11.5px;line-height:1.3;color:#fff;font-weight:600}
+.slider{aspect-ratio:3/1!important;margin:6px 0 0!important}
+.slider .cp{font-size:12.5px;padding:12px 8px 14px}
+.hero2 .hrt .hayah{margin:5px 0 0!important;padding:2px 6px!important}.hero2 .hrt .hayah .ar{font-size:19px!important;line-height:1.55!important}
+.dtm .dt1{font-size:16px!important;font-weight:600}.dtm .dt1 b{font-size:22px;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -614,6 +634,30 @@ async function askPerm(){
 }
 
 /* ---------- Public views ---------- */
+/* ---------- তারিখ: ইংরেজি / হিজরি / বাংলা ---------- */
+const BN_MON=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const BN_DAY=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+const HJ_MON=['মুহাররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শা\'বান','রমজান','শাওয়াল','জিলকদ','জিলহজ'];
+const BD_MON=[['বৈশাখ',4,14],['জ্যৈষ্ঠ',5,15],['আষাঢ়',6,15],['শ্রাবণ',7,16],['ভাদ্র',8,16],['আশ্বিন',9,16],['কার্তিক',10,16],['অগ্রহায়ণ',11,15],['পৌষ',12,15],['মাঘ',1,14],['ফাল্গুন',2,13],['চৈত্র',3,15]];
+function banglaDate(d){
+  const y=d.getFullYear(),day0=new Date(y,d.getMonth(),d.getDate());
+  let best=null;
+  for(const yy of [y-1,y])for(const [n,m,dd] of BD_MON){const st=new Date(yy,m-1,dd);if(st<=day0&&(!best||st>best.st))best={n,st}}
+  const diff=Math.round((day0-best.st)/864e5)+1,by=(d.getMonth()>3||(d.getMonth()===3&&d.getDate()>=14))?y-593:y-594;
+  return toBn(diff)+' '+best.n+' '+toBn(by);
+}
+function hijriDate(d){
+  const adj=Number((DB.org||{}).hijriAdj);const dd=new Date(d.getTime()+(isNaN(adj)?-1:adj)*864e5);
+  try{const p=Object.fromEntries(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric',year:'numeric'}).formatToParts(dd).map(x=>[x.type,x.value]));
+    return toBn(p.day)+' '+HJ_MON[(+p.month||1)-1]+' '+toBn(p.year)}catch(e){return ''}
+}
+function timeStr(d){const h=d.getHours();return toBn(h%12||12)+':'+toBn(String(d.getMinutes()).padStart(2,'0'))+(h<12?' AM':' PM')}
+function dateBlock(){
+  const d=new Date();
+  return `<div class="dtm"><div class="dt1">🕐 সময়: <b id="clk">${timeStr(d)}</b> · ${BN_DAY[d.getDay()]}</div>
+<div class="dt3"><div><small>ইংরেজি</small><b>${toBn(d.getDate())} ${BN_MON[d.getMonth()]} ${toBn(d.getFullYear())}</b></div><div><small>আরবী (হিজরি)</small><b>${hijriDate(d)}</b></div><div><small>বাংলা</small><b>${banglaDate(d)}</b></div></div></div>`;
+}
+setInterval(()=>{const e=$('#clk');if(e)e.textContent=timeStr(new Date())},20000);
 let slT=null;
 const bnSrc=b=>b.photoData?b.photoData:(b.photo?b.photo+'?v='+(b.pv||''):'');
 function sliderHTML(){
@@ -633,11 +677,9 @@ function vHome(){const o=DB.org;
 const ln=[...(DB.notices||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0];
 return `
 <div class="hero2"><span class="wm ar">الله</span>
-<div class="bism ar">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-<div class="hrow"><div class="arch"><img src="icon.jpg" alt="" onerror="this.style.display='none'"></div>
-<div class="htxt"><h1>${esc(o.name)}</h1><div class="orn">✦ ❖ ✦</div><p>অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p></div></div>
-<div class="hayah"><div class="ar">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</div><small>সূরা আল-মায়িদা ৫:২</small></div>
-<div class="pills"><span class="pill">🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</span><span class="pill">📍 ${esc(o.address)}</span></div>
+<div class="htop"><div class="hl"><div class="arch"><img src="icon.jpg" alt="" onerror="this.style.display='none'"></div><span class="est">🌙 স্থাপিত<br>${esc(o.established)} খ্রিঃ</span></div>
+<div class="hrt"><div class="bism ar">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div><h1>${esc(o.name)}</h1><div class="addr">📍 ${esc(o.address)}</div><p class="tag">একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন</p><div class="hayah"><div class="ar">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ</div><small>সূরা আল-মায়িদা ৫:২</small></div></div></div>
+${dateBlock()}
 ${sliderHTML()}</div>
 <div class="tiles">
 <button data-go="intro"><span>🕌</span>পরিচিতি</button><button data-go="advisors"><span>🎓</span>উপদেষ্টা</button><button data-go="members"><span>👥</span>সদস্য</button>
@@ -1197,6 +1239,7 @@ function crudHTML(k){
 function infoForm(){const o=draft.org,c=o.contacts||{};return `<div class="card"><h3>সংগঠনের তথ্য</h3>
 <label>নাম</label><input data-o="name" value="${esc(o.name)}"><label>স্থাপিত সাল</label><input data-o="established" value="${esc(o.established)}">
 <label>পরিচিতি</label><textarea data-o="about">${esc(o.about)}</textarea><label>লক্ষ্য</label><textarea data-o="mission">${esc(o.mission)}</textarea>
+<label>হিজরি তারিখ সমন্বয় (দিন: -২ থেকে +২; বাংলাদেশে সাধারণত -১)</label><input data-o="hijriAdj" type="number" min="-2" max="2" step="1" value="${esc(o.hijriAdj==null?-1:o.hijriAdj)}">
 <p class="muted" style="font-size:13px">ঠিকানা ও ফোন-ইমেইল সম্পাদনা করতে "যোগাযোগ" ট্যাবে যান।</p>
 <div class="btns"><button class="btn" id="ainfo">সংরক্ষণ (খসড়ায়)</button></div></div>`}
 function settingsForm(){const g=gh();return `<div class="card"><h3>📤 প্রকাশ করুন (GitHub-এ সেভ)</h3>
@@ -1308,7 +1351,7 @@ function bindChatAdm(){
 /* ---------- অ্যাডমিন: হোম ব্যানার ---------- */
 function bannerImg(file,fit){return new Promise((res,rej)=>{
   const url=URL.createObjectURL(file),im=new Image();
-  im.onload=()=>{const c=document.createElement('canvas'),x=c.getContext('2d');let W=1280,H=560;
+  im.onload=()=>{const c=document.createElement('canvas'),x=c.getContext('2d');let W=1200,H=400;
     if(fit==='contain'){const k=Math.min(1,1280/Math.max(im.width,im.height));W=Math.round(im.width*k);H=Math.round(im.height*k);c.width=W;c.height=H;x.fillStyle='#000';x.fillRect(0,0,W,H);x.drawImage(im,0,0,W,H)}
     else{c.width=W;c.height=H;const k=Math.max(W/im.width,H/im.height),w=im.width*k,h=im.height*k;x.fillStyle='#000';x.fillRect(0,0,W,H);x.drawImage(im,(W-w)/2,(H-h)/2,w,h)}
     URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',0.8))};
@@ -1317,10 +1360,10 @@ function bannersHTML(){
   const l=draft.banners||[];
   return `<div class="card"><h3>🖼️ হোম পাতার ব্যানার (স্লাইড)</h3>
 <p class="muted">এই ছবিগুলো মূল পাতার সবুজ কার্ডের ভেতরে ৩-৪ সেকেন্ড পরপর বদলে দেখাবে।</p>
-<div class="warn" style="background:#eef6f2;border-color:#bfe0d2">📐 <b>সঠিক মাপ: ১২৮০ × ৫৬০ পিক্সেল</b> (প্রস্থ ও উচ্চতার অনুপাত ১৬:৭, আড়াআড়ি)। ফাইল ২০০-৩০০ কেবি-র মধ্যে JPG হলে সবচেয়ে ভালো। অন্য মাপের ছবি দিলেও অ্যাপ নিজেই মাঝখান থেকে কেটে এই মাপে এনে ছোট করে নেবে — তাই জরুরি লেখা বা মুখ ছবির মাঝের অংশে রাখুন।</div>
+<div class="warn" style="background:#eef6f2;border-color:#bfe0d2">📐 <b>সঠিক মাপ: ১২০০ × ৪০০ পিক্সেল</b> (প্রস্থ ও উচ্চতার অনুপাত ৩:১, আড়াআড়ি)। ফাইল ২০০-৩০০ কেবি-র মধ্যে JPG হলে সবচেয়ে ভালো। অন্য মাপের ছবি দিলেও অ্যাপ নিজেই মাঝখান থেকে কেটে এই মাপে এনে ছোট করে নেবে — তাই জরুরি লেখা বা মুখ ছবির মাঝের অংশে রাখুন।</div>
 <label class="chk"><input type="checkbox" id="bfit"> ছবি না কেটে পুরো দেখাও (ছবির দুই পাশে কালো জায়গা থাকতে পারে)</label>
 <div class="btns"><label class="btn" for="bfile" style="display:inline-block">➕ ছবি যোগ করুন (একাধিক বাছা যাবে)</label></div><input type="file" id="bfile" accept="image/*" multiple hidden></div>
-${l.length?l.map((b,i)=>`<div class="card" data-b="${esc(b.id)}"><div class="row" style="border:0;padding:0;align-items:center"><div style="width:130px;flex:none;aspect-ratio:16/7;border-radius:10px;overflow:hidden;background:#000"><img src="${esc(bnSrc(b))}" style="width:100%;height:100%;object-fit:${b.fit==='contain'?'contain':'cover'}" alt=""></div><div class="grow" style="min-width:0"><small class="muted">স্লাইড ${bn(i+1)}${b.photoData?' · নতুন (প্রকাশ বাকি)':''}${b.fit==='contain'?' · না কেটে':''}</small>
+${l.length?l.map((b,i)=>`<div class="card" data-b="${esc(b.id)}"><div class="row" style="border:0;padding:0;align-items:center"><div style="width:130px;flex:none;aspect-ratio:3/1;border-radius:10px;overflow:hidden;background:#000"><img src="${esc(bnSrc(b))}" style="width:100%;height:100%;object-fit:${b.fit==='contain'?'contain':'cover'}" alt=""></div><div class="grow" style="min-width:0"><small class="muted">স্লাইড ${bn(i+1)}${b.photoData?' · নতুন (প্রকাশ বাকি)':''}${b.fit==='contain'?' · না কেটে':''}</small>
 <input data-bcap="${esc(b.id)}" placeholder="ছবির নিচে লেখা (ঐচ্ছিক)" value="${esc(b.cap||'')}" maxlength="80" style="margin:4px 0"></div></div>
 <div class="btns"><button class="btn alt sm" data-bup="${esc(b.id)}" ${i?'':'disabled'}>⬆️ উপরে</button><button class="btn alt sm" data-bdn="${esc(b.id)}" ${i<l.length-1?'':'disabled'}>⬇️ নিচে</button><button class="btn red sm" data-bdel="${esc(b.id)}">🗑️ মুছুন</button></div></div>`).join(''):'<div class="card"><div class="empty">এখনো কোনো ব্যানার নেই</div></div>'}`;
 }
