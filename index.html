@@ -265,6 +265,8 @@ html[data-theme=teal] .hero2{border-radius:30px}
 .slider .cp{font-size:12.5px;padding:12px 8px 14px}
 .hero2 .hrt .hayah{margin:5px 0 0!important;padding:2px 6px!important}.hero2 .hrt .hayah .ar{font-size:19px!important;line-height:1.55!important}
 .dtm .dt1{font-size:16px!important;font-weight:600}.dtm .dt1 b{font-size:22px;letter-spacing:.5px}
+html,body{overflow-x:hidden;max-width:100%}
+.card,.latest,.card p,.card b{overflow-wrap:anywhere;word-break:break-word}
 </style>
 </head>
 <body>
@@ -625,12 +627,20 @@ function markSeen(){lsSet('ai_seen',(DB.notices||[]).map(n=>n.id));updateBadge()
 function maybeNotify(){
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   const lastN=lsGet('ai_pushed',[]);const fresh=unreadList().filter(n=>!lastN.includes(n.id));
-  fresh.slice(0,3).forEach(n=>{try{new Notification('আল-ইত্তেফাক: '+n.title,{body:n.body,icon:'icon.jpg'})}catch(e){}});
+  fresh.slice(0,3).forEach(n=>showN('আল-ইত্তেফাক: '+n.title,n.body));
   lsSet('ai_pushed',(DB.notices||[]).map(n=>n.id));
+}
+async function showN(t,b){
+  const o={body:(b||'').slice(0,160),icon:'icon-192.png',badge:'icon-192.png',tag:'ai-'+t.slice(0,20)};
+  try{const r=await navigator.serviceWorker.getRegistration();if(r){await r.showNotification(t,o);return true}}catch(e){}
+  try{new Notification(t,o);return true}catch(e){return false}
 }
 async function askPerm(){
   if(!('Notification' in window)){toast('এই ব্রাউজারে নোটিফিকেশন সমর্থিত নয়');return}
-  const p=await Notification.requestPermission();toast(p==='granted'?'নোটিফিকেশন চালু হয়েছে':'অনুমতি দেওয়া হয়নি');render();
+  let p;try{p=await new Promise((res,rej)=>{const r=Notification.requestPermission(res);if(r&&r.then)r.then(res,rej)})}catch(e){p=Notification.permission}
+  if(p==='granted'){const ok=await showN('আল-ইত্তেফাক','নোটিফিকেশন চালু হয়েছে ✅');toast(ok?'নোটিফিকেশন চালু হয়েছে':'অনুমতি মিলেছে, কিন্তু এই ব্রাউজার দেখাতে পারছে না')}
+  else toast(p==='denied'?'ব্লক করা আছে — নিচের নির্দেশ দেখুন':'অনুমতি দেওয়া হয়নি');
+  render();
 }
 
 /* ---------- Public views ---------- */
@@ -771,7 +781,7 @@ function vNotices(){
   const list=[...(DB.notices||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   const perm='Notification' in window?Notification.permission:'unsupported';
   return `<div class="card"><h2>নোটিফিকেশন ও ঘোষণা</h2>
-${perm==='default'?`<div class="warn">নতুন ঘোষণা এলে অ্যাপ খুললেই ব্রাউজার নোটিফিকেশন পেতে অনুমতি দিন।<div class="btns"><button class="btn sm" id="perm">নোটিফিকেশন চালু করুন</button></div></div>`:''}
+${perm==='denied'?`<div class="warn">🚫 নোটিফিকেশন ব্লক করা আছে। ব্রাউজারের ঠিকানা-বারের বাঁ পাশের 🔒 (বা ⚙️) চিহ্নে চাপুন → "অনুমতি / Permissions" → "নোটিফিকেশন" → "অনুমতি দিন", তারপর পাতা রিলোড করুন।</div>`:''}${perm==='default'?`<div class="warn">নতুন ঘোষণা এলে অ্যাপ খুললেই ব্রাউজার নোটিফিকেশন পেতে অনুমতি দিন।<div class="btns"><button class="btn sm" id="perm">নোটিফিকেশন চালু করুন</button></div></div>`:''}
 ${list.length?list.map(n=>`<div class="card ${s.has(n.id)?'':'unread'}" style="margin:8px 0"><b>${esc(n.title)}</b><br><small class="muted">${fdate(n.date)}</small><p style="margin:6px 0 0">${esc(n.body)}</p></div>`).join(''):'<div class="empty">কোনো ঘোষণা নেই</div>'}</div>`}
 
 function vContact(){
@@ -1001,7 +1011,7 @@ function vSettings(){
   const pt={granted:'✅ চালু আছে',denied:'🚫 ব্লক করা (ব্রাউজারের সাইট সেটিং থেকে খুলতে হবে)',default:'বন্ধ',unsupported:'এই ব্রাউজারে সমর্থিত নয়'}[perm];
   const fs=lsGet('ai_fs',1);
   return `<div class="card sec"><h2>সেটিং</h2>
-<div class="row"><div class="grow"><b>🔔 নোটিফিকেশন</b><br><small class="muted">${pt}</small></div>${perm==='default'?'<button class="btn sm" id="perm">চালু করুন</button>':''}</div>
+<div class="row"><div class="grow"><b>🔔 নোটিফিকেশন</b><br><small class="muted">${pt}</small></div>${perm==='default'?'<button class="btn sm" id="perm">চালু করুন</button>':perm==='denied'?'<small class="muted">ব্রাউজারের 🔒 → অনুমতি → নোটিফিকেশন</small>':''}</div>
 <div class="row"><div class="grow"><b>🔠 লেখার আকার</b><br><small class="muted">বর্তমান: ${bn(Math.round(fs*100))}%</small></div><button class="sbtn" id="fsm">A−</button><button class="sbtn" id="fsp">A+</button></div>
 <div class="row"><div class="grow"><b>🔄 তথ্য নতুন করে আনুন</b><br><small class="muted">সর্বশেষ সদস্য, চাঁদা ও ঘোষণা আনবে</small></div><button class="btn alt sm" id="refr">রিফ্রেশ</button></div>
 <div class="row"><div class="grow"><b>📲 ফোনে অ্যাপ হিসেবে রাখুন</b><br><small class="muted">ব্রাউজারের মেনু (⋮) থেকে "হোম স্ক্রিনে যোগ করুন" চাপুন।</small></div>${window._ip?'<button class="btn alt sm" id="inst">ইনস্টল</button>':''}</div>

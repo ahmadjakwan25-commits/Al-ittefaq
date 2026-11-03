@@ -1,5 +1,5 @@
 // আল-ইত্তেফাক — অফলাইন সার্ভিস ওয়ার্কার
-const CACHE = 'al-ittefaq-v23';
+const CACHE = 'al-ittefaq-v24';
 const FONTS = 'al-ittefaq-fonts-v1';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon.jpg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'fonts/TiroBangla-Regular.woff', 'data.json'];
 
@@ -60,4 +60,12 @@ self.addEventListener('fetch', e => {
   }
   if (url.origin !== location.origin) return;
   e.respondWith(netFirst(req));
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(l => {
+    for (const c of l) { if ('focus' in c) return c.focus(); }
+    return self.clients.openWindow('./#notices');
+  }));
 });
