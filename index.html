@@ -354,7 +354,7 @@ const THEMES=[
  {id:'night',n:'রাতের আকাশ',d:'গাঢ় (ডার্ক) থিম — চোখের আরাম',v:Object.assign({},TB,{g:'#1f6f86',g2:'#0b2230',m:'#3a0f1d',gold:'#e0b84a',gold2:'#f5e3a3',bg:'#0c161c',card:'#14232b',tx:'#e6eef0',mut:'#9bb0b6',ln:'#263c46',soft:'#1d323c',msgbg:'#0f1c22',bubme:'#1f4a44',bubmeb:'#2b6a60',bubad:'#3a3318',chip:'#1a2e36',hr1:'#1f5a6b',hr2:'#16394a',hr3:'#0b2230',tl1:'#17303a',tl2:'#112229',ic2:'#2c8aa0',in:'#4cc38f',ex:'#ff7b72',latest:'#1b2a22'}),pal:[['#1f6f86','#2f9ab5'],['#8a6a10','#c49a22'],['#a8434d','#d86a75'],['#2a7f5e','#3fae85'],['#5f47b8','#8068dc'],['#a85f17','#d9822a']]},
  {id:'teal',n:'ফিরোজা',d:'হালকা সমতল ও সতেজ ফিরোজা',v:Object.assign({},TB,{g:'#00746f',g2:'#004d4a',m:'#5b1f2a',gold:'#e0a526',gold2:'#f6dc9a',bg:'#eef7f6',tx:'#153030',mut:'#567573',ln:'#d3e8e6',soft:'#dff0ee',msgbg:'#eaf4f3',bubme:'#d2f0ec',bubmeb:'#a6dcd5',chip:'#e6f4f2',hr1:'#1aa39b',hr2:'#00746f',hr3:'#004d4a',tl2:'#e3f4f2',ic2:'#26b7ad',in:'#0f8a5f',latest:'#fffaf0'}),pal:[['#00746f','#26b7ad'],['#1a3c6e','#3b82f6'],['#8a1c1c','#d1453b'],['#8a5a00','#e8a21a'],['#5b2a86','#a35bd6'],['#6b7d1f','#a5b73a']]}
 ];
-const FEAT={intro:[0,'🕌','আমাদের পরিচয় ও লক্ষ্য'],advisors:[1,'🎓','আমাদের পথপ্রদর্শক উপদেষ্টাগণ'],members:[2,'👥','সংগঠনের সদস্যবৃন্দ'],chanda:[3,'🗓️','মাসিক চাঁদার হিসাব'],money:[4,'💰','আয়-ব্যয়ের স্বচ্ছ হিসাব'],notices:[5,'📢','সর্বশেষ ঘোষণা'],contact:[6,'📞','আমাদের সাথে যোগাযোগ'],profile:[7,'👤','আপনার নিজস্ব পাতা'],settings:[8,'⚙️','অ্যাপের সেটিং'],theme:[9,'🎨','পছন্দমতো রং ও ঢং']};
+const FEAT={directory:[10,'🗺️','থানাভিত্তিক মাদরাসা ও উলামায়ে কেরামের তথ্যভান্ডার'],intro:[0,'🕌','আমাদের পরিচয় ও লক্ষ্য'],advisors:[1,'🎓','আমাদের পথপ্রদর্শক উপদেষ্টাগণ'],members:[2,'👥','সংগঠনের সদস্যবৃন্দ'],chanda:[3,'🗓️','মাসিক চাঁদার হিসাব'],money:[4,'💰','আয়-ব্যয়ের স্বচ্ছ হিসাব'],notices:[5,'📢','সর্বশেষ ঘোষণা'],contact:[6,'📞','আমাদের সাথে যোগাযোগ'],profile:[7,'👤','আপনার নিজস্ব পাতা'],settings:[8,'⚙️','অ্যাপের সেটিং'],theme:[9,'🎨','পছন্দমতো রং ও ঢং']};
 function curTheme(){const id=lsGet('ai_theme','emerald');return THEMES.find(t=>t.id===id)||THEMES[0]}
 function applyTheme(id){
   const t=THEMES.find(x=>x.id===id)||THEMES[0],r=document.documentElement;
@@ -373,13 +373,13 @@ function vTheme(){
   THEMES.map(t=>`<button class="thm ${t.id===cur?'on':''}" data-theme-id="${t.id}" style="--p1:${t.v.hr1};--p2:${t.v.hr3};--p3:${t.v.gold}"><span class="sw"><i></i><i></i><i></i></span><span class="tn"><b>${t.n}</b><small>${t.d}</small></span><span class="tk">${t.id===cur?'✔':''}</span></button>`).join('');
 }
 
-const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],advisors:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],track:{url:'',clientId:''},banners:[],adminHash:''};
+const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],advisors:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],directory:[],track:{url:'',clientId:''},banners:[],adminHash:''};
 let DB=clone(DEFAULT),draft=null,tab='home',isAdmin=false,adminTab='members',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
 async function load(){
-  try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;DB=Object.assign(clone(DEFAULT),await r.json());lsSet('ai_cache',DB)}
-  catch(e){DB=Object.assign(clone(DEFAULT),lsGet('ai_cache',{}))}
+  try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;DB=Object.assign(clone(DEFAULT),await r.json());DB.directory=DB.directory||[];lsSet('ai_cache',DB)}
+  catch(e){DB=Object.assign(clone(DEFAULT),lsGet('ai_cache',{}));DB.directory=DB.directory||[]}
   render();updateBadge();maybeNotify();warmCache();
   if(!opened){opened=true;lastBeat=Date.now();trkSend('open');if(TRK().url){pollChat('dm');pollChat('group')}}
 }
@@ -694,10 +694,38 @@ ${sliderHTML()}</div>
 <div class="tiles">
 <button data-go="intro"><span>🕌</span>পরিচিতি</button><button data-go="advisors"><span>🎓</span>উপদেষ্টা</button><button data-go="members"><span>👥</span>সদস্য</button>
 <button data-go="chanda"><span>🗓️</span>মাসিক চাঁদা</button><button data-go="money"><span>💰</span>আয়-ব্যয়</button><button data-go="notices"><span>📢</span>ঘোষণা</button>
-<button data-go="contact"><span>📞</span>যোগাযোগ</button>
+<button data-go="directory"><span>🗺️</span>দ্বীনি অঙ্গন</button><button data-go="contact"><span>📞</span>যোগাযোগ</button>
 <button data-go="dm"><span>💬</span>অ্যাডমিনকে বার্তা<i class="cbd cb-dm" hidden></i></button><button data-go="group"><span>🗨️</span>গ্রুপ আলোচনা<i class="cbd cb-group" hidden></i></button></div>
 ${ln?`<div class="card latest"><small class="muted">📢 সর্বশেষ ঘোষণা · ${fdate(ln.date)}</small><br><b>${esc(ln.title)}</b><p style="margin:4px 0 0">${esc(ln.body)}</p></div>`:''}`}
 
+
+const JAMALPUR_UPAZILAS=['জামালপুর সদর','মেলান্দহ','ইসলামপুর','দেওয়ানগঞ্জ','সরিষাবাড়ী','মাদারগঞ্জ','বকশীগঞ্জ'];
+function vDirectory(){
+  const all=DB.directory||[],q=(window._dq||'').trim().toLowerCase(),th=window._dth||'সব উপজেলা',v=window._dv||'সব গ্রাম',kind=window._dk||'সব';
+  const thanaRows=all.filter(x=>x.thana===th);
+  const villages=[...new Set(thanaRows.map(x=>(x.village||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'bn'));
+  const base=all.filter(x=>(th==='সব উপজেলা'||x.thana===th)&&(v==='সব গ্রাম'||(x.village||'').trim()===v));
+  const rows=base.filter(x=>(kind==='সব'||x.type===kind)&&(!q||[x.name,x.address,x.intro,x.thana,x.village,x.phone,x.designation].join(' ').toLowerCase().includes(q)));
+  const counts=JAMALPUR_UPAZILAS.map(t=>({t,n:all.filter(x=>x.thana===t).length,m:all.filter(x=>x.thana===t&&x.type==='মাদরাসা').length,a:all.filter(x=>x.thana===t&&x.type==='আলেম').length}));
+  const villageCounts=villages.map(g=>({g,n:thanaRows.filter(x=>(x.village||'').trim()===g).length,a:thanaRows.filter(x=>(x.village||'').trim()===g&&x.type==='আলেম').length,m:thanaRows.filter(x=>(x.village||'').trim()===g&&x.type==='মাদরাসা').length}));
+  const card=x=>`<div class="card sec"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="pill" style="background:var(--soft);color:var(--g)">${esc(x.type)}</span><small class="muted">${esc(x.thana)}${x.village?' · '+esc(x.village):''}</small></div>
+  <h3 style="margin-top:9px">${esc(x.name)}</h3>${x.designation?`<b>${esc(x.designation)}</b>`:''}
+  ${x.intro?`<p>${esc(x.intro)}</p>`:''}<p class="muted" style="margin-bottom:4px">📍 ${esc(x.address||'ঠিকানা দেওয়া হয়নি')}</p>
+  ${x.phone?`<p style="margin:4px 0">📞 <a href="tel:${esc(x.phone)}">${esc(x.phone)}</a></p>`:''}
+  ${x.link?`<p style="margin:4px 0"><a href="${esc(x.link)}" target="_blank" rel="noopener">🔗 ওয়েবসাইট / বিস্তারিত</a></p>`:''}</div>`;
+  return `<div class="card sec"><h2>জামালপুরের দ্বীনি অঙ্গন</h2><p class="muted">প্রথমে উপজেলা, এরপর গ্রাম নির্বাচন করে ওই এলাকার মাদরাসা ও উলামায়ে কেরামের তালিকা দেখুন।</p>
+  <div class="grid3">${counts.map(x=>`<button class="stat" type="button" data-dthana="${esc(x.t)}" style="cursor:pointer;text-align:center"><small>${esc(x.t)}</small><b>${bn(x.n)}টি</b><small>মাদরাসা ${bn(x.m)} · আলেম ${bn(x.a)}</small></button>`).join('')}</div>
+  <label>উপজেলা</label><select id="dth"><option>সব উপজেলা</option>${JAMALPUR_UPAZILAS.map(t=>`<option ${th===t?'selected':''}>${t}</option>`).join('')}</select>
+  ${th!=='সব উপজেলা'?`<div class="btns"><button class="btn alt sm" id="dback">← সব উপজেলা</button></div>
+  <h3>📍 ${esc(th)} — গ্রাম/এলাকা</h3><div class="grid3">
+  <button class="stat" type="button" data-dvillage="সব গ্রাম" style="cursor:pointer"><small>পুরো উপজেলা</small><b>সব এলাকা</b><small>${bn(thanaRows.length)}টি তথ্য</small></button>
+  ${villageCounts.map(x=>`<button class="stat" type="button" data-dvillage="${esc(x.g)}" style="cursor:pointer"><small>${esc(x.g)}</small><b>${bn(x.n)}টি</b><small>মাদরাসা ${bn(x.m)} · আলেম ${bn(x.a)}</small></button>`).join('')}</div>`:''}
+  ${v!=='সব গ্রাম'?`<p><b>নির্বাচিত গ্রাম: ${esc(v)}</b></p>`:''}
+  <label>তথ্যের ধরন</label><select id="dk"><option ${kind==='সব'?'selected':''}>সব</option><option ${kind==='মাদরাসা'?'selected':''}>মাদরাসা</option><option ${kind==='আলেম'?'selected':''}>আলেম</option><option ${kind==='মসজিদ/প্রতিষ্ঠান'?'selected':''}>মসজিদ/প্রতিষ্ঠান</option></select>
+  <input id="dq" placeholder="🔎 নাম, গ্রাম বা ঠিকানা দিয়ে খুঁজুন" value="${esc(window._dq||'')}">
+  <small class="muted">মোট প্রকাশিত তথ্য: ${bn(all.length)}টি</small></div>
+  ${rows.length?rows.map(card).join(''):'<div class="card"><div class="empty">এই নির্বাচিত এলাকায় এখনো কোনো তথ্য যোগ করা হয়নি। তথ্য যুক্ত হলে এখানে দেখা যাবে।</div></div>'}`;
+}
 function vIntro(){return vIntroTop()+vIntroStats()}
 function vIntroTop(){const o=DB.org;return `
 <div class="card sec"><h2>আমাদের পরিচিতি</h2><p>${esc(o.about)}</p><p class="muted">📍 ${esc(o.address)}<br>🌙 স্থাপিত: ${esc(o.established)} খ্রিঃ</p></div>
@@ -1018,10 +1046,10 @@ function vSettings(){
 <div class="row"><div class="grow"><b>ℹ️ অ্যাপ</b><br><small class="muted">আল-ইত্তেফাক · ইত্তেফাকুত ত্বলাবা ওয়াল উলামা</small></div></div></div>`;
 }
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();window._ip=e;if(tab==='settings')render()});
-const TITLES={intro:'পরিচিতি',advisors:'উপদেষ্টা',members:'সদস্য',chanda:'মাসিক চাঁদা',money:'আয়-ব্যয়',notices:'ঘোষণা',contact:'যোগাযোগ',profile:'প্রোফাইল',settings:'সেটিং',theme:'থিম',dm:'অ্যাডমিনকে বার্তা',group:'গ্রুপ আলোচনা'};
+const TITLES={directory:'জামালপুরের দ্বীনি অঙ্গন',intro:'পরিচিতি',advisors:'উপদেষ্টা',members:'সদস্য',chanda:'মাসিক চাঁদা',money:'আয়-ব্যয়',notices:'ঘোষণা',contact:'যোগাযোগ',profile:'প্রোফাইল',settings:'সেটিং',theme:'থিম',dm:'অ্যাডমিনকে বার্তা',group:'গ্রুপ আলোচনা'};
 
 function render(){
-  const v=({home:vHome,intro:vIntro,advisors:vAdvisors,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact,profile:vProfile,settings:vSettings,theme:vTheme,dm:()=>vChat('dm'),group:()=>vChat('group')}[tab]||vHome)();
+  const v=({home:vHome,directory:vDirectory,intro:vIntro,advisors:vAdvisors,members:vMembers,chanda:vChanda,money:vMoney,notices:vNotices,contact:vContact,profile:vProfile,settings:vSettings,theme:vTheme,dm:()=>vChat('dm'),group:()=>vChat('group')}[tab]||vHome)();
   clearInterval(slT);applyFeat(tab);
   $('#view').innerHTML=((tab!=='dm'&&tab!=='group'&&tab!=='home')?pheadHTML(tab):'')+v;
   const isChat=(tab==='dm'||tab==='group')&&!!$('#view .cfull');
@@ -1049,6 +1077,13 @@ function render(){
   const aq=$('#aq');if(aq)aq.oninput=e=>{window._aq=e.target.value;const p=e.target.selectionStart;render();const n=$('#aq');n.focus();n.setSelectionRange(p,p)};
   const mq=$('#mq');if(mq)mq.oninput=e=>{window._mq=e.target.value;const p=e.target.selectionStart;render();const n=$('#mq');n.focus();n.setSelectionRange(p,p)};
   const pm=$('#perm');if(pm)pm.onclick=askPerm;
+  const dth=$('#dth');if(dth)dth.onchange=e=>{window._dth=e.target.value;window._dv='সব গ্রাম';render()};
+  A.querySelectorAll('[data-dthana]').forEach(b=>b.onclick=()=>{window._dth=b.dataset.dthana;window._dv='সব গ্রাম';window._dk='সব';render()});
+  A.querySelectorAll('[data-dvillage]').forEach(b=>b.onclick=()=>{window._dv=b.dataset.dvillage;render()});
+  const dbk=$('#dback');if(dbk)dbk.onclick=()=>{window._dth='সব উপজেলা';window._dv='সব গ্রাম';render()};
+  const dk=$('#dk');if(dk)dk.onchange=e=>{window._dk=e.target.value;render()};
+  const dq=$('#dq');if(dq)dq.oninput=e=>{window._dq=e.target.value;const p=e.target.selectionStart;render();const n=$('#dq');if(n){n.focus();n.setSelectionRange(p,p)}};
+
   if($('#msgs')&&(tab==='dm'||tab==='group'))chatEnter(tab)
   document.querySelectorAll('#view [data-theme-id]').forEach(b=>b.onclick=()=>{applyTheme(b.dataset.themeId);render();toast('থিম বদলেছে ✔')});
   initSlider();
@@ -1129,7 +1164,7 @@ const FIELDS={
   contacts:[['name','নাম','text'],['role','পদবী / দায়িত্ব','text'],['phone','মোবাইল নম্বর','tel'],['whatsapp','হোয়াটসঅ্যাপ নম্বর (ঐচ্ছিক)','tel']]
 };
 let adminMonth=null;
-const TNAME={members:'সদস্য',advisors:'উপদেষ্টা',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',banners:'ব্যানার',chatadm:'বার্তা',activity:'সক্রিয়তা',settings:'সেটিং'};
+const TNAME={members:'সদস্য',advisors:'উপদেষ্টা',chanda:'চাঁদা',transactions:'আয়-ব্যয়',notices:'নোটিফিকেশন',contacts:'যোগাযোগ',info:'সংগঠনের তথ্য',banners:'ব্যানার',chatadm:'বার্তা',activity:'সক্রিয়তা',directory:'দ্বীনি অঙ্গন',settings:'সেটিং'};
 const BLOODS=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
 
@@ -1146,6 +1181,7 @@ function renderAdmin(){
   else if(adminTab==='activity')body.innerHTML=activityHTML();
   else if(adminTab==='chatadm')body.innerHTML=chatAdmHTML();
   else if(adminTab==='banners')body.innerHTML=bannersHTML();
+  else if(adminTab==='directory')body.innerHTML=directoryAdminHTML();
   else if(adminTab==='members'||adminTab==='advisors')body.innerHTML=memberHTML(adminTab);
   else if(adminTab==='chanda')body.innerHTML=chandaHTML();
   else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
@@ -1153,6 +1189,25 @@ function renderAdmin(){
   bindAdmin();
   const gp=$('#gopub');if(gp)gp.onclick=()=>{adminTab='settings';editing=null;renderAdmin();A.scrollTop=0};
   A.scrollTop=st;
+}
+
+
+function directoryAdminHTML(){
+ const a=draft.directory||[],e=editing&&editing.k==='directory'?editing.item:null;
+ const val=k=>esc(e&&e[k]||'');
+ return `<div class="card"><h3>🗺️ জামালপুরের দ্বীনি অঙ্গন — তথ্য ব্যবস্থাপনা</h3>
+ <p class="muted">এখানে মাদরাসা, আলেম ও মসজিদ/দ্বীনি প্রতিষ্ঠানের তথ্য যোগ করুন। প্রকাশ করলে অ্যাপের সবার কাছে দেখা যাবে। ব্যক্তিগত ফোন নম্বর প্রকাশের আগে সংশ্লিষ্ট ব্যক্তির অনুমতি নিন।</p>
+ <label>তথ্যের ধরন</label><select id="dirType"><option ${val('type')==='মাদরাসা'?'selected':''}>মাদরাসা</option><option ${val('type')==='আলেম'?'selected':''}>আলেম</option><option ${val('type')==='মসজিদ/প্রতিষ্ঠান'?'selected':''}>মসজিদ/প্রতিষ্ঠান</option></select>
+ <label>উপজেলা</label><select id="dirThana">${JAMALPUR_UPAZILAS.map(t=>`<option ${val('thana')===t?'selected':''}>${t}</option>`).join('')}</select>
+ <label>নাম</label><input id="dirName" value="${val('name')}" placeholder="মাদরাসা / আলেম / প্রতিষ্ঠানের নাম">
+ <label>পদবি বা পরিচয় (ঐচ্ছিক)</label><input id="dirDesignation" value="${val('designation')}" placeholder="যেমন: মুহতামিম, মুহাদ্দিস">
+ <label>গ্রাম / মহল্লা</label><input id="dirVillage" value="${val('village')}" placeholder="যে গ্রাম বা মহল্লায় অবস্থিত">
+ <label>সম্পূর্ণ ঠিকানা</label><input id="dirAddress" value="${val('address')}" placeholder="গ্রাম, ডাকঘর, উপজেলা, জামালপুর">
+ <label>সংক্ষিপ্ত পরিচিতি</label><textarea id="dirIntro" placeholder="প্রতিষ্ঠানের ইতিহাস, শিক্ষা কার্যক্রম বা আলেমের সংক্ষিপ্ত পরিচয়">${val('intro')}</textarea>
+ <label>যোগাযোগ নম্বর (ঐচ্ছিক)</label><input id="dirPhone" type="tel" value="${val('phone')}" placeholder="অনুমতি নিয়ে প্রকাশ করুন">
+ <label>ওয়েবসাইট / ফেসবুক লিংক (ঐচ্ছিক)</label><input id="dirLink" type="url" value="${val('link')}" placeholder="https://...">
+ <div class="btns"><button class="btn" id="dirSave">${e?'পরিবর্তন সংরক্ষণ':'➕ তথ্য যোগ করুন'}</button>${e?'<button class="btn alt" id="acancel">বাতিল</button>':''}</div></div>
+ <div class="card"><h3>প্রকাশের জন্য প্রস্তুত তথ্য (${bn(a.length)})</h3>${a.length?a.map(x=>`<div class="row"><div class="grow"><b>${esc(x.name)}</b><br><small class="muted">${esc(x.type)} · ${esc(x.thana)}${x.village?' · '+esc(x.village):''}</small></div><button class="btn alt sm" data-edit="${esc(x.id)}">সম্পাদনা</button><button class="btn red sm" data-del="${esc(x.id)}">মুছুন</button></div>`).join(''):'<div class="empty">এখনো তথ্য যোগ করা হয়নি</div>'}</div>`;
 }
 
 function contactAdminHTML(){
@@ -1407,6 +1462,16 @@ function bindAdmin(){
   body.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{editing={k,item:draft[k].find(x=>x.id===b.dataset.edit)};formPhoto=null;removePhoto=false;renderAdmin();window.scrollTo(0,0);$('#admin').scrollTo(0,0)});
   body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('মুছে ফেলবেন?'))return;draft[k]=draft[k].filter(x=>x.id!==b.dataset.del);if(k==='members')draft.payments=(draft.payments||[]).filter(p=>p.mid!==b.dataset.del);dirty=true;renderAdmin()});
 
+  if(k==='directory'){
+    draft.directory=draft.directory||[];
+    const sv=$('#dirSave');if(sv)sv.onclick=()=>{
+      const obj={type:$('#dirType').value,thana:$('#dirThana').value,name:$('#dirName').value.trim(),designation:$('#dirDesignation').value.trim(),village:$('#dirVillage').value.trim(),address:$('#dirAddress').value.trim(),intro:$('#dirIntro').value.trim(),phone:$('#dirPhone').value.trim(),link:$('#dirLink').value.trim()};
+      if(!obj.name||!obj.address)return toast('নাম ও ঠিকানা লিখুন');
+      if(editing&&editing.k==='directory'){const i=draft.directory.findIndex(x=>x.id===editing.item.id);draft.directory[i]=Object.assign({},editing.item,obj)}
+      else{obj.id=uid();draft.directory.push(obj)}
+      editing=null;dirty=true;renderAdmin();toast('খসড়ায় সংরক্ষিত — প্রকাশ করুন');
+    };
+  }
   if(k==='members'||k==='advisors'){
     const pf=$('#pfile');
     if(pf)pf.onchange=async e=>{const f=e.target.files[0];if(!f)return;try{formPhoto=await resizeImg(f);removePhoto=false;$('#pvbox').innerHTML=`<img src="${formPhoto}" alt="">`}catch(x){toast('ছবি পড়া যায়নি')}};
