@@ -703,28 +703,53 @@ const JAMALPUR_UPAZILAS=['জামালপুর সদর','মেলান�
 function vDirectory(){
   const all=DB.directory||[],q=(window._dq||'').trim().toLowerCase(),th=window._dth||'সব উপজেলা',v=window._dv||'সব গ্রাম',kind=window._dk||'সব';
   const thanaRows=all.filter(x=>x.thana===th);
-  const villages=[...new Set(thanaRows.map(x=>(x.village||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'bn'));
-  const base=all.filter(x=>(th==='সব উপজেলা'||x.thana===th)&&(v==='সব গ্রাম'||(x.village||'').trim()===v));
-  const rows=base.filter(x=>(kind==='সব'||x.type===kind)&&(!q||[x.name,x.address,x.intro,x.thana,x.village,x.phone,x.designation].join(' ').toLowerCase().includes(q)));
-  const counts=JAMALPUR_UPAZILAS.map(t=>({t,n:all.filter(x=>x.thana===t).length,m:all.filter(x=>x.thana===t&&x.type==='মাদরাসা').length,a:all.filter(x=>x.thana===t&&x.type==='আলেম').length}));
-  const villageCounts=villages.map(g=>({g,n:thanaRows.filter(x=>(x.village||'').trim()===g).length,a:thanaRows.filter(x=>(x.village||'').trim()===g&&x.type==='আলেম').length,m:thanaRows.filter(x=>(x.village||'').trim()===g&&x.type==='মাদরাসা').length}));
-  const card=x=>`<div class="card sec"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="pill" style="background:var(--soft);color:var(--g)">${esc(x.type)}</span><small class="muted">${esc(x.thana)}${x.village?' · '+esc(x.village):''}</small></div>
+  const villages=[...new Set(thanaRows.filter(x=>x.type===kind).map(x=>(x.village||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'bn'));
+  const base=all.filter(x=>(th==='সব উপজেলা'||x.thana===th)&&(kind==='সব'||x.type===kind)&&(v==='সব গ্রাম'||(x.village||'').trim()===v));
+  const rows=base.filter(x=>!q||[x.name,x.address,x.intro,x.thana,x.village,x.phone,x.designation].join(' ').toLowerCase().includes(q));
+  const counts=JAMALPUR_UPAZILAS.map((t,i)=>({t,n:all.filter(x=>x.thana===t).length,m:all.filter(x=>x.thana===t&&x.type==='মাদরাসা').length,a:all.filter(x=>x.thana===t&&x.type==='আলেম').length,c:['#e8f3ff','#eaf7ef','#fff2e5','#f3edff','#e7f7f7','#fff0f3','#f4f5e8'][i]}));
+  const villageCounts=villages.map(g=>({g,n:thanaRows.filter(x=>x.type===kind&&(x.village||'').trim()===g).length}));
+  const card=x=>`<div class="card sec jd-entry"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="pill" style="background:${x.type==='মাদরাসা'?'#e8f3ff':'#eaf7ef'};color:${x.type==='মাদরাসা'?'#245b91':'#286b43'}">${esc(x.type)}</span><small class="muted">${esc(x.thana)}${x.village?' · '+esc(x.village):''}</small></div>
   <h3 style="margin-top:9px">${esc(x.name)}</h3>${x.designation?`<b>${esc(x.designation)}</b>`:''}
   ${x.intro?`<p>${esc(x.intro)}</p>`:''}<p class="muted" style="margin-bottom:4px">📍 ${esc(x.address||'ঠিকানা দেওয়া হয়নি')}</p>
   ${x.phone?`<p style="margin:4px 0">📞 <a href="tel:${esc(x.phone)}">${esc(x.phone)}</a></p>`:''}
+  ${x.type==='মাদরাসা'&&(x.muhtamim||x.nazem)?`<div class="jd-office"><b>🏫 মাদরাসা কর্তৃপক্ষের যোগাযোগ</b>${x.muhtamim?`<p>মুহতামিম: <b>${esc(x.muhtamim)}</b>${x.muhtamimPhone?` · <a href="tel:${esc(x.muhtamimPhone)}">${esc(x.muhtamimPhone)}</a>`:''}</p>`:''}${x.nazem?`<p>নাজেমে তালিমাত: <b>${esc(x.nazem)}</b>${x.nazemPhone?` · <a href="tel:${esc(x.nazemPhone)}">${esc(x.nazemPhone)}</a>`:''}</p>`:''}</div>`:''}
   ${x.link?`<p style="margin:4px 0"><a href="${esc(x.link)}" target="_blank" rel="noopener">🔗 ওয়েবসাইট / বিস্তারিত</a></p>`:''}</div>`;
-  return `<div class="card sec"><h2>জামালপুরের দ্বীনি অঙ্গন</h2><p class="muted">প্রথমে উপজেলা, এরপর গ্রাম নির্বাচন করে ওই এলাকার মাদরাসা ও উলামায়ে কেরামের তালিকা দেখুন।</p>
-  <div class="grid3">${counts.map(x=>`<button class="stat" type="button" data-dthana="${esc(x.t)}" style="cursor:pointer;text-align:center"><small>${esc(x.t)}</small><b>${bn(x.n)}টি</b><small>মাদরাসা ${bn(x.m)} · আলেম ${bn(x.a)}</small></button>`).join('')}</div>
-  <label>উপজেলা</label><select id="dth"><option>সব উপজেলা</option>${JAMALPUR_UPAZILAS.map(t=>`<option ${th===t?'selected':''}>${t}</option>`).join('')}</select>
+  return `<style>
+  .jd-wrap{--jd-ink:#294052;color:var(--jd-ink)}
+  .jd-hero{background:linear-gradient(120deg,#e9f4ff,#eaf8ef 55%,#fff3e8)!important;border:1px solid #dce9ed!important;border-radius:22px!important;overflow:hidden}
+  .jd-hero h2{color:#24516a;margin-bottom:8px}
+  .jd-hero p{color:#607684}
+  .jd-thanas,.jd-options,.jd-villages{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;margin:14px 0}
+  .jd-thana,.jd-option,.jd-village{border:1px solid #dce8ed!important;border-radius:16px!important;padding:14px 10px!important;min-height:94px;box-shadow:0 3px 10px #2940520c;display:flex;flex-direction:column;justify-content:center;gap:7px;transition:transform .15s,box-shadow .15s}
+  .jd-thana:active,.jd-option:active,.jd-village:active{transform:scale(.98)}
+  .jd-thana.jd-selected{outline:3px solid #247c69!important;box-shadow:0 0 0 5px #d9f2e8,0 7px 18px #247c6922!important;transform:translateY(-2px)}
+  .jd-village.jd-selected{outline:3px solid #b58a28!important;box-shadow:0 0 0 4px #fff0c8!important}
+  .jd-office{background:#f0f7ff;border:1px solid #d7e8fa;border-radius:12px;padding:10px 12px;margin:10px 0;color:#34536d}
+  .jd-office p{margin:6px 0}
+  .jd-thana b,.jd-option b,.jd-village b{font-size:1.02rem;color:#294052}
+  .jd-thana small,.jd-option small,.jd-village small{color:#657987}
+  .jd-option.madrasa{background:#eaf3ff!important;border-color:#cbdff7!important}
+  .jd-option.alem{background:#eaf7ef!important;border-color:#cde8d5!important}
+  .jd-village{background:#fff8e9!important;border-color:#f0e2bd!important}
+  .jd-allv{background:#f1efff!important;border-color:#ded8fa!important}
+  .jd-search{background:#fff!important;border:1px solid #d6e4e9!important;border-radius:15px!important;color:#294052!important;padding:14px!important;width:100%;margin:12px 0}
+  .jd-entry{background:linear-gradient(145deg,#fff,#f7fbfd)!important;border:1px solid #dce9ed!important;border-radius:18px!important;box-shadow:0 5px 16px #2940520b!important;margin:12px 0}
+  .jd-entry h3{color:#28546a}
+  .jd-section-title{color:#35596b;margin:16px 0 8px}
+  .jd-count{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #dce8ed;border-radius:20px;padding:6px 11px;color:#526d7b;font-size:.88rem}
+  </style>
+  <div class="jd-wrap"><div class="card sec jd-hero"><div style="font-size:30px;margin-bottom:5px">🕌</div><h2>জামালপুরের দ্বীনি অঙ্গন</h2><p>উপজেলায় টাচ করুন। এরপর মাদরাসা অথবা আলেম নির্বাচন করে তালিকা দেখুন।</p>
+  <div class="jd-thanas">${counts.map(x=>`<button class="stat jd-thana ${th===x.t?'jd-selected':''}" type="button" data-dthana="${esc(x.t)}" style="background:${x.c}!important;cursor:pointer;text-align:center"><b>${esc(x.t)}</b><small>মাদরাসা ${bn(x.m)} · আলেম ${bn(x.a)}</small><span class="jd-count">${bn(x.n)}টি তথ্য</span></button>`).join('')}</div>
+  <label>উপজেলা নির্বাচন</label><select id="dth"><option>সব উপজেলা</option>${JAMALPUR_UPAZILAS.map(t=>`<option ${th===t?'selected':''}>${t}</option>`).join('')}</select>
   ${th!=='সব উপজেলা'?`<div class="btns"><button class="btn alt sm" id="dback">← সব উপজেলা</button></div>
-  <h3>📍 ${esc(th)} — গ্রাম/এলাকা</h3><div class="grid3">
-  <button class="stat" type="button" data-dvillage="সব গ্রাম" style="cursor:pointer"><small>পুরো উপজেলা</small><b>সব এলাকা</b><small>${bn(thanaRows.length)}টি তথ্য</small></button>
-  ${villageCounts.map(x=>`<button class="stat" type="button" data-dvillage="${esc(x.g)}" style="cursor:pointer"><small>${esc(x.g)}</small><b>${bn(x.n)}টি</b><small>মাদরাসা ${bn(x.m)} · আলেম ${bn(x.a)}</small></button>`).join('')}</div>`:''}
+  <h3 class="jd-section-title">📍 ${esc(th)} — তালিকার ধরন বেছে নিন</h3><div class="jd-options">
+  <button class="stat jd-option madrasa" type="button" data-dkind="মাদরাসা" style="cursor:pointer"><b>১. মাদরাসা</b><small>${bn(thanaRows.filter(x=>x.type==='মাদরাসা').length)}টি প্রতিষ্ঠান</small></button>
+  <button class="stat jd-option alem" type="button" data-dkind="আলেম" style="cursor:pointer"><b>২. আলেম</b><small>${bn(thanaRows.filter(x=>x.type==='আলেম').length)} জন</small></button></div>
+  ${kind!=='সব'?`<h3 class="jd-section-title">${kind==='মাদরাসা'?'📚 মাদরাসাসমূহ':'🌿 উলামায়ে কেরাম'} — ${esc(th)}</h3><div class="jd-villages"><button class="stat jd-village jd-allv ${v==='সব গ্রাম'?'jd-selected':''}" type="button" data-dvillage="সব গ্রাম" style="cursor:pointer"><small>সব গ্রাম</small><b>পুরো উপজেলা</b></button>${villageCounts.map(x=>`<button class="stat jd-village ${v===x.g?'jd-selected':''}" type="button" data-dvillage="${esc(x.g)}" style="cursor:pointer"><small>📍 ${esc(x.g)}</small><b>${bn(x.n)}টি</b></button>`).join('')}</div>`:''}`:''}
   ${v!=='সব গ্রাম'?`<p><b>নির্বাচিত গ্রাম: ${esc(v)}</b></p>`:''}
-  <label>তথ্যের ধরন</label><select id="dk"><option ${kind==='সব'?'selected':''}>সব</option><option ${kind==='মাদরাসা'?'selected':''}>মাদরাসা</option><option ${kind==='আলেম'?'selected':''}>আলেম</option><option ${kind==='মসজিদ/প্রতিষ্ঠান'?'selected':''}>মসজিদ/প্রতিষ্ঠান</option></select>
-  <input id="dq" placeholder="🔎 নাম, গ্রাম বা ঠিকানা দিয়ে খুঁজুন" value="${esc(window._dq||'')}">
+  <input class="jd-search" id="dq" placeholder="🔎 নাম, গ্রাম বা ঠিকানা দিয়ে খুঁজুন" value="${esc(window._dq||'')}">
   <small class="muted">মোট প্রকাশিত তথ্য: ${bn(all.length)}টি</small></div>
-  ${rows.length?rows.map(card).join(''):'<div class="card"><div class="empty">এই নির্বাচিত এলাকায় এখনো কোনো তথ্য যোগ করা হয়নি। তথ্য যুক্ত হলে এখানে দেখা যাবে।</div></div>'}`;
+  ${th==='সব উপজেলা'?'<div class="card"><div class="empty">তালিকা দেখতে প্রথমে একটি উপজেলা নির্বাচন করুন।</div></div>':kind==='সব'?'<div class="card"><div class="empty">উপজেলা নির্বাচন করা হয়েছে। এবার ১. মাদরাসা অথবা ২. আলেম-এ টাচ করুন।</div></div>':rows.length?rows.map(card).join(''):'<div class="card"><div class="empty">এই নির্বাচিত এলাকায় এখনো কোনো তথ্য যোগ করা হয়নি।</div></div>'}</div>`;
 }
 function vIntro(){return vIntroTop()+vIntroStats()}
 function vIntroTop(){const o=DB.org;return `
@@ -1079,6 +1104,7 @@ function render(){
   const pm=$('#perm');if(pm)pm.onclick=askPerm;
   const dth=$('#dth');if(dth)dth.onchange=e=>{window._dth=e.target.value;window._dv='সব গ্রাম';render()};
   $('#view').querySelectorAll('[data-dthana]').forEach(b=>b.onclick=()=>{window._dth=b.dataset.dthana;window._dv='সব গ্রাম';window._dk='সব';render()});
+  $('#view').querySelectorAll('[data-dkind]').forEach(b=>b.onclick=()=>{window._dk=b.dataset.dkind;window._dv='সব গ্রাম';render()});
   $('#view').querySelectorAll('[data-dvillage]').forEach(b=>b.onclick=()=>{window._dv=b.dataset.dvillage;render()});
   const dbk=$('#dback');if(dbk)dbk.onclick=()=>{window._dth='সব উপজেলা';window._dv='সব গ্রাম';render()};
   const dk=$('#dk');if(dk)dk.onchange=e=>{window._dk=e.target.value;render()};
@@ -1206,6 +1232,14 @@ function directoryAdminHTML(){
  <label>সংক্ষিপ্ত পরিচিতি</label><textarea id="dirIntro" placeholder="প্রতিষ্ঠানের ইতিহাস, শিক্ষা কার্যক্রম বা আলেমের সংক্ষিপ্ত পরিচয়">${val('intro')}</textarea>
  <label>যোগাযোগ নম্বর (ঐচ্ছিক)</label><input id="dirPhone" type="tel" value="${val('phone')}" placeholder="অনুমতি নিয়ে প্রকাশ করুন">
  <label>ওয়েবসাইট / ফেসবুক লিংক (ঐচ্ছিক)</label><input id="dirLink" type="url" value="${val('link')}" placeholder="https://...">
+ <div id="madrasaOfficeFields" style="${(e&&e.type==='মাদরাসা')||(!e)?'':'display:none'};background:#eef6ff;border:1px solid #d5e6fa;border-radius:14px;padding:12px;margin:12px 0">
+ <b>🏫 মাদরাসা পরিচালনা-সংক্রান্ত যোগাযোগ</b>
+ <label>মুহতামিমের নাম</label><input id="dirMuhtamim" value="${val('muhtamim')}" placeholder="মুহতামিমের পূর্ণ নাম">
+ <label>মুহতামিমের মোবাইল নম্বর</label><input id="dirMuhtamimPhone" type="tel" value="${val('muhtamimPhone')}" placeholder="মোবাইল নম্বর">
+ <label>নাজেমে তালিমাতের নাম</label><input id="dirNazem" value="${val('nazem')}" placeholder="নাজেমে তালিমাতের পূর্ণ নাম">
+ <label>নাজেমে তালিমাতের মোবাইল নম্বর</label><input id="dirNazemPhone" type="tel" value="${val('nazemPhone')}" placeholder="মোবাইল নম্বর">
+ <small class="muted">যোগাযোগের নম্বর প্রকাশের আগে সংশ্লিষ্ট ব্যক্তির অনুমতি নিন।</small>
+ </div>
  <div class="btns"><button class="btn" id="dirSave">${e?'পরিবর্তন সংরক্ষণ':'➕ তথ্য যোগ করুন'}</button>${e?'<button class="btn alt" id="acancel">বাতিল</button>':''}</div></div>
  <div class="card"><h3>প্রকাশের জন্য প্রস্তুত তথ্য (${bn(a.length)})</h3>${a.length?a.map(x=>`<div class="row"><div class="grow"><b>${esc(x.name)}</b><br><small class="muted">${esc(x.type)} · ${esc(x.thana)}${x.village?' · '+esc(x.village):''}</small></div><button class="btn alt sm" data-edit="${esc(x.id)}">সম্পাদনা</button><button class="btn red sm" data-del="${esc(x.id)}">মুছুন</button></div>`).join(''):'<div class="empty">এখনো তথ্য যোগ করা হয়নি</div>'}</div>`;
 }
@@ -1464,8 +1498,9 @@ function bindAdmin(){
 
   if(k==='directory'){
     draft.directory=draft.directory||[];
+    const typ=$('#dirType');if(typ)typ.onchange=()=>{const f=$('#madrasaOfficeFields');if(f)f.style.display=typ.value==='মাদরাসা'?'block':'none'};
     const sv=$('#dirSave');if(sv)sv.onclick=()=>{
-      const obj={type:$('#dirType').value,thana:$('#dirThana').value,name:$('#dirName').value.trim(),designation:$('#dirDesignation').value.trim(),village:$('#dirVillage').value.trim(),address:$('#dirAddress').value.trim(),intro:$('#dirIntro').value.trim(),phone:$('#dirPhone').value.trim(),link:$('#dirLink').value.trim()};
+      const obj={type:$('#dirType').value,thana:$('#dirThana').value,name:$('#dirName').value.trim(),designation:$('#dirDesignation').value.trim(),village:$('#dirVillage').value.trim(),address:$('#dirAddress').value.trim(),intro:$('#dirIntro').value.trim(),phone:$('#dirPhone').value.trim(),link:$('#dirLink').value.trim(),muhtamim:$('#dirMuhtamim')?.value.trim()||'',muhtamimPhone:$('#dirMuhtamimPhone')?.value.trim()||'',nazem:$('#dirNazem')?.value.trim()||'',nazemPhone:$('#dirNazemPhone')?.value.trim()||''};
       if(!obj.name||!obj.address)return toast('নাম ও ঠিকানা লিখুন');
       if(editing&&editing.k==='directory'){const i=draft.directory.findIndex(x=>x.id===editing.item.id);draft.directory[i]=Object.assign({},editing.item,obj)}
       else{obj.id=uid();draft.directory.push(obj)}
