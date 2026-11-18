@@ -1078,8 +1078,8 @@ function render(){
   const mq=$('#mq');if(mq)mq.oninput=e=>{window._mq=e.target.value;const p=e.target.selectionStart;render();const n=$('#mq');n.focus();n.setSelectionRange(p,p)};
   const pm=$('#perm');if(pm)pm.onclick=askPerm;
   const dth=$('#dth');if(dth)dth.onchange=e=>{window._dth=e.target.value;window._dv='সব গ্রাম';render()};
-  A.querySelectorAll('[data-dthana]').forEach(b=>b.onclick=()=>{window._dth=b.dataset.dthana;window._dv='সব গ্রাম';window._dk='সব';render()});
-  A.querySelectorAll('[data-dvillage]').forEach(b=>b.onclick=()=>{window._dv=b.dataset.dvillage;render()});
+  $('#view').querySelectorAll('[data-dthana]').forEach(b=>b.onclick=()=>{window._dth=b.dataset.dthana;window._dv='সব গ্রাম';window._dk='সব';render()});
+  $('#view').querySelectorAll('[data-dvillage]').forEach(b=>b.onclick=()=>{window._dv=b.dataset.dvillage;render()});
   const dbk=$('#dback');if(dbk)dbk.onclick=()=>{window._dth='সব উপজেলা';window._dv='সব গ্রাম';render()};
   const dk=$('#dk');if(dk)dk.onchange=e=>{window._dk=e.target.value;render()};
   const dq=$('#dq');if(dq)dq.oninput=e=>{window._dq=e.target.value;const p=e.target.selectionStart;render();const n=$('#dq');if(n){n.focus();n.setSelectionRange(p,p)}};
