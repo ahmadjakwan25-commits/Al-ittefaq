@@ -267,6 +267,34 @@ html[data-theme=teal] .hero2{border-radius:30px}
 .dtm .dt1{font-size:16px!important;font-weight:600}.dtm .dt1 b{font-size:22px;letter-spacing:.5px}
 html,body{overflow-x:hidden;max-width:100%}
 .card,.latest,.card p,.card b{overflow-wrap:anywhere;word-break:break-word}
+
+/* ===== অ্যাডমিন প্যানেল: মূল পাতার সবুজ-সোনালি কার্ড ডিজাইন ===== */
+#admin{background:#f2f5f1;color:#1b2a26}
+#admin .abar{background:linear-gradient(135deg,#0b4a3f,#06352d);border-bottom:3px solid #c9a227;padding:13px 14px}
+#admin .abar b{font-size:17px}
+#admin .admin-main{max-width:760px;margin:0 auto;padding:14px 14px 34px}
+#admin .admin-hero{position:relative;overflow:hidden;text-align:center;color:#fff;border:2px solid #c9a227;border-radius:22px;padding:17px 12px 16px;margin-bottom:14px;background:radial-gradient(circle at 50% 0%,#13806a,#0b4a3f 48%,#06352d);box-shadow:0 6px 18px rgba(0,0,0,.16)}
+#admin .admin-hero:before{content:"";position:absolute;inset:0;opacity:.24;background-image:repeating-linear-gradient(45deg,transparent 0 17px,#ecd98a 18px,transparent 19px 34px)}
+#admin .admin-hero>*{position:relative}
+#admin .admin-orn{color:#ecd98a;letter-spacing:8px;font-size:15px}
+#admin .admin-mark{width:58px;height:58px;display:grid;place-items:center;margin:7px auto;border-radius:50%;font-size:28px;background:rgba(255,255,255,.14);border:2px solid #ecd98a;box-shadow:0 0 0 4px rgba(201,162,39,.2)}
+#admin .admin-hero h1{font-size:22px;margin:4px 0;color:#fff}
+#admin .admin-hero p{font-size:13px;margin:0;color:#f5e7b1}
+#admin .admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#admin .admin-tile{min-width:0;min-height:132px;padding:13px 5px 10px;border:1px solid #c9a227;border-radius:20px;background:linear-gradient(180deg,#fff,#f7f1dc);color:#0b4a3f;box-shadow:0 3px 9px rgba(0,0,0,.07);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer}
+#admin .admin-tile>span{width:58px;height:58px;display:grid;place-items:center;border-radius:50%;font-size:27px;margin:1px auto 7px;background:linear-gradient(135deg,#0b4a3f,#13806a);border:3px solid #fff;outline:1px solid #c9a227;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+#admin .admin-tile b{font-size:15px;line-height:1.3}
+#admin .admin-tile small{font-size:10.5px;line-height:1.35;color:#68756e;margin-top:4px}
+#admin .admin-tile:active{transform:scale(.98)}
+#admin .admin-backrow{display:flex;align-items:center;gap:12px;margin:0 0 12px;padding:9px 11px;background:#fffdf2;border:1px solid #d9c36e;border-radius:14px;color:#0b4a3f;font-weight:700}
+#admin .admin-back{font:inherit;border:1px solid #c9a227;background:#0b4a3f;color:#fff;border-radius:10px;padding:7px 11px}
+#admin #abody>.card{border:1px solid #dfd6ad;border-top:4px solid #0b6b57;border-radius:16px;box-shadow:0 3px 10px rgba(0,0,0,.045)}
+#admin .btn{background:#0b4a3f}
+#admin .btn.alt{background:#e7efe9;color:#0b4a3f}
+#admin .btn.red{background:#b3261e}
+#admin .tabs{display:none}
+@media(max-width:380px){#admin .admin-grid{gap:8px}#admin .admin-tile{min-height:124px}#admin .admin-tile>span{width:52px;height:52px;font-size:24px}#admin .admin-tile b{font-size:13px}#admin .admin-tile small{font-size:9.5px}}
+
 </style>
 </head>
 <body>
@@ -374,7 +402,7 @@ function vTheme(){
 }
 
 const DEFAULT={org:{name:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা',address:'৪নং চর নতুন পাড়া, ইসলামপুর, জামালপুর',established:'২০১৮',about:'ইত্তেফাকুত ত্বলাবা ওয়াল উলামা একটি অরাজনৈতিক ইসলামিক সেবামূলক সংগঠন।',mission:'',contacts:{phone:'',whatsapp:'',email:'',facebook:''}},members:[],advisors:[],transactions:[],notices:[],chanda:{amount:0,start:'2026-10',public:true},payments:[],contacts:[],directory:[],track:{url:'',clientId:''},banners:[],adminHash:''};
-let DB=clone(DEFAULT),draft=null,tab='home',isAdmin=false,adminTab='members',editing=null,dirty=false;
+let DB=clone(DEFAULT),draft=null,tab='home',isAdmin=false,adminTab='dashboard',editing=null,dirty=false;
 let adminKey=null,formPhoto=null,removePhoto=false;
 
 async function load(){
@@ -1194,25 +1222,43 @@ const TNAME={members:'সদস্য',advisors:'উপদেষ্টা',chand
 const BLOODS=['A+','A-','B+','B-','AB+','AB-','O+','O-'];
 const gh=()=>{const d=lsGet('ai_gh',null);if(d)return d;const m=location.hostname.match(/^(.+)\.github\.io$/);return{owner:m?m[1]:'',repo:m?(location.pathname.split('/')[1]||m[0]):'',token:''}};
 
+const ADMIN_META={
+ members:['👥','সদস্য','সদস্যদের তথ্য যোগ, সম্পাদনা ও ব্যবস্থাপনা'],
+ advisors:['🎓','উপদেষ্টা','উপদেষ্টামণ্ডলীর তথ্য ব্যবস্থাপনা'],
+ chanda:['🗓️','মাসিক চাঁদা','চাঁদা নির্ধারণ ও মাসভিত্তিক হিসাব'],
+ transactions:['💰','আয়-ব্যয়','সংগঠনের আয় ও ব্যয়ের হিসাব'],
+ notices:['📢','ঘোষণা','নতুন ঘোষণা ও নোটিফিকেশন প্রকাশ'],
+ contacts:['📞','যোগাযোগ','যোগাযোগের ব্যক্তি ও নম্বর'],
+ info:['🕌','সংগঠনের তথ্য','পরিচিতি, লক্ষ্য ও সাংগঠনিক তথ্য'],
+ banners:['🖼️','ব্যানার','মূল পাতার স্লাইডার ও ছবি ব্যবস্থাপনা'],
+ chatadm:['💬','বার্তা','সদস্যদের পাঠানো বার্তা দেখুন ও উত্তর দিন'],
+ activity:['📊','সক্রিয়তা','অ্যাপ ব্যবহারকারীদের সক্রিয়তার তথ্য'],
+ directory:['🗺️','দ্বীনি অঙ্গন','মাদরাসা, আলেম ও প্রতিষ্ঠানের তথ্য'],
+ settings:['⚙️','সেটিং','প্রকাশ, ব্যাকআপ ও প্রশাসনিক সেটিং']
+};
 function renderAdmin(){
-  const A=$('#admin'),st=A.scrollTop;
-  A.innerHTML=`<div class="abar"><b>⚙️ অ্যাডমিন প্যানেল</b><button class="btn alt sm" id="aclose">বন্ধ</button></div>
-<div class="tabs">${Object.keys(TNAME).map(k=>`<button data-k="${k}" class="${k===adminTab?'on':''}">${TNAME[k]}</button>`).join('')}</div>
-<main>${dirty?'<div class="warn">⚠️ অপ্রকাশিত পরিবর্তন আছে — প্রকাশ না করলে অন্যরা দেখবে না।<div class="btns"><button class="btn sm" id="gopub">🚀 এখনই প্রকাশ করুন</button></div></div>':''}<div id="abody"></div></main>`;
+  const A=$('#admin'),st=A.scrollTop,menu=adminTab==='dashboard';
+  A.innerHTML=`<div class="abar"><b>✦ আল-ইত্তেফাক · অ্যাডমিন প্যানেল</b><button class="btn alt sm" id="aclose">বন্ধ</button></div>
+  <main class="admin-main"><section class="admin-hero"><div class="admin-orn">❖ ✦ ❖</div><div class="admin-mark">⚙️</div><h1>${menu?'প্রশাসনিক ব্যবস্থাপনা':(ADMIN_META[adminTab]?.[1]||'অ্যাডমিন প্যানেল')}</h1><p>${menu?'প্রতিটি বিভাগে প্রবেশ করে তথ্য পরিচালনা করুন':'নির্বাচিত বিভাগের তথ্য পরিচালনা করুন'}</p></section>
+  ${dirty?'<div class="warn">⚠️ অপ্রকাশিত পরিবর্তন আছে — প্রকাশ না করলে অন্যরা দেখবে না।<div class="btns"><button class="btn sm" id="gopub">🚀 এখনই প্রকাশ করুন</button></div></div>':''}
+  ${menu?`<div class="admin-grid">${Object.keys(TNAME).map(k=>{const m=ADMIN_META[k];return `<button class="admin-tile" data-k="${k}"><span>${m[0]}</span><b>${m[1]}</b><small>${m[2]}</small></button>`}).join('')}</div>`:`<div class="admin-backrow"><button class="admin-back" id="aback">← সব বিভাগ</button><span>${ADMIN_META[adminTab]?.[0]||'✦'} ${TNAME[adminTab]||''}</span></div><div id="abody"></div>`}</main>`;
   $('#aclose').onclick=closeAdmin;
-  A.querySelector('.tabs').onclick=e=>{const b=e.target.closest('button');if(b){adminTab=b.dataset.k;editing=null;formPhoto=null;removePhoto=false;renderAdmin()}};
-  const body=$('#abody');
-  if(adminTab==='info')body.innerHTML=infoForm();
-  else if(adminTab==='settings')body.innerHTML=settingsForm();
-  else if(adminTab==='activity')body.innerHTML=activityHTML();
-  else if(adminTab==='chatadm')body.innerHTML=chatAdmHTML();
-  else if(adminTab==='banners')body.innerHTML=bannersHTML();
-  else if(adminTab==='directory')body.innerHTML=directoryAdminHTML();
-  else if(adminTab==='members'||adminTab==='advisors')body.innerHTML=memberHTML(adminTab);
-  else if(adminTab==='chanda')body.innerHTML=chandaHTML();
-  else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
-  else body.innerHTML=(adminTab==='transactions'?moneyCard('a'):'')+crudHTML(adminTab);
-  bindAdmin();
+  A.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{adminTab=b.dataset.k;editing=null;formPhoto=null;removePhoto=false;renderAdmin();A.scrollTop=0});
+  const back=$('#aback');if(back)back.onclick=()=>{adminTab='dashboard';editing=null;formPhoto=null;removePhoto=false;renderAdmin();A.scrollTop=0};
+  if(!menu){
+    const body=$('#abody');
+    if(adminTab==='info')body.innerHTML=infoForm();
+    else if(adminTab==='settings')body.innerHTML=settingsForm();
+    else if(adminTab==='activity')body.innerHTML=activityHTML();
+    else if(adminTab==='chatadm')body.innerHTML=chatAdmHTML();
+    else if(adminTab==='banners')body.innerHTML=bannersHTML();
+    else if(adminTab==='directory')body.innerHTML=directoryAdminHTML();
+    else if(adminTab==='members'||adminTab==='advisors')body.innerHTML=memberHTML(adminTab);
+    else if(adminTab==='chanda')body.innerHTML=chandaHTML();
+    else if(adminTab==='contacts')body.innerHTML=contactAdminHTML();
+    else body.innerHTML=(adminTab==='transactions'?moneyCard('a'):'')+crudHTML(adminTab);
+    bindAdmin();
+  }
   const gp=$('#gopub');if(gp)gp.onclick=()=>{adminTab='settings';editing=null;renderAdmin();A.scrollTop=0};
   A.scrollTop=st;
 }
